@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -36,6 +38,10 @@ public class Cliente {
 
     @Column(nullable = false)
     private String responsavel;
+
+    @ElementCollection
+    @CollectionTable(name = "telefone")
+    private Set<String> telefones = new HashSet<>();
 
     @Embedded
     private Endereco endereco;
