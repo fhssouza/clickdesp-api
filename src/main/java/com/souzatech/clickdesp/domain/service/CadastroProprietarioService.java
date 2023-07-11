@@ -2,26 +2,26 @@ package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.exception.EntidadeEmUsoException;
 import com.souzatech.clickdesp.domain.exception.EntidadeNaoEncontradaException;
-import com.souzatech.clickdesp.domain.model.Cliente;
-import com.souzatech.clickdesp.domain.repository.ClienteRepository;
+import com.souzatech.clickdesp.domain.model.Proprietario;
+import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroClienteService {
+public class CadastroProprietarioService {
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ProprietarioRepository proprietarioRepository;
 
-    public Cliente salvar(Cliente cliente){
-        return clienteRepository.save(cliente);
+    public Proprietario salvar(Proprietario proprietario){
+        return proprietarioRepository.save(proprietario);
     }
 
     public void excluir(Long clienteId){
         try {
-            clienteRepository.deleteById(clienteId);
+            proprietarioRepository.deleteById(clienteId);
 
         }catch (EmptyResultDataAccessException e){
             throw new EntidadeNaoEncontradaException(

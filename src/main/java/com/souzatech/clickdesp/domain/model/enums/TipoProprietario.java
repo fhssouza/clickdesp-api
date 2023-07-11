@@ -1,6 +1,6 @@
 package com.souzatech.clickdesp.domain.model.enums;
 
-public enum TipoCliente {
+public enum TipoProprietario {
 
     FISICA,
     JURIDICA

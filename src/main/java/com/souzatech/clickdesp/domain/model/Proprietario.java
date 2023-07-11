@@ -1,17 +1,19 @@
 package com.souzatech.clickdesp.domain.model;
 
-import com.souzatech.clickdesp.domain.model.enums.TipoCliente;
+import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Cliente {
+public class Proprietario {
 
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +36,7 @@ public class Cliente {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private TipoCliente tipo;
+    private TipoProprietario tipo;
 
     @Column(nullable = false)
     private String responsavel;
@@ -45,4 +47,5 @@ public class Cliente {
 
     @Embedded
     private Endereco endereco;
+
 }
