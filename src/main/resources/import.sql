@@ -25,3 +25,8 @@ INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98177-1030');
 INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98160-5033');
 
 INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JVC5857', 'Honda', 'Fit DX 1.4 Flex 16V 5p Aut.', '123456', '81065431584', 'Azul', 'GASOLINA', '2011', FALSE, 'NACIONAL', FALSE, '123456', '2011-12-03', '1');
+
+INSERT INTO ordem_servico (data_criacao, status, observacao, veiculo_id) VALUES ('2023-03-26', 'ABERTO', 'Teste', '1');
+
+INSERT INTO item_ordem_servico (valor_servico, ordem_servico_id, servico_id, observacao) VALUES ('500.00', '1', '1', 'teste');
+INSERT INTO item_ordem_servico (valor_servico, ordem_servico_id, servico_id, observacao) VALUES ('600.00', '1', '2', 'teste');
