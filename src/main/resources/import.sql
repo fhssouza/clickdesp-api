@@ -1,3 +1,6 @@
+INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Fabio', 'Brown', 'fabio@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Marcelo', 'Green', 'marcelo@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+
 INSERT INTO categoria (descricao) VALUES ('HABILITAÇÃO');
 INSERT INTO categoria (descricao) VALUES ('VEICULOS');
 INSERT INTO categoria (descricao) VALUES ('OUTROS');
