@@ -1,3 +1,29 @@
+SET foreign_key_checks = 0;
+
+DELETE FROM usuario;
+DELETE FROM categoria;
+DELETE FROM servico;
+DELETE FROM estado;
+DELETE FROM cidade;
+DELETE FROM proprietario;
+DELETE FROM telefone;
+DELETE FROM veiculo;
+DELETE FROM ordem_servico;
+DELETE FROM item_ordem_servico;
+
+SET foreign_key_checks = 1;
+
+ALTER TABLE usuario auto_increment = 1;
+ALTER TABLE categoria auto_increment = 1;
+ALTER TABLE servico auto_increment = 1;
+ALTER TABLE estado auto_increment = 1;
+ALTER TABLE cidade auto_increment = 1;
+ALTER TABLE proprietario auto_increment = 1;
+ALTER TABLE telefone auto_increment = 1;
+ALTER TABLE veiculo auto_increment = 1;
+ALTER TABLE ordem_servico auto_increment = 1;
+ALTER TABLE item_ordem_servico auto_increment = 1;
+
 INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Fabio', 'Brown', 'fabio@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Marcelo', 'Green', 'marcelo@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
