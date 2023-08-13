@@ -1,11 +1,11 @@
 package com.souzatech.clickdesp.domain.exception;
 
-public class EntidadeEmUsoException extends RuntimeException{
+public class NotFoundException extends RuntimeException{
 
     private static final Long serialVersionUID = 1L;
 
-    public EntidadeEmUsoException(String message){
+    public NotFoundException(String message){
         super(message);
     }
-
 }
+

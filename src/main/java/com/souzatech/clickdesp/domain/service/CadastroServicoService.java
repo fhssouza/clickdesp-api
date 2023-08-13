@@ -1,11 +1,10 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.exception.EntidadeEmUsoException;
-import com.souzatech.clickdesp.domain.exception.EntidadeNaoEncontradaException;
+import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Servico;
 import com.souzatech.clickdesp.domain.repository.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +23,11 @@ public class CadastroServicoService {
             servicoRepository.deleteById(servicoId);
 
         }catch (EmptyResultDataAccessException e){
-            throw new EntidadeNaoEncontradaException(
+            throw new NotFoundException(
                     String.format("Não existe um cadastro de servico com código %d", servicoId));
 
-        } catch (DataIntegrityViolationException e){
-            throw new EntidadeEmUsoException(
+        } catch (org.springframework.dao.DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException(
                     String.format("Servico de código %d não pode ser removida, pois está em uso", servicoId));
         }
     }

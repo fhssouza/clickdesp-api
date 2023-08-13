@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.exception.EntidadeEmUsoException;
-import com.souzatech.clickdesp.domain.exception.EntidadeNaoEncontradaException;
+import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
 import com.souzatech.clickdesp.domain.repository.OrdemServicoRepository;
 import com.souzatech.clickdesp.domain.service.CadastroOrdemServicoService;
@@ -66,11 +66,11 @@ public class OrdemServicoController {
             cadatroService.excluir(ordemServicoId);
             return ResponseEntity.noContent().build();
 
-        }catch (EntidadeNaoEncontradaException e){
+        }catch (NotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
 
-        }catch (EntidadeEmUsoException e){
+        }catch (DataIntegrityViolationException e){
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
         }
