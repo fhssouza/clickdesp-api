@@ -22,7 +22,7 @@ public class ResourceHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponseDto> notFoundException(BadRequestException b) {
+    public ResponseEntity<ErrorResponseDto> badRequestException(BadRequestException b) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto.builder()
                 .message(b.getMessage())
                 .httpStatus(HttpStatus.BAD_REQUEST)
@@ -31,7 +31,7 @@ public class ResourceHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponseDto> notFoundException(DataIntegrityViolationException d) {
+    public ResponseEntity<ErrorResponseDto> dataIntegrityViolationException(DataIntegrityViolationException d) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseDto.builder()
                 .message(d.getMessage())
                 .httpStatus(HttpStatus.CONFLICT)

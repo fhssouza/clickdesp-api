@@ -1,12 +1,14 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.CategoriaDto;
+import com.souzatech.clickdesp.domain.mapper.CategoriaMapper;
 import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -28,15 +30,27 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> created(@RequestBody CategoriaDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+    public ResponseEntity<CategoriaDto> created(@RequestBody CategoriaDto dto, UriComponentsBuilder uriBuilder){
+        Categoria categoria = service.create(dto);
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/categorias/{id}")
+                        .buildAndExpand(categoria.getId())
+                        .toUri())
+                .body(CategoriaMapper.fromEntityDto(categoria));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody CategoriaDto dto){
-        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, dto));
+    public ResponseEntity<CategoriaDto> update(@PathVariable Long id, @RequestBody CategoriaDto dto, UriComponentsBuilder uriBuilder){
+        Categoria categoria = service.update(id, dto);
 
-    }
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/categorias/{id}")
+                        .buildAndExpand(categoria.getId())
+                        .toUri())
+                .body(CategoriaMapper.fromEntityDto(categoria));
+        }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){

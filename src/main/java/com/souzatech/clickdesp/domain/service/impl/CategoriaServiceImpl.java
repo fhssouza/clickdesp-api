@@ -18,6 +18,10 @@ import java.util.Optional;
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
+    public static final String MSG_ID_NULO = "Id %d da categoria deve ser nulo";
+    public static final String MSG_CATEGORIA_NAO_ENCONTRADO = "Não existe um cadastro de categoria com código %d";
+    public static final String MSG_CATEGORIA_EM_USO = "Categoria de código %d não pode ser removida, pois está em uso";
+
     private final CategoriaRepository repository;
 
     public CategoriaServiceImpl(CategoriaRepository repository) {
@@ -37,7 +41,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public Categoria create(CategoriaDto dto) {
         if(Objects.nonNull(dto.getId())){
-            throw new BadRequestException("Id deve ser nulo");
+            throw new BadRequestException(
+                    String.format(MSG_ID_NULO, dto.getId()));
         }
         return repository.save(CategoriaMapper.fromDtoEntity(dto));
     }
@@ -56,11 +61,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         }catch (EmptyResultDataAccessException e){
             throw new NotFoundException(
-                    String.format("Não existe um cadastro de categoria com código %d", id));
+                    String.format(MSG_CATEGORIA_NAO_ENCONTRADO, id));
 
         } catch (org.springframework.dao.DataIntegrityViolationException e){
             throw new DataIntegrityViolationException(
-                    String.format("Categoria de código %d não pode ser removida, pois está em uso", id));
+                    String.format(MSG_CATEGORIA_EM_USO, id));
         }
 
     }
@@ -69,7 +74,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Optional<Categoria> categoria = repository.findById(id);
         if(categoria.isEmpty()){
             throw new NotFoundException(
-                    String.format("Não existe um cadastro de categoria com código %d", id));
+                    String.format(MSG_CATEGORIA_NAO_ENCONTRADO, id));
         }
         return categoria.get();
     }

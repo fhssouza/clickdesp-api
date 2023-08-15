@@ -11,4 +11,11 @@ public class CategoriaMapper {
                 .descricao(dto.getDescricao())
                 .build();
     }
+
+    public static CategoriaDto fromEntityDto(Categoria categoria){
+        return  CategoriaDto.builder()
+                .id(categoria.getId())
+                .descricao(categoria.getDescricao())
+                .build();
+    }
 }
