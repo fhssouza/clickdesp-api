@@ -20,9 +20,6 @@ public class ServicoController {
     @Autowired
     private ServicoService service;
 
-    @Autowired
-    private ServicoRepository servicoRepository;
-
     @GetMapping
     public ResponseEntity<List<Servico>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());

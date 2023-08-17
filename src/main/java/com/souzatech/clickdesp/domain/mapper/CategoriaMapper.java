@@ -12,10 +12,10 @@ public class CategoriaMapper {
                 .build();
     }
 
-    public static CategoriaDto fromEntityDto(Categoria categoria){
+    public static CategoriaDto fromEntityDto(Categoria entity){
         return  CategoriaDto.builder()
-                .id(categoria.getId())
-                .descricao(categoria.getDescricao())
+                .id(entity.getId())
+                .descricao(entity.getDescricao())
                 .build();
     }
 }

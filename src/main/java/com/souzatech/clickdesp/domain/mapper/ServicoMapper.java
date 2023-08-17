@@ -13,11 +13,11 @@ public class ServicoMapper {
                 .build();
     }
 
-    public static ServicoDto fromEntityDto(Servico servico){
+    public static ServicoDto fromEntityDto(Servico entity){
         return ServicoDto.builder()
-                .id(servico.getId())
-                .descricao(servico.getDescricao())
-                .categoria(servico.getCategoria())
+                .id(entity.getId())
+                .descricao(entity.getDescricao())
+                .categoria(entity.getCategoria())
                 .build();
     }
 }

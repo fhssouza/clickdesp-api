@@ -1,8 +1,7 @@
 package com.souzatech.clickdesp.domain.model;
 
 import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 @Entity
 public class Proprietario {
 

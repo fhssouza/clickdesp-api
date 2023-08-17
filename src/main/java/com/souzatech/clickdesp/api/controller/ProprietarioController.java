@@ -1,74 +1,61 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.dto.ProprietarioDto;
+import com.souzatech.clickdesp.domain.mapper.ProprietarioMapper;
 import com.souzatech.clickdesp.domain.model.Proprietario;
-import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
-import com.souzatech.clickdesp.domain.service.CadastroProprietarioService;
-import org.springframework.beans.BeanUtils;
+import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/proprietarios")
 public class ProprietarioController {
 
     @Autowired
-    private ProprietarioRepository proprietarioRepository;
-
-    @Autowired
-    private CadastroProprietarioService cadastroProprietarioService;
+    private ProprietarioService service;
 
     @GetMapping
-    public List<Proprietario> listar(){
-        return proprietarioRepository.findAll();
+    public List<Proprietario> findAll(){
+        return service.findAll();
     }
 
-    @GetMapping("/{clienteId}")
-    public ResponseEntity<Proprietario> buscar(@PathVariable Long clienteId){
-        Proprietario proprietario = proprietarioRepository.findById(clienteId).orElse(null);
-
-        if(proprietario != null){
-            return ResponseEntity.ok().body(proprietario);
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<Proprietario> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Proprietario salvar(@RequestBody Proprietario proprietario){
-         return proprietario = cadastroProprietarioService.salvar(proprietario);
+    public ResponseEntity<ProprietarioDto> create(@RequestBody ProprietarioDto dto, UriComponentsBuilder uriBuilder){
+        Proprietario proprietario = service.create(dto);
+
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/proprietarios/{id}")
+                        .buildAndExpand(proprietario.getId())
+                        .toUri())
+                .body(ProprietarioMapper.fromEntityDto(proprietario));
     }
 
-    @PutMapping("/{clienteId}")
-    public ResponseEntity<Proprietario> atualizar(@PathVariable Long clienteId, @RequestBody Proprietario proprietario){
-        Proprietario proprietarioAtual = proprietarioRepository.findById(clienteId).orElse(null);
+    @PutMapping("/{id}")
+    public ResponseEntity<ProprietarioDto> update(@PathVariable Long id, @RequestBody ProprietarioDto dto, UriComponentsBuilder uriBuilder){
+        Proprietario proprietario = service.update(id, dto);
 
-        if (proprietarioAtual != null){
-            BeanUtils.copyProperties(proprietario, proprietarioAtual, "id", "endereco");
-            cadastroProprietarioService.salvar(proprietarioAtual);
-            return ResponseEntity.ok(proprietarioAtual);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/proprietarios/{id}")
+                        .buildAndExpand(proprietario.getId())
+                        .toUri())
+                .body(ProprietarioMapper.fromEntityDto(proprietario));
     }
 
-    @DeleteMapping("/{clienteId}")
-    public ResponseEntity<?> remover(@PathVariable Long clienteId){
-        try{
-            cadastroProprietarioService.excluir(clienteId);
-            return ResponseEntity.noContent().build();
-
-        }catch (NotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-
-        }catch (DataIntegrityViolationException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
