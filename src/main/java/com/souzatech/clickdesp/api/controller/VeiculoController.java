@@ -1,15 +1,20 @@
 package com.souzatech.clickdesp.api.controller;
 
+import com.souzatech.clickdesp.domain.dto.VeiculoDto;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.mapper.ServicoMapper;
+import com.souzatech.clickdesp.domain.mapper.VeiculoMapper;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.CadastroVeiculoService;
+import com.souzatech.clickdesp.domain.service.VeiculoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -18,61 +23,49 @@ import java.util.List;
 public class VeiculoController {
 
     @Autowired
-    private VeiculoRepository veiculoRepository;
+    private VeiculoService service;
 
     @Autowired
-    private CadastroVeiculoService cadatroService;
+    private VeiculoRepository veiculoRepository;
 
     @GetMapping
-    public List<Veiculo> listar(){
-        return veiculoRepository.findAll();
+    public ResponseEntity<List<Veiculo>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
-    @GetMapping("/{veiculoId}")
-    public ResponseEntity<Veiculo> buscarPorId(@PathVariable Long veiculoId){
-        Veiculo veiculo = veiculoRepository.findById(veiculoId)
-                .orElse(null);
-
-        if(veiculo != null){
-            return ResponseEntity.ok(veiculo);
-        }
-
-        return ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<Veiculo> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Veiculo salvar(@RequestBody Veiculo veiculo){
-        return  cadatroService.salvar(veiculo);
+    public ResponseEntity<VeiculoDto> create(@RequestBody VeiculoDto dto, UriComponentsBuilder uriBuilder){
+        Veiculo veiculo = service.create(dto);
+
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/veiculos/{id}")
+                        .buildAndExpand(veiculo.getId())
+                        .toUri())
+                .body(VeiculoMapper.fromEntityDto(veiculo));
     }
 
-    @PutMapping("/{veiculoId}")
-    public ResponseEntity<Veiculo> atualizar(@PathVariable Long veiculoId, @RequestBody Veiculo veiculo){
-        Veiculo veiculoAtual = veiculoRepository.findById(veiculoId).orElse(null);
+    @PutMapping("/{id}")
+    public ResponseEntity<VeiculoDto> update(@PathVariable Long id, @RequestBody VeiculoDto dto, UriComponentsBuilder uriBuilder){
+        Veiculo veiculo = service.update(id, dto);
 
-        if(veiculoAtual != null){
-            BeanUtils.copyProperties(veiculo, veiculoAtual, "id");
-            cadatroService.salvar(veiculoAtual);
-            return  ResponseEntity.ok(veiculoAtual);
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/veiculos/{id}")
+                        .buildAndExpand(veiculo.getId())
+                        .toUri())
+                .body(VeiculoMapper.fromEntityDto(veiculo));
 
     }
 
-    @DeleteMapping("/{veiculoId}")
-    public ResponseEntity<?> remover(@PathVariable Long veiculoId){
-        try{
-            cadatroService.excluir(veiculoId);
-            return ResponseEntity.noContent().build();
-
-        }catch (NotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-
-        }catch (DataIntegrityViolationException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
