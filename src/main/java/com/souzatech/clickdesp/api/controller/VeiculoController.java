@@ -1,15 +1,10 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.VeiculoDto;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.ServicoMapper;
 import com.souzatech.clickdesp.domain.mapper.VeiculoMapper;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
-import com.souzatech.clickdesp.domain.service.CadastroVeiculoService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

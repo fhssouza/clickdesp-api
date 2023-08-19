@@ -1,15 +1,14 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.dto.OrdemServicoDto;
+import com.souzatech.clickdesp.domain.mapper.OrdemServicoMapper;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
-import com.souzatech.clickdesp.domain.repository.OrdemServicoRepository;
-import com.souzatech.clickdesp.domain.service.CadastroOrdemServicoService;
-import org.springframework.beans.BeanUtils;
+import com.souzatech.clickdesp.domain.service.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -18,61 +17,46 @@ import java.util.List;
 public class OrdemServicoController {
 
     @Autowired
-    private OrdemServicoRepository ordemServicoRepository;
-
-    @Autowired
-    private CadastroOrdemServicoService cadatroService;
+    private OrdemServicoService service;
 
     @GetMapping
-    public List<OrdemServico> listar(){
-        return ordemServicoRepository.findAll();
+    public ResponseEntity<List<OrdemServico>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
-    @GetMapping("/{ordemServicoId}")
-    public ResponseEntity<OrdemServico> buscarPorId(@PathVariable Long ordemServicoId){
-        OrdemServico ordemServico = ordemServicoRepository.findById(ordemServicoId)
-                .orElse(null);
-
-        if(ordemServico != null){
-            return ResponseEntity.ok(ordemServico);
-        }
-
-        return ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<OrdemServico> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public OrdemServico salvar(@RequestBody OrdemServico ordemServico){
-        return  cadatroService.salvar(ordemServico);
+    public ResponseEntity<OrdemServicoDto> create(@RequestBody OrdemServicoDto dto, UriComponentsBuilder uriBuilder){
+        OrdemServico ordemServico = service.create(dto);
+
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/ordemservicos/{id}")
+                        .buildAndExpand(ordemServico.getId())
+                        .toUri())
+                .body(OrdemServicoMapper.fromEntityDto(ordemServico));
     }
 
-    @PutMapping("/{ordemServicoId}")
-    public ResponseEntity<OrdemServico> atualizar(@PathVariable Long ordemServicoId, @RequestBody OrdemServico ordemServico){
-        OrdemServico ordemServicoAtual = ordemServicoRepository.findById(ordemServicoId).orElse(null);
+    @PutMapping("/{id}")
+    public ResponseEntity<OrdemServicoDto> update(@PathVariable Long id, @RequestBody OrdemServicoDto dto, UriComponentsBuilder uriBuilder){
+        OrdemServico ordemServico = service.update(id, dto);
 
-        if(ordemServicoAtual != null){
-            BeanUtils.copyProperties(ordemServico, ordemServicoAtual, "id");
-            cadatroService.salvar(ordemServicoAtual);
-            return  ResponseEntity.ok(ordemServicoAtual);
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/ordemservicos/{id}")
+                        .buildAndExpand(ordemServico.getId())
+                        .toUri())
+                .body(OrdemServicoMapper.fromEntityDto(ordemServico));
 
     }
 
-    @DeleteMapping("/{ordemServicoId}")
-    public ResponseEntity<?> remover(@PathVariable Long ordemServicoId){
-        try{
-            cadatroService.excluir(ordemServicoId);
-            return ResponseEntity.noContent().build();
-
-        }catch (NotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-
-        }catch (DataIntegrityViolationException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> remover(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
