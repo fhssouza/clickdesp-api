@@ -5,8 +5,8 @@ import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class OrdemServicoDto {
 
     private StatusOrdemServico status;
 
-    private LocalDateTime dataCriacao;
+    private Date instante;
 
     private String observacao;
 

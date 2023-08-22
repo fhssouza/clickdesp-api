@@ -14,6 +14,8 @@ public class ServicoDto {
 
    private String descricao;
 
+   private Double preco;
+
    private Categoria categoria;
 
 }

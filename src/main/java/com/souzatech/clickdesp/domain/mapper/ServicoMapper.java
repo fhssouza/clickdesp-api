@@ -9,6 +9,7 @@ public class ServicoMapper {
         return Servico.builder()
                 .id(dto.getId())
                 .descricao(dto.getDescricao())
+                .preco(dto.getPreco())
                 .categoria(dto.getCategoria())
                 .build();
     }
@@ -17,6 +18,7 @@ public class ServicoMapper {
         return ServicoDto.builder()
                 .id(entity.getId())
                 .descricao(entity.getDescricao())
+                .preco(entity.getPreco())
                 .categoria(entity.getCategoria())
                 .build();
     }

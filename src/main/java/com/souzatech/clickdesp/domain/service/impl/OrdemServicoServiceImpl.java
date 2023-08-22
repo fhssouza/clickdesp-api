@@ -5,14 +5,21 @@ import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.mapper.OrdemServicoMapper;
+import com.souzatech.clickdesp.domain.model.ItemOrdemServico;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
+import com.souzatech.clickdesp.domain.model.Veiculo;
+import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
+import com.souzatech.clickdesp.domain.repository.ItemOrdemServicoRepository;
 import com.souzatech.clickdesp.domain.repository.OrdemServicoRepository;
 import com.souzatech.clickdesp.domain.service.OrdemServicoService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
+import com.souzatech.clickdesp.domain.service.ServicoService;
+import com.souzatech.clickdesp.domain.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +40,15 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     @Autowired
     private ProprietarioService proprietarioService;
 
+    @Autowired
+    private ServicoService servicoService;
+
+    @Autowired
+    private ItemOrdemServicoRepository itemOrdemServicoRepository;
+
+    @Autowired
+    private VeiculoService veiculoService;
+
     @Override
     public List<OrdemServico> findAll() {
         return repository.findAll();
@@ -44,20 +60,21 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     }
 
     @Override
-    public OrdemServico create(OrdemServicoDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public OrdemServico create(OrdemServico ordemServico) {
+        if(Objects.nonNull(ordemServico.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, ordemServico.getId()));
         }
-//        findByIdProprietario(dto);
-        return repository.save(OrdemServicoMapper.fromDtoEntity(dto));
+        findByIdVeiculo(ordemServico);
+        ordemServico = saveOrdemServico(ordemServico);
+
+        return ordemServico;
     }
 
     @Override
     public OrdemServico update(Long id, OrdemServicoDto dto) {
         getOrdemServico(id);
         dto.setId(id);
-//        findByIdProprietario(dto);
         return repository.save(OrdemServicoMapper.fromDtoEntity(dto));
     }
 
@@ -86,9 +103,28 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         return ordemServico.get();
     }
 
-//    private void findByIdProprietario(OrdemServicoDto dto) {
-//        Long propreitarioId = dto.getProprietario().getId();
-//        Proprietario proprietario = proprietarioService.findById(propreitarioId);
-//        dto.setProprietario(proprietario);
-//    }
+    private OrdemServico saveOrdemServico(OrdemServico ordemServico) {
+        ordemServico.setInstante(new Date());
+        ordemServico.setStatus(StatusOrdemServico.ABERTO);
+        ordemServico = repository.save(ordemServico);
+
+        for(ItemOrdemServico ios : ordemServico.getItens()){
+            ios.setDesconto(0.0);
+            ios.setPreco(servicoService.findById(ios.getServico().getId()).getPreco());
+            ios.setServico(servicoService.findById(ios.getServico().getId()));
+            ios.setOrdemServico(ordemServico);
+        }
+
+        itemOrdemServicoRepository.saveAll(ordemServico.getItens());
+
+        return ordemServico;
+    }
+
+    private void findByIdVeiculo(OrdemServico ordemServico) {
+        Long veiculoId = ordemServico.getVeiculo().getId();
+        Veiculo veiculo = veiculoService.findById(veiculoId);
+        ordemServico.setVeiculo(veiculo);
+    }
+
+
 }

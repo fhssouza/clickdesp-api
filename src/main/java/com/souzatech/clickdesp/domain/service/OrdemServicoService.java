@@ -11,7 +11,7 @@ public interface OrdemServicoService {
 
     OrdemServico findById(Long id);
 
-    OrdemServico create(OrdemServicoDto dto);
+    OrdemServico create(OrdemServico ordemServico);
 
     OrdemServico update(Long id, OrdemServicoDto dto);
 

@@ -30,15 +30,14 @@ public class OrdemServicoController {
     }
 
     @PostMapping
-    public ResponseEntity<OrdemServicoDto> create(@RequestBody OrdemServicoDto dto, UriComponentsBuilder uriBuilder){
-        OrdemServico ordemServico = service.create(dto);
-
+    public ResponseEntity<OrdemServico> create(@RequestBody OrdemServico ordemServico, UriComponentsBuilder uriBuilder){
+        OrdemServico ordemServicoNova = service.create(ordemServico);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/ordemservicos/{id}")
                         .buildAndExpand(ordemServico.getId())
                         .toUri())
-                .body(OrdemServicoMapper.fromEntityDto(ordemServico));
+                .body(ordemServicoNova);
     }
 
     @PutMapping("/{id}")
@@ -55,7 +54,7 @@ public class OrdemServicoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remover(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

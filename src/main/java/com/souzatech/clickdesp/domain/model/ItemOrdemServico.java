@@ -1,34 +1,57 @@
 package com.souzatech.clickdesp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @Entity
-public class ItemOrdemServico {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private BigDecimal valorServico;
-
-    private String observacao;
+public class ItemOrdemServico  {
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private OrdemServico ordemServico;
+    @EmbeddedId
+    private ItemOrdemServicoPK id = new ItemOrdemServicoPK();
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Servico servico;
+    private Double desconto;
+
+    private Integer quantidade;
+
+    private Double preco;
+
+    public ItemOrdemServico(){
+
+    }
+    public ItemOrdemServico(OrdemServico ordemServico, Servico servico, Double desconto, Integer quantidade, Double preco) {
+        id.setOrdemServico(ordemServico);
+        id.setServico(servico);
+        this.desconto = desconto;
+        this.quantidade = quantidade;
+        this.preco = preco;
+    }
+
+    public double getSubtotal() {
+        return (preco - desconto) * quantidade;
+    }
+    @JsonIgnore
+    public OrdemServico getOrdemServico(){
+        return id.getOrdemServico();
+    }
+
+    public void setOrdemServico(OrdemServico ordemServico){
+        id.setOrdemServico(ordemServico);
+    }
+
+    public Servico getServico(){
+        return id.getServico();
+    }
+
+    public void setServico(Servico servico){
+        id.setServico(servico);
+    }
+
+
 }

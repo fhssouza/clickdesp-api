@@ -3,11 +3,10 @@ package com.souzatech.clickdesp.domain.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,23 +22,26 @@ public class OrdemServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private StatusOrdemServico status;
-
-    @CreationTimestamp
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm")
-    private LocalDateTime dataCriacao;
-
-    private String observacao;
+    @JsonFormat(pattern="dd/MM/yyyy HH:mm")
+    private Date instante;
 
     @ManyToOne
     private Veiculo veiculo;
 
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "proprietario_id", nullable = false)
-//    private Proprietario proprietario;
+    @Enumerated(EnumType.STRING)
+    private StatusOrdemServico status;
 
-    @OneToMany(mappedBy = "ordemServico")
+    private String observacao;
+
+    @OneToMany(mappedBy = "id.ordemServico")
     private List<ItemOrdemServico> itens = new ArrayList<>();
+
+    public double getValorTotal() {
+        double soma = 0.0;
+        for(ItemOrdemServico ios : itens){
+            soma = soma + ios.getSubtotal();
+        }
+        return soma;
+    }
+
 }
