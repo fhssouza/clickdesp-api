@@ -1,12 +1,15 @@
 package com.souzatech.clickdesp.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 @Entity
 public class Usuario {
 
@@ -25,6 +28,11 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String senha;
+
+//    @ElementCollection(fetch=FetchType.EAGER)
+//    @CollectionTable(name="PERFIS")
+//    private Set<String> perfis = new HashSet<>();
 
 }
