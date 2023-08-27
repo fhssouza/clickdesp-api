@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,26 +31,26 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> created(@RequestBody UsuarioDTO dto, UriComponentsBuilder uriBuilder){
-        Usuario categoria = service.create(dto);
+    public ResponseEntity<UsuarioDTO> created(@Valid @RequestBody UsuarioDTO dto, UriComponentsBuilder uriBuilder){
+        Usuario usuario = service.create(dto);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/usuarios/{id}")
-                        .buildAndExpand(categoria.getId())
+                        .buildAndExpand(usuario.getId())
                         .toUri())
-                .body(UsuarioMapper.fromEntityDto(categoria));
+                .body(UsuarioMapper.fromEntityDto(usuario));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO dto, UriComponentsBuilder uriBuilder){
-        Usuario categoria = service.update(id, dto);
+        Usuario usuario = service.update(id, dto);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/usuarios/{id}")
-                        .buildAndExpand(categoria.getId())
+                        .buildAndExpand(usuario.getId())
                         .toUri())
-                .body(UsuarioMapper.fromEntityDto(categoria));
+                .body(UsuarioMapper.fromEntityDto(usuario));
         }
 
     @DeleteMapping("/{id}")
