@@ -5,6 +5,8 @@ import com.souzatech.clickdesp.domain.mapper.VeiculoMapper;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/veiculos")
+@Api(tags = "Veículos")
 public class VeiculoController {
 
     @Autowired
@@ -24,16 +27,19 @@ public class VeiculoController {
     private VeiculoRepository veiculoRepository;
 
     @GetMapping
+    @ApiOperation(value = "Listar Veículos")
     public ResponseEntity<List<Veiculo>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Listar Veículos por Id")
     public ResponseEntity<Veiculo> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
     }
 
     @PostMapping
+    @ApiOperation(value = "Criar Veículos")
     public ResponseEntity<VeiculoDto> create(@RequestBody VeiculoDto dto, UriComponentsBuilder uriBuilder){
         Veiculo veiculo = service.create(dto);
 
@@ -46,6 +52,7 @@ public class VeiculoController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualizar Veículos")
     public ResponseEntity<VeiculoDto> update(@PathVariable Long id, @RequestBody VeiculoDto dto, UriComponentsBuilder uriBuilder){
         Veiculo veiculo = service.update(id, dto);
 
@@ -59,6 +66,7 @@ public class VeiculoController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deletar Veículos")
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

@@ -48,6 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/usuarios/**",
     };
 
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -57,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable();
         http.authorizeRequests()
+                .antMatchers(AUTH_WHITE_LIST).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHES_GET).permitAll()
                 .antMatchers(HttpMethod.POST, PUBLIC_MATCHES_POST).permitAll()
                 .antMatchers(PUBLIC_MATCHES).permitAll()
