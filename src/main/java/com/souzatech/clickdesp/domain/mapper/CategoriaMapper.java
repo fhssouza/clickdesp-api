@@ -1,19 +1,19 @@
 package com.souzatech.clickdesp.domain.mapper;
 
-import com.souzatech.clickdesp.domain.dto.CategoriaDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
+import com.souzatech.clickdesp.domain.dto.response.CategoriaResponseDto;
 import com.souzatech.clickdesp.domain.model.Categoria;
 
 public class CategoriaMapper {
 
-    public static Categoria fromDtoEntity(CategoriaDto dto){
+    public static Categoria fromDtoEntityRequest(CategoriaRequestDto req){
         return Categoria.builder()
-                .id(dto.getId())
-                .descricao(dto.getDescricao())
+                .descricao(req.getDescricao())
                 .build();
     }
 
-    public static CategoriaDto fromEntityDto(Categoria entity){
-        return  CategoriaDto.builder()
+    public static CategoriaResponseDto fromEntityResponse(Categoria entity){
+        return  CategoriaResponseDto.builder()
                 .id(entity.getId())
                 .descricao(entity.getDescricao())
                 .build();

@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.CategoriaDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
+import com.souzatech.clickdesp.domain.dto.response.CategoriaResponseDto;
 import com.souzatech.clickdesp.domain.mapper.CategoriaMapper;
 import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.service.CategoriaService;
@@ -36,27 +37,27 @@ public class CategoriaController {
 
     @PostMapping
     @ApiOperation(value = "Criar Categorias")
-    public ResponseEntity<CategoriaDto> created(@RequestBody CategoriaDto dto, UriComponentsBuilder uriBuilder){
-        Categoria categoria = service.create(dto);
+    public ResponseEntity<CategoriaResponseDto> created(@RequestBody CategoriaRequestDto req, UriComponentsBuilder uriBuilder){
+        Categoria categoria = service.create(req);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/categorias/{id}")
                         .buildAndExpand(categoria.getId())
                         .toUri())
-                .body(CategoriaMapper.fromEntityDto(categoria));
+                .body(CategoriaMapper.fromEntityResponse(categoria));
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Categorias")
-    public ResponseEntity<CategoriaDto> update(@PathVariable Long id, @RequestBody CategoriaDto dto, UriComponentsBuilder uriBuilder){
-        Categoria categoria = service.update(id, dto);
+    public ResponseEntity<CategoriaResponseDto> update(@PathVariable Long id, @RequestBody CategoriaRequestDto request, UriComponentsBuilder uriBuilder){
+        Categoria categoria = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/categorias/{id}")
                         .buildAndExpand(categoria.getId())
                         .toUri())
-                .body(CategoriaMapper.fromEntityDto(categoria));
+                .body(CategoriaMapper.fromEntityResponse(categoria));
         }
 
     @DeleteMapping("/{id}")

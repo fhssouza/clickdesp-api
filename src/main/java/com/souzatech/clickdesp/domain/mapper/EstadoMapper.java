@@ -1,8 +1,6 @@
 package com.souzatech.clickdesp.domain.mapper;
 
-import com.souzatech.clickdesp.domain.dto.CategoriaDto;
 import com.souzatech.clickdesp.domain.dto.EstadoDto;
-import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.model.Estado;
 
 public class EstadoMapper {

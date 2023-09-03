@@ -1,10 +1,9 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.CategoriaDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.CategoriaMapper;
 import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.repository.CategoriaRepository;
 import com.souzatech.clickdesp.domain.service.CategoriaService;
@@ -39,19 +38,23 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria create(CategoriaDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public Categoria create(CategoriaRequestDto request) {
+        Categoria categoria = new Categoria(request);
+
+        if(Objects.nonNull(categoria.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, categoria.getId()));
         }
-        return repository.save(CategoriaMapper.fromDtoEntity(dto));
+
+        return repository.save(categoria);
     }
 
     @Override
-    public Categoria update(Long id, CategoriaDto dto) {
+    public Categoria update(Long id, CategoriaRequestDto request) {
+        Categoria categoria = new Categoria(request);
         getCategoria(id);
-        dto.setId(id);
-        return repository.save(CategoriaMapper.fromDtoEntity(dto));
+        categoria.setId(id);
+        return repository.save(categoria);
     }
 
     @Override
