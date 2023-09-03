@@ -1,10 +1,9 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.EstadoDto;
+import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.EstadoMapper;
 import com.souzatech.clickdesp.domain.model.Estado;
 import com.souzatech.clickdesp.domain.repository.EstadoRepository;
 import com.souzatech.clickdesp.domain.service.EstadoService;
@@ -39,19 +38,21 @@ public class EstadoServiceImpl implements EstadoService {
     }
 
     @Override
-    public Estado create(EstadoDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public Estado create(EstadoRequest request) {
+        Estado entity = new Estado(request);
+        if(Objects.nonNull(entity.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, entity.getId()));
         }
-        return repository.save(EstadoMapper.fromDtoEntity(dto));
+        return repository.save(entity);
     }
 
     @Override
-    public Estado update(Long id, EstadoDto dto) {
+    public Estado update(Long id, EstadoRequest request) {
+        Estado entity = new Estado(request);
         getEstado(id);
-        dto.setId(id);
-        return repository.save(EstadoMapper.fromDtoEntity(dto));
+        entity.setId(id);
+        return repository.save(entity);
     }
 
     @Override

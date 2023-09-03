@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.EstadoDto;
+import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
+import com.souzatech.clickdesp.domain.dto.response.EstadoResponse;
 import com.souzatech.clickdesp.domain.mapper.EstadoMapper;
 import com.souzatech.clickdesp.domain.model.Estado;
 import com.souzatech.clickdesp.domain.service.EstadoService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,27 +38,27 @@ public class EstadoController {
 
     @PostMapping
     @ApiOperation(value = "Criar Estados")
-    public ResponseEntity<EstadoDto> created(@RequestBody EstadoDto dto, UriComponentsBuilder uriBuilder){
-        Estado estado = service.create(dto);
+    public ResponseEntity<EstadoResponse> create(@Valid @RequestBody EstadoRequest request, UriComponentsBuilder uriBuilder){
+        Estado estado = service.create(request);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/estados/{id}")
                         .buildAndExpand(estado.getId())
                         .toUri())
-                .body(EstadoMapper.fromEntityDto(estado));
+                .body(EstadoMapper.fromEntityResponse(estado));
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Estados")
-    public ResponseEntity<EstadoDto> update(@PathVariable Long id, @RequestBody EstadoDto dto, UriComponentsBuilder uriBuilder){
-        Estado estado = service.update(id, dto);
+    public ResponseEntity<EstadoResponse> update(@PathVariable Long id, @Valid @RequestBody EstadoRequest request, UriComponentsBuilder uriBuilder){
+        Estado estado = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/estados/{id}")
                         .buildAndExpand(estado.getId())
                         .toUri())
-                .body(EstadoMapper.fromEntityDto(estado));
+                .body(EstadoMapper.fromEntityResponse(estado));
         }
 
     @DeleteMapping("/{id}")

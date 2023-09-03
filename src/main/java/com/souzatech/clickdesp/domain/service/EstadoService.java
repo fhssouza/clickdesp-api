@@ -1,6 +1,6 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.EstadoDto;
+import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
 import com.souzatech.clickdesp.domain.model.Estado;
 
 import java.util.List;
@@ -11,9 +11,9 @@ public interface EstadoService {
 
     Estado findById(Long id);
 
-    Estado create(EstadoDto dto);
+    Estado create(EstadoRequest request);
 
-    Estado update(Long id, EstadoDto dto);
+    Estado update(Long id, EstadoRequest request);
 
     void delete(Long id);
 

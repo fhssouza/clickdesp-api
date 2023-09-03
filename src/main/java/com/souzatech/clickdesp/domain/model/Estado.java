@@ -1,5 +1,6 @@
 package com.souzatech.clickdesp.domain.model;
 
+import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,4 +20,8 @@ public class Estado {
 
     @Column(nullable = false)
     private String nome;
+
+    public Estado(EstadoRequest request){
+        this.nome = request.getNome();
+    }
 }
