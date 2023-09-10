@@ -24,4 +24,8 @@ public class Estado {
     public Estado(EstadoRequest request){
         this.nome = request.getNome();
     }
+
+    public Estado(long estadoId) {
+        id = estadoId;
+    }
 }

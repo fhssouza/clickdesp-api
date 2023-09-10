@@ -1,15 +1,17 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.CidadeDto;
+import com.souzatech.clickdesp.domain.dto.request.CidadeCreateDTO;
+import com.souzatech.clickdesp.domain.dto.request.CidadeUpdateDTO;
+import com.souzatech.clickdesp.domain.dto.response.CidadeDTO;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.CidadeMapper;
 import com.souzatech.clickdesp.domain.model.Cidade;
 import com.souzatech.clickdesp.domain.model.Estado;
 import com.souzatech.clickdesp.domain.repository.CidadeRepository;
 import com.souzatech.clickdesp.domain.service.CidadeService;
 import com.souzatech.clickdesp.domain.service.EstadoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CidadeServiceImpl implements CidadeService {
@@ -34,32 +37,46 @@ public class CidadeServiceImpl implements CidadeService {
     @Autowired
     private EstadoService service;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Cidade> findAll() {
-        return repository.findAll();
+    public List<CidadeDTO> findAll() {
+        List<Cidade> cidades = repository.findAll();
+        return cidades.stream()
+                .map(c -> modelMapper.map(c, CidadeDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Cidade findById(Long id) {
-        return getCidade(id);
+    public CidadeDTO findById(Long id) {
+        Cidade cidade = getCidade(id);
+        return  modelMapper.map(cidade, CidadeDTO.class);
     }
 
     @Override
-    public Cidade create(CidadeDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public Cidade create(CidadeCreateDTO dto) {
+        Cidade entity = new Cidade();
+        entity.setNome(dto.getNome());
+        entity.setEstado(new Estado(dto.getEstadoId()));
+
+        if(Objects.nonNull(entity.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, entity.getId()));
         }
-        findByIdEstado(dto);
-        return repository.save(CidadeMapper.fromDtoEntity(dto));
+
+        findByIdEstado(entity);
+
+        return repository.save(entity);
     }
 
     @Override
-    public Cidade update(Long id, CidadeDto dto) {
-        getCidade(id);
-        dto.setId(id);
-        findByIdEstado(dto);
-        return repository.save(CidadeMapper.fromDtoEntity(dto));
+    public Cidade update(Long id, CidadeUpdateDTO dto) {
+        Cidade entity = getCidade(id);
+        entity.setEstado(new Estado(Long.parseLong(dto.getEstadoId())));
+        findByIdEstado(entity);
+
+        return repository.save(modelMapper.map(dto, Cidade.class));
     }
 
     @Override
@@ -87,9 +104,9 @@ public class CidadeServiceImpl implements CidadeService {
         return cidade.get();
     }
 
-    private void findByIdEstado(CidadeDto dto) {
-        Long estadoId = dto.getEstado().getId();
+    private void findByIdEstado(Cidade cidade) {
+        Long estadoId = cidade.getEstado().getId();
         Estado estado = service.findById(estadoId);
-        dto.setEstado(estado);
+        cidade.setEstado(estado);
     }
 }
