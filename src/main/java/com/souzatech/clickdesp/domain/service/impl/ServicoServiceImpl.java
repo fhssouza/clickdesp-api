@@ -5,7 +5,6 @@ import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.mapper.ServicoMapper;
-import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.model.Servico;
 import com.souzatech.clickdesp.domain.repository.ServicoRepository;
 import com.souzatech.clickdesp.domain.service.ServicoService;
@@ -49,7 +48,7 @@ public class ServicoServiceImpl implements ServicoService {
             throw new BadRequestException(
                     String.format(MSG_ID_NULO, dto.getId()));
         }
-        findByIdCategoria(dto);
+//        findByIdCategoria(dto);
         return repository.save(ServicoMapper.fromDtoEntity(dto));
     }
 
@@ -57,7 +56,7 @@ public class ServicoServiceImpl implements ServicoService {
     public Servico update(Long id, ServicoDto dto) {
         getServico(id);
         dto.setId(id);
-        findByIdCategoria(dto);
+//        findByIdCategoria(dto);
         return repository.save(ServicoMapper.fromDtoEntity(dto));
     }
 
@@ -86,9 +85,9 @@ public class ServicoServiceImpl implements ServicoService {
         return servico.get();
     }
 
-    private void findByIdCategoria(ServicoDto dto) {
-        Long categoriaId = dto.getCategoria().getId();
-        Categoria categoria = categoriaService.findById(categoriaId);
-        dto.setCategoria(categoria);
-    }
+//    private void findByIdCategoria(ServicoDto dto) {
+//        Long categoriaId = dto.getCategoria().getId();
+//        Categoria categoria = categoriaService.findById(categoriaId);
+//        dto.setCategoria(categoria);
+//    }
 }

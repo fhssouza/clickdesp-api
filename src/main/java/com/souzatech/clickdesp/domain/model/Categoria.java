@@ -1,8 +1,10 @@
 package com.souzatech.clickdesp.domain.model;
 
 
-import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @Entity
 public class Categoria {
 
@@ -21,9 +22,4 @@ public class Categoria {
 
     @Column(nullable = false)
     private String descricao;
-
-    public Categoria(CategoriaRequestDto dto) {
-        this.descricao = dto.getDescricao();
-    }
-
 }

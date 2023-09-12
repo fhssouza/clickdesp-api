@@ -1,18 +1,23 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaCreateDTO;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaUpdateDTO;
+import com.souzatech.clickdesp.domain.dto.response.CategoriaResponseDto;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.repository.CategoriaRepository;
 import com.souzatech.clickdesp.domain.service.CategoriaService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -27,33 +32,40 @@ public class CategoriaServiceImpl implements CategoriaService {
         this.repository = repository;
     }
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Categoria> findAll() {
-        return repository.findAll();
+    public List<CategoriaResponseDto> findAll() {
+        List<Categoria> categorias = repository.findAll();
+        return categorias.stream()
+                .map(c -> modelMapper.map(c, CategoriaResponseDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Categoria findById(Long id) {
-        return getCategoria(id);
+    public CategoriaResponseDto findById(Long id) {
+        Categoria categoria = getCategoria(id);
+        return modelMapper.map(categoria, CategoriaResponseDto.class);
     }
 
     @Override
-    public Categoria create(CategoriaRequestDto request) {
-        Categoria categoria = new Categoria(request);
+    public Categoria create(CategoriaCreateDTO dto) {
+        Categoria entity = new Categoria();
+        entity.setDescricao(dto.getDescricao());
 
-        if(Objects.nonNull(categoria.getId())){
+        if(Objects.nonNull(entity.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, categoria.getId()));
+                    String.format(MSG_ID_NULO, entity.getId()));
         }
 
-        return repository.save(categoria);
+        return repository.save(entity);
     }
 
     @Override
-    public Categoria update(Long id, CategoriaRequestDto request) {
-        Categoria categoria = new Categoria(request);
-        getCategoria(id);
-        categoria.setId(id);
+    public Categoria update(Long id, CategoriaUpdateDTO dto) {
+        Categoria categoria = getCategoria(id);
+        categoria.setDescricao(dto.getDescricao());
         return repository.save(categoria);
     }
 

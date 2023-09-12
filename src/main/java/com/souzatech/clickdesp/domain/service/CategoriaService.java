@@ -1,19 +1,21 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.request.CategoriaRequestDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaCreateDTO;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaUpdateDTO;
+import com.souzatech.clickdesp.domain.dto.response.CategoriaResponseDto;
 import com.souzatech.clickdesp.domain.model.Categoria;
 
 import java.util.List;
 
 public interface CategoriaService {
 
-    List<Categoria> findAll();
+    List<CategoriaResponseDto> findAll();
 
-    Categoria findById(Long id);
+    CategoriaResponseDto findById(Long id);
 
-    Categoria create(CategoriaRequestDto request);
+    Categoria create(CategoriaCreateDTO dto);
 
-    Categoria update(Long id, CategoriaRequestDto request);
+    Categoria update(Long id, CategoriaUpdateDTO dto);
 
     void delete(Long id);
 
