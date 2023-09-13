@@ -1,9 +1,7 @@
 package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.dto.ProprietarioDto;
-import com.souzatech.clickdesp.domain.dto.ServicoDto;
 import com.souzatech.clickdesp.domain.model.Proprietario;
-import com.souzatech.clickdesp.domain.model.Servico;
 
 import java.util.List;
 

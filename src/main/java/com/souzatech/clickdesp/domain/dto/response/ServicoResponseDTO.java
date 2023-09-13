@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.dto;
+package com.souzatech.clickdesp.domain.dto.response;
 
 import com.souzatech.clickdesp.domain.model.Categoria;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-public class ServicoDto {
+public class ServicoResponseDTO {
 
    private Long id;
 

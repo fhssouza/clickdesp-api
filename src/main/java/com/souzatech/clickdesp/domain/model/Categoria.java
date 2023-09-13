@@ -22,4 +22,8 @@ public class Categoria {
 
     @Column(nullable = false)
     private String descricao;
+
+    public Categoria(Long categoriaId) {
+        id = categoriaId;
+    }
 }

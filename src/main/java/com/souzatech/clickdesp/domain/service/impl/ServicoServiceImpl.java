@@ -1,13 +1,16 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.ServicoDto;
+import com.souzatech.clickdesp.domain.dto.request.ServicoCreateDTO;
+import com.souzatech.clickdesp.domain.dto.request.ServicoUpdateDTO;
+import com.souzatech.clickdesp.domain.dto.response.ServicoResponseDTO;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.ServicoMapper;
+import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.model.Servico;
 import com.souzatech.clickdesp.domain.repository.ServicoRepository;
 import com.souzatech.clickdesp.domain.service.ServicoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicoServiceImpl implements ServicoService {
@@ -32,9 +36,15 @@ public class ServicoServiceImpl implements ServicoService {
     @Autowired
     private CategoriaServiceImpl categoriaService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Servico> findAll() {
-        return repository.findAll();
+    public List<ServicoResponseDTO> findAll() {
+        List<Servico> servicos = repository.findAll();
+        return servicos.stream()
+                .map(s -> modelMapper.map(s, ServicoResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -43,21 +53,32 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public Servico create(ServicoDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public Servico create(ServicoCreateDTO dto) {
+        Servico entity = new Servico();
+        entity.setDescricao(dto.getDescricao());
+        entity.setPreco(dto.getPreco());
+        entity.setCategoria(new Categoria(dto.getCategoria()));
+
+        if(Objects.nonNull(entity.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, entity.getId()));
         }
-//        findByIdCategoria(dto);
-        return repository.save(ServicoMapper.fromDtoEntity(dto));
+
+        findByIdCategoria(entity);
+
+        return repository.save(entity);
     }
 
     @Override
-    public Servico update(Long id, ServicoDto dto) {
-        getServico(id);
-        dto.setId(id);
-//        findByIdCategoria(dto);
-        return repository.save(ServicoMapper.fromDtoEntity(dto));
+    public Servico update(Long id, ServicoUpdateDTO dto) {
+        Servico entity = getServico(id);
+        entity.setDescricao(dto.getDescricao());
+        entity.setPreco(dto.getPreco());
+        entity.setCategoria(new Categoria(dto.getCategoria()));
+
+        findByIdCategoria(entity);
+
+        return repository.save(entity);
     }
 
     @Override
@@ -85,9 +106,9 @@ public class ServicoServiceImpl implements ServicoService {
         return servico.get();
     }
 
-//    private void findByIdCategoria(ServicoDto dto) {
-//        Long categoriaId = dto.getCategoria().getId();
-//        Categoria categoria = categoriaService.findById(categoriaId);
-//        dto.setCategoria(categoria);
-//    }
+    private void findByIdCategoria(Servico servico) {
+        Long categoriaId = servico.getCategoria().getId();
+        Categoria categoria = categoriaService.getCategoria(categoriaId);
+        servico.setCategoria(categoria);
+    }
 }

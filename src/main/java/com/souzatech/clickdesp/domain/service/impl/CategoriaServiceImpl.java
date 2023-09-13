@@ -85,7 +85,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     }
 
-    private Categoria getCategoria(Long id){
+    public Categoria getCategoria(Long id){
         Optional<Categoria> categoria = repository.findById(id);
         if(categoria.isEmpty()){
             throw new NotFoundException(
