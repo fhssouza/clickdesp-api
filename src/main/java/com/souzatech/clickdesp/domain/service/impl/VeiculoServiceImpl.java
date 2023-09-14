@@ -1,15 +1,18 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.VeiculoDto;
+import com.souzatech.clickdesp.domain.dto.request.VeiculoRequestDTO;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoResponseDTO;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.VeiculoMapper;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
+import com.souzatech.clickdesp.domain.model.enums.Procedencia;
+import com.souzatech.clickdesp.domain.model.enums.TipoCombustivel;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VeiculoServiceImpl implements VeiculoService {
@@ -34,32 +38,44 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Autowired
     private ProprietarioService proprietarioService;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
-    public List<Veiculo> findAll() {
-        return repository.findAll();
+    public List<VeiculoResponseDTO> findAll() {
+        List<Veiculo> entity = repository.findAll();
+        return entity.stream()
+                .map(v -> mapper.map(v, VeiculoResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Veiculo findById(Long id) {
-        return getVeiculo(id);
+        return getVeiculoId(id);
     }
 
     @Override
-    public Veiculo create(VeiculoDto dto) {
-        if(Objects.nonNull(dto.getId())){
+    public Veiculo create(VeiculoRequestDTO dto) {
+
+        Veiculo entity = getVeiculo(dto);
+
+        if(Objects.nonNull(entity.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
+                    String.format(MSG_ID_NULO, entity.getId()));
         }
-        findByIdProprietario(dto);
-        return repository.save(VeiculoMapper.fromDtoEntity(dto));
+
+        findByIdProprietario(entity);
+
+        return repository.save(entity);
     }
 
     @Override
-    public Veiculo update(Long id, VeiculoDto dto) {
-        getVeiculo(id);
-        dto.setId(id);
-        findByIdProprietario(dto);
-        return repository.save(VeiculoMapper.fromDtoEntity(dto));
+    public Veiculo update(Long id, VeiculoRequestDTO dto) {
+        Veiculo entity = getVeiculoId(id);
+        entity = getVeiculo(dto);
+        entity.setId(id);
+        findByIdProprietario(entity);
+        return repository.save(entity);
     }
 
     @Override
@@ -78,7 +94,7 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     }
 
-    private Veiculo getVeiculo(Long id){
+    private Veiculo getVeiculoId(Long id){
         Optional<Veiculo> veiculo = repository.findById(id);
         if(veiculo.isEmpty()){
             throw new NotFoundException(
@@ -87,9 +103,28 @@ public class VeiculoServiceImpl implements VeiculoService {
         return veiculo.get();
     }
 
-    private void findByIdProprietario(VeiculoDto dto) {
-        Long propreitarioId = dto.getProprietario().getId();
+    private static Veiculo getVeiculo(VeiculoRequestDTO dto) {
+        Veiculo entity = new Veiculo();
+        entity.setPlaca(dto.getPlaca());
+        entity.setMarca(dto.getMarca());
+        entity.setModelo(dto.getModelo());
+        entity.setChassi(dto.getChassi());
+        entity.setRenavam(dto.getRenavam());
+        entity.setCor(dto.getCor());
+        entity.setCombustivel(TipoCombustivel.valueOf(dto.getCombustivel()));
+        entity.setAno(dto.getAno());
+        entity.setArrendamento(dto.getArrendamento());
+        entity.setProcedencia(Procedencia.valueOf(dto.getProcedencia()));
+        entity.setAlienacaoFinduciaria(dto.getAlienacaoFinduciaria());
+        entity.setCrv(dto.getCrv());
+        entity.setDataCrv(dto.getDataCrv());
+        entity.setProprietario(new Proprietario(dto.getProprietario()));
+        return entity;
+    }
+
+    private void findByIdProprietario(Veiculo entity) {
+        Long propreitarioId = entity.getProprietario().getId();
         Proprietario proprietario = proprietarioService.findById(propreitarioId);
-        dto.setProprietario(proprietario);
+        entity.setProprietario(proprietario);
     }
 }
