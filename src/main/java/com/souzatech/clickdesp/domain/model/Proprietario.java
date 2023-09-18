@@ -4,7 +4,9 @@ import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -45,8 +47,8 @@ public class Proprietario {
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet<>();
 
-    @Embedded
-    private Endereco endereco;
+    @OneToMany(mappedBy = "proprietario")
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Proprietario(Long proprietario) {
         id = proprietario;

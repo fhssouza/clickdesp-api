@@ -23,4 +23,7 @@ public class Cidade {
     @ManyToOne
     private Estado estado;
 
+    public Cidade(Long cidade) {
+        id = cidade;
+    }
 }

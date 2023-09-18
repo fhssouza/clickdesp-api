@@ -125,6 +125,4 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         Veiculo veiculo = veiculoService.findById(veiculoId);
         ordemServico.setVeiculo(veiculo);
     }
-
-
 }

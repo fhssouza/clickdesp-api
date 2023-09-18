@@ -1,32 +1,43 @@
 package com.souzatech.clickdesp.domain.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-@Embeddable
-public class Endereco {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
+public class Endereco implements Serializable {
 
-    @Column(name = "endereco_logradouro", nullable = false)
-    private String logradouro;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "endereco_numero",nullable = false)
-    private String numero;
-
-    @Column(name = "endereco_complemento",nullable = false)
-    private String complemento;
-
-    @Column(name = "endereco_bairro",nullable = false)
-    private String bairro;
-
-    @Column(name="endereco_cep", nullable = false)
+    @Column(nullable = false)
     private String cep;
 
+    @Column(nullable = false)
+    private String logradouro;
+
+    @Column(nullable = false)
+    private String numero;
+
+    @Column(nullable = false)
+    private String complemento;
+
+    @Column(nullable = false)
+    private String bairro;
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "endereco_cidade_id")
+    @JoinColumn(name = "proprietario_id")
+    private Proprietario proprietario;
+
+    @ManyToOne
+    @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 }

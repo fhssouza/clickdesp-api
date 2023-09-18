@@ -16,7 +16,6 @@ public class ProprietarioMapper {
                 .tipo(dto.getTipo())
                 .responsavel(dto.getResponsavel())
                 .telefones(dto.getTelefones())
-                .endereco(dto.getEndereco())
                 .build();
     }
 
@@ -31,7 +30,6 @@ public class ProprietarioMapper {
                 .tipo(entity.getTipo())
                 .responsavel(entity.getResponsavel())
                 .telefones(entity.getTelefones())
-                .endereco(entity.getEndereco())
                 .build();
     }
 
