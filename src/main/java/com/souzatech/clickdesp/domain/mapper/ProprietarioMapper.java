@@ -1,11 +1,11 @@
 package com.souzatech.clickdesp.domain.mapper;
 
-import com.souzatech.clickdesp.domain.dto.ProprietarioDto;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponseDTO;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 
 public class ProprietarioMapper {
 
-    public static Proprietario fromDtoEntity(ProprietarioDto dto){
+    public static Proprietario fromDtoEntity(ProprietarioResponseDTO dto){
         return Proprietario.builder()
                 .id(dto.getId())
                 .nome(dto.getNome())
@@ -19,8 +19,8 @@ public class ProprietarioMapper {
                 .build();
     }
 
-    public static ProprietarioDto fromEntityDto(Proprietario entity){
-        return ProprietarioDto.builder()
+    public static ProprietarioResponseDTO fromEntityDto(Proprietario entity){
+        return ProprietarioResponseDTO.builder()
                 .id(entity.getId())
                 .nome(entity.getNome())
                 .cpfOuCnpj(entity.getCpfOuCnpj())

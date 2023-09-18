@@ -1,6 +1,5 @@
-package com.souzatech.clickdesp.domain.dto;
+package com.souzatech.clickdesp.domain.dto.response;
 
-import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProprietarioDto {
+public class ProprietarioResponseDTO {
 
     private Long id;
 
@@ -33,7 +32,5 @@ public class ProprietarioDto {
     private String responsavel;
 
     private Set<String> telefones = new HashSet<>();
-
-    private Endereco endereco;
 
 }
