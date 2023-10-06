@@ -63,4 +63,8 @@ public class Veiculo {
 
     @ManyToOne
     private Proprietario proprietario;
+
+    public Veiculo(Long veiculo) {
+        id = veiculo;
+    }
 }

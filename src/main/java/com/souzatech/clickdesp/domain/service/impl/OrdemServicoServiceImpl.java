@@ -1,6 +1,8 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.OrdemServicoDto;
+import com.souzatech.clickdesp.domain.dto.request.ItemOrdemServicoRequestDTO;
+import com.souzatech.clickdesp.domain.dto.request.OrdemServicoRequestDTO;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -15,14 +17,13 @@ import com.souzatech.clickdesp.domain.service.OrdemServicoService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.domain.service.ServicoService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdemServicoServiceImpl implements OrdemServicoService {
@@ -49,6 +50,9 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     @Autowired
     private VeiculoService veiculoService;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public List<OrdemServico> findAll() {
         return repository.findAll();
@@ -60,15 +64,18 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     }
 
     @Override
-    public OrdemServico create(OrdemServico ordemServico) {
-        if(Objects.nonNull(ordemServico.getId())){
-            throw new BadRequestException(
-                    String.format(MSG_ID_NULO, ordemServico.getId()));
-        }
-        findByIdVeiculo(ordemServico);
-        ordemServico = saveOrdemServico(ordemServico);
+    public OrdemServico create(OrdemServicoRequestDTO dto) {
 
-        return ordemServico;
+        OrdemServico entity = saveOrdemServico(dto);
+
+        if(Objects.nonNull(entity.getId())){
+            throw new BadRequestException(
+                    String.format(MSG_ID_NULO, entity.getId()));
+        }
+        findByIdVeiculo(entity);
+//        entity = saveOrdemServico(entity);
+
+        return repository.save(entity);
     }
 
     @Override
@@ -103,10 +110,33 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         return ordemServico.get();
     }
 
-    private OrdemServico saveOrdemServico(OrdemServico ordemServico) {
-        ordemServico.setInstante(new Date());
+//    private OrdemServico saveOrdemServico(OrdemServico ordemServico) {
+//        ordemServico.setInstante(new Date());
+//        ordemServico.setStatus(StatusOrdemServico.ABERTO);
+//        ordemServico = repository.save(ordemServico);
+//
+//        for(ItemOrdemServico ios : ordemServico.getItens()){
+//            ios.setDesconto(0.0);
+//            ios.setPreco(servicoService.findById(ios.getServico().getId()).getPreco());
+//            ios.setServico(servicoService.findById(ios.getServico().getId()));
+//            ios.setOrdemServico(ordemServico);
+//        }
+//
+//        itemOrdemServicoRepository.saveAll(ordemServico.getItens());
+//
+//        return ordemServico;
+//    }
+
+    private OrdemServico saveOrdemServico(OrdemServicoRequestDTO dto) {
+
+        OrdemServico ordemServico = new OrdemServico();
         ordemServico.setStatus(StatusOrdemServico.ABERTO);
+        ordemServico.setInstante(dto.getInstante());
+        ordemServico.setObservacao(dto.getObservacao());
+        ordemServico.setVeiculo(new Veiculo(dto.getVeiculo()));
+
         ordemServico = repository.save(ordemServico);
+
 
         for(ItemOrdemServico ios : ordemServico.getItens()){
             ios.setDesconto(0.0);
@@ -124,5 +154,12 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         Long veiculoId = ordemServico.getVeiculo().getId();
         Veiculo veiculo = veiculoService.findById(veiculoId);
         ordemServico.setVeiculo(veiculo);
+    }
+
+    private static List<ItemOrdemServico> converter (List<ItemOrdemServicoRequestDTO> dtos){
+        return dtos.stream().map(dto -> {
+           return new ItemOrdemServico(dtos);
+        }).collect(Collectors.toList());
+
     }
 }

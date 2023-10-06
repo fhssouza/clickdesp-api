@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.OrdemServicoDto;
+import com.souzatech.clickdesp.domain.dto.request.OrdemServicoRequestDTO;
 import com.souzatech.clickdesp.domain.mapper.OrdemServicoMapper;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
 import com.souzatech.clickdesp.domain.service.OrdemServicoService;
@@ -36,14 +37,14 @@ public class OrdemServicoController {
 
     @PostMapping
     @ApiOperation(value = "Criar Ordem de Serviço")
-    public ResponseEntity<OrdemServico> create(@RequestBody OrdemServico ordemServico, UriComponentsBuilder uriBuilder){
-        OrdemServico ordemServicoNova = service.create(ordemServico);
+    public ResponseEntity<OrdemServico> create(@RequestBody OrdemServicoRequestDTO dto, UriComponentsBuilder uriBuilder){
+        OrdemServico entity = service.create(dto);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/ordemservicos/{id}")
-                        .buildAndExpand(ordemServico.getId())
+                        .buildAndExpand(entity.getId())
                         .toUri())
-                .body(ordemServicoNova);
+                .body(entity);
     }
 
     @PutMapping("/{id}")

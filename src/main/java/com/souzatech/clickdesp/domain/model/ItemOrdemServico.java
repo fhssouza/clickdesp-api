@@ -1,11 +1,13 @@
 package com.souzatech.clickdesp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.souzatech.clickdesp.domain.dto.request.ItemOrdemServicoRequestDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
