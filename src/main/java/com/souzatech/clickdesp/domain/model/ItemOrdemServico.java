@@ -1,18 +1,18 @@
 package com.souzatech.clickdesp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.souzatech.clickdesp.domain.dto.request.ItemOrdemServicoRequestDTO;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.souzatech.clickdesp.domain.dto.request.CreateItemOrdemServicoRequest;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import java.util.List;
+import java.io.Serializable;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
 @Entity
-public class ItemOrdemServico  {
+public class ItemOrdemServico implements Serializable {
 
     @JsonIgnore
     @EmbeddedId
@@ -33,6 +33,11 @@ public class ItemOrdemServico  {
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.preco = preco;
+    }
+
+    public ItemOrdemServico(CreateItemOrdemServicoRequest createItemOrdemServicoRequest) {
+        this.setServico(new Servico(createItemOrdemServicoRequest.getServico()));
+        this.quantidade = createItemOrdemServicoRequest.getQuantidade();
     }
 
     public double getSubtotal() {

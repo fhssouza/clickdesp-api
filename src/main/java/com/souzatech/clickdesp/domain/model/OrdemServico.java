@@ -1,29 +1,26 @@
 package com.souzatech.clickdesp.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @Entity
 public class OrdemServico {
 
-    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @JsonFormat(pattern="dd/MM/yyyy HH:mm")
-    private Date instante;
 
     @ManyToOne
     private Veiculo veiculo;
@@ -32,6 +29,10 @@ public class OrdemServico {
     private StatusOrdemServico status;
 
     private String observacao;
+
+    private Instant createAt;
+
+    private Instant updateAt;
 
     @OneToMany(mappedBy = "id.ordemServico")
     private List<ItemOrdemServico> itens = new ArrayList<>();
@@ -42,6 +43,17 @@ public class OrdemServico {
             soma = soma + ios.getSubtotal();
         }
         return soma;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createAt = Instant.now();
+        status = StatusOrdemServico.ABERTO;
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updateAt = Instant.now();
     }
 
 }

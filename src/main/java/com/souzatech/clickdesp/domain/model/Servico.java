@@ -44,4 +44,8 @@ public class Servico {
         return lista;
     }
 
+    public Servico(Long servicoId) {
+        id = servicoId;
+    }
+
 }

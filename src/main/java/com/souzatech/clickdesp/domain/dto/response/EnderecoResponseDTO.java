@@ -1,14 +1,24 @@
 package com.souzatech.clickdesp.domain.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({
+        "id",
+        "proprietarioNome",
+        "cep",
+        "logradouro",
+        "numero",
+        "bairro",
+        "complemento",
+        "cidadeNome"
+})
 public class EnderecoResponseDTO implements Serializable {
 
     private Long id;
@@ -26,4 +36,5 @@ public class EnderecoResponseDTO implements Serializable {
     private String cidadeNome;
 
     private String proprietarioNome;
+
 }

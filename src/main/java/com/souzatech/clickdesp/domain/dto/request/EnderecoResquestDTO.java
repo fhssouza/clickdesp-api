@@ -1,15 +1,19 @@
 package com.souzatech.clickdesp.domain.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnderecoResquestDTO implements Serializable {
+
+    private Long proprietario;
 
     private String cep;
 
@@ -23,5 +27,5 @@ public class EnderecoResquestDTO implements Serializable {
 
     private Long cidade;
 
-    private Long proprietario;
+
 }
