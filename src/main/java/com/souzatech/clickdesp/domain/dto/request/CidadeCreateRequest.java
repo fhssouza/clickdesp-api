@@ -1,19 +1,23 @@
 package com.souzatech.clickdesp.domain.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoriaUpdateDTO {
+public class CidadeCreateRequest {
 
     @NotBlank(message = "campo nome não pode ser nulo ou vazio")
     @Size(min = 5, max = 30, message = "campo nome deve ter tamanho entre 5 e 30 caracteres" )
-    private String descricao;
+    private String nome;
+
+    private long estadoId;
 
 }

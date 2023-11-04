@@ -1,19 +1,20 @@
 package com.souzatech.clickdesp.domain.model;
 
-import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
-import lombok.*;
+import com.souzatech.clickdesp.domain.dto.request.EstadoCreateRequest;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @Entity
 public class Estado {
 
-    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -21,7 +22,7 @@ public class Estado {
     @Column(nullable = false)
     private String nome;
 
-    public Estado(EstadoRequest request){
+    public Estado(EstadoCreateRequest request){
         this.nome = request.getNome();
     }
 

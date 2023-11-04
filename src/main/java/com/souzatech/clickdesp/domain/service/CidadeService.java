@@ -1,21 +1,19 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.request.CidadeCreateDTO;
-import com.souzatech.clickdesp.domain.dto.request.CidadeUpdateDTO;
-import com.souzatech.clickdesp.domain.dto.response.CidadeDTO;
-import com.souzatech.clickdesp.domain.model.Cidade;
+import com.souzatech.clickdesp.domain.dto.request.CidadeCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.CidadeResponse;
 
 import java.util.List;
 
 public interface CidadeService {
 
-    List<CidadeDTO> findAll();
+    List<CidadeResponse> findAll();
 
-    CidadeDTO findById(Long id);
+    CidadeResponse findById(Long id);
 
-    Cidade create(CidadeCreateDTO dto);
+    CidadeResponse create(CidadeCreateRequest request);
 
-    Cidade update(Long id, CidadeUpdateDTO dto);
+    CidadeResponse update(Long id, CidadeCreateRequest request);
 
     void delete(Long id);
 

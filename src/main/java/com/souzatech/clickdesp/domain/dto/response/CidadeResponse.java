@@ -2,10 +2,7 @@ package com.souzatech.clickdesp.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -13,13 +10,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonPropertyOrder({
         "id",
-        "nome"
+        "nome",
+        "estadoNome"
 })
-public class EstadoResponse {
+public class CidadeResponse {
 
     @JsonProperty("Id")
     private Long id;
 
     @JsonProperty("Nome")
     private String nome;
+
+    @JsonProperty("Estado")
+    private String estadoNome;
+
 }

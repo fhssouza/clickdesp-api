@@ -1,12 +1,14 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
+import com.souzatech.clickdesp.domain.dto.request.EstadoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.EstadoResponse;
-import com.souzatech.clickdesp.domain.mapper.EstadoMapper;
 import com.souzatech.clickdesp.domain.model.Estado;
 import com.souzatech.clickdesp.domain.service.EstadoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,47 +20,53 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/estados")
+@Consumes("MediaType.APPLICATION_JSON")
+@Produces("MediaType.APPLICATION_JSON")
 @Api(tags = "Estados")
 public class EstadoController {
 
     @Autowired
     private EstadoService service;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping
     @ApiOperation(value = "Listar Estados")
-    public ResponseEntity<List<Estado>> findAll(){
+    public ResponseEntity<List<EstadoResponse>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Listar Estados por Id")
-    public ResponseEntity<Estado> findById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    public ResponseEntity<EstadoResponse> findById(@PathVariable Long id){
+        Estado response = service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(response, EstadoResponse.class));
     }
 
     @PostMapping
     @ApiOperation(value = "Criar Estados")
-    public ResponseEntity<EstadoResponse> create(@Valid @RequestBody EstadoRequest request, UriComponentsBuilder uriBuilder){
-        Estado estado = service.create(request);
+    public ResponseEntity<EstadoResponse> create(@Valid @RequestBody EstadoCreateRequest request, UriComponentsBuilder uriBuilder){
+        EstadoResponse response = service.create(request);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/estados/{id}")
-                        .buildAndExpand(estado.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(EstadoMapper.fromEntityResponse(estado));
+                .body(response);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Estados")
-    public ResponseEntity<EstadoResponse> update(@PathVariable Long id, @Valid @RequestBody EstadoRequest request, UriComponentsBuilder uriBuilder){
-        Estado estado = service.update(id, request);
+    public ResponseEntity<EstadoResponse> update(@PathVariable Long id, @Valid @RequestBody EstadoCreateRequest request, UriComponentsBuilder uriBuilder){
+        EstadoResponse response = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/estados/{id}")
-                        .buildAndExpand(estado.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(EstadoMapper.fromEntityResponse(estado));
+                .body(response);
         }
 
     @DeleteMapping("/{id}")

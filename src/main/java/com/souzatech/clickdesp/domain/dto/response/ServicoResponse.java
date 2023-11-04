@@ -2,6 +2,7 @@ package com.souzatech.clickdesp.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.souzatech.clickdesp.domain.model.Categoria;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +14,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonPropertyOrder({
         "id",
-        "nome"
+        "descricao",
+        "preco",
+        "categoria"
 })
-public class EstadoResponse {
+public class ServicoResponse {
 
-    @JsonProperty("Id")
-    private Long id;
+   @JsonProperty("Id")
+   private Long id;
 
-    @JsonProperty("Nome")
-    private String nome;
+   @JsonProperty("Descrição")
+   private String descricao;
+
+   @JsonProperty("Preço")
+   private Double preco;
+
+   @JsonProperty("Categoria")
+   private Categoria categoria;
+
 }

@@ -1,8 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.ServicoCreateDTO;
-import com.souzatech.clickdesp.domain.dto.request.ServicoUpdateDTO;
-import com.souzatech.clickdesp.domain.dto.response.ServicoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.ServicoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.ServicoResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -40,10 +39,10 @@ public class ServicoServiceImpl implements ServicoService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<ServicoResponseDTO> findAll() {
+    public List<ServicoResponse> findAll() {
         List<Servico> servicos = repository.findAll();
         return servicos.stream()
-                .map(s -> modelMapper.map(s, ServicoResponseDTO.class))
+                .map(s -> modelMapper.map(s, ServicoResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -53,32 +52,31 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public Servico create(ServicoCreateDTO dto) {
-        Servico entity = new Servico();
-        entity.setDescricao(dto.getDescricao());
-        entity.setPreco(dto.getPreco());
-        entity.setCategoria(new Categoria(dto.getCategoria()));
+    public ServicoResponse create(ServicoCreateRequest request) {
+        Servico servico = getServico(request);
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(servico.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, servico.getId()));
         }
 
-        findByIdCategoria(entity);
+        findByIdCategoria(servico);
 
-        return repository.save(entity);
+        servico = repository.save(servico);
+
+        return modelMapper.map(servico, ServicoResponse.class);
     }
 
     @Override
-    public Servico update(Long id, ServicoUpdateDTO dto) {
-        Servico entity = getServico(id);
-        entity.setDescricao(dto.getDescricao());
-        entity.setPreco(dto.getPreco());
-        entity.setCategoria(new Categoria(dto.getCategoria()));
+    public ServicoResponse update(Long id, ServicoCreateRequest request) {
+        Servico servico = getServico(id);
+        servico.setDescricao(request.getDescricao());
+        servico.setPreco(request.getPreco());
+        servico.setCategoria(new Categoria(request.getCategoria()));
 
-        findByIdCategoria(entity);
+        findByIdCategoria(servico);
 
-        return repository.save(entity);
+        return modelMapper.map(servico, ServicoResponse.class);
     }
 
     @Override
@@ -104,6 +102,14 @@ public class ServicoServiceImpl implements ServicoService {
                     String.format(MSG_SERVICO_NAO_ENCONTRADO, id));
         }
         return servico.get();
+    }
+
+    private static Servico getServico(ServicoCreateRequest request) {
+        Servico servico = new Servico();
+        servico.setDescricao(request.getDescricao());
+        servico.setPreco(request.getPreco());
+        servico.setCategoria(new Categoria(request.getCategoria()));
+        return servico;
     }
 
     private void findByIdCategoria(Servico servico) {

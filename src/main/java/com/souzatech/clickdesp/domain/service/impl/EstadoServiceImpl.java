@@ -1,18 +1,22 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.EstadoRequest;
+import com.souzatech.clickdesp.domain.dto.request.EstadoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.EstadoResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Estado;
 import com.souzatech.clickdesp.domain.repository.EstadoRepository;
 import com.souzatech.clickdesp.domain.service.EstadoService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EstadoServiceImpl implements EstadoService {
@@ -27,9 +31,15 @@ public class EstadoServiceImpl implements EstadoService {
         this.repository = repository;
     }
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Estado> findAll() {
-        return repository.findAll();
+    public List<EstadoResponse> findAll() {
+        List<Estado> estados = repository.findAll();
+        return estados.stream()
+                .map(estado -> modelMapper.map(estado, EstadoResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -38,21 +48,26 @@ public class EstadoServiceImpl implements EstadoService {
     }
 
     @Override
-    public Estado create(EstadoRequest request) {
-        Estado entity = new Estado(request);
-        if(Objects.nonNull(entity.getId())){
+    public EstadoResponse create(EstadoCreateRequest request) {
+        Estado estado = new Estado(request);
+
+        if(Objects.nonNull(estado.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, estado.getId()));
         }
-        return repository.save(entity);
+
+        estado = repository.save(estado);
+
+        return modelMapper.map(estado, EstadoResponse.class);
     }
 
     @Override
-    public Estado update(Long id, EstadoRequest request) {
-        Estado entity = new Estado(request);
+    public EstadoResponse update(Long id, EstadoCreateRequest request) {
+        Estado estado = new Estado(request);
         getEstado(id);
-        entity.setId(id);
-        return repository.save(entity);
+        estado.setId(id);
+        estado = repository.save(estado);
+        return modelMapper.map(estado, EstadoResponse.class);
     }
 
     @Override

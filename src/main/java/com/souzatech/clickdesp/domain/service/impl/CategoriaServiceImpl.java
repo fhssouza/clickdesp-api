@@ -1,8 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.CategoriaCreateDTO;
-import com.souzatech.clickdesp.domain.dto.request.CategoriaUpdateDTO;
-import com.souzatech.clickdesp.domain.dto.response.CategoriaResponseDto;
+import com.souzatech.clickdesp.domain.dto.request.CategoriaCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.CategoriaResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -36,37 +35,40 @@ public class CategoriaServiceImpl implements CategoriaService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<CategoriaResponseDto> findAll() {
+    public List<CategoriaResponse> findAll() {
         List<Categoria> categorias = repository.findAll();
         return categorias.stream()
-                .map(c -> modelMapper.map(c, CategoriaResponseDto.class))
+                .map(c -> modelMapper.map(c, CategoriaResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CategoriaResponseDto findById(Long id) {
+    public CategoriaResponse findById(Long id) {
         Categoria categoria = getCategoria(id);
-        return modelMapper.map(categoria, CategoriaResponseDto.class);
+        return modelMapper.map(categoria, CategoriaResponse.class);
     }
 
     @Override
-    public Categoria create(CategoriaCreateDTO dto) {
-        Categoria entity = new Categoria();
-        entity.setDescricao(dto.getDescricao());
+    public CategoriaResponse create(CategoriaCreateRequest request) {
+        Categoria categoria = new Categoria();
+        categoria.setDescricao(request.getDescricao());
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(categoria.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, categoria.getId()));
         }
+        categoria = repository.save(categoria);
 
-        return repository.save(entity);
+        return modelMapper.map(categoria, CategoriaResponse.class);
     }
 
     @Override
-    public Categoria update(Long id, CategoriaUpdateDTO dto) {
+    public CategoriaResponse update(Long id, CategoriaCreateRequest request) {
         Categoria categoria = getCategoria(id);
-        categoria.setDescricao(dto.getDescricao());
-        return repository.save(categoria);
+        categoria.setDescricao(request.getDescricao());
+        categoria = repository.save(categoria);
+
+        return modelMapper.map(categoria, CategoriaResponse.class);
     }
 
     @Override

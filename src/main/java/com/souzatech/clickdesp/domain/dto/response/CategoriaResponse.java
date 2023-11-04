@@ -1,15 +1,15 @@
 package com.souzatech.clickdesp.domain.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class CategoriaResponseDto {
+public class CategoriaResponse {
 
     private Long id;
     private String descricao;

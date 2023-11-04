@@ -1,8 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.CidadeCreateDTO;
-import com.souzatech.clickdesp.domain.dto.request.CidadeUpdateDTO;
-import com.souzatech.clickdesp.domain.dto.response.CidadeDTO;
+import com.souzatech.clickdesp.domain.dto.request.CidadeCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.CidadeResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -41,42 +40,46 @@ public class CidadeServiceImpl implements CidadeService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<CidadeDTO> findAll() {
+    public List<CidadeResponse> findAll() {
         List<Cidade> cidades = repository.findAll();
         return cidades.stream()
-                .map(c -> modelMapper.map(c, CidadeDTO.class))
+                .map(c -> modelMapper.map(c, CidadeResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CidadeDTO findById(Long id) {
+    public CidadeResponse findById(Long id) {
         Cidade cidade = getCidade(id);
-        return  modelMapper.map(cidade, CidadeDTO.class);
+        return  modelMapper.map(cidade, CidadeResponse.class);
     }
 
     @Override
-    public Cidade create(CidadeCreateDTO dto) {
-        Cidade entity = new Cidade();
-        entity.setNome(dto.getNome());
-        entity.setEstado(new Estado(dto.getEstadoId()));
+    public CidadeResponse create(CidadeCreateRequest request) {
+        Cidade cidade = getCidade(request);
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(cidade.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, cidade.getId()));
         }
 
-        findByIdEstado(entity);
+        findByIdEstado(cidade);
 
-        return repository.save(entity);
+        cidade = repository.save(cidade);
+
+        return modelMapper.map(cidade, CidadeResponse.class);
     }
 
     @Override
-    public Cidade update(Long id, CidadeUpdateDTO dto) {
-        Cidade entity = getCidade(id);
-        entity.setEstado(new Estado(Long.parseLong(dto.getEstadoId())));
-        findByIdEstado(entity);
+    public CidadeResponse update(Long id, CidadeCreateRequest request) {
+        Cidade cidade = getCidade(id);
 
-        return repository.save(modelMapper.map(dto, Cidade.class));
+        cidade.setEstado(new Estado(Long.parseLong(String.valueOf(request.getEstadoId()))));
+
+        findByIdEstado(cidade);
+
+        cidade = repository.save(cidade);
+
+        return modelMapper.map(cidade, CidadeResponse.class);
     }
 
     @Override
@@ -102,6 +105,13 @@ public class CidadeServiceImpl implements CidadeService {
                     String.format(MSG_CIDADE_NAO_ENCONTRADO, id));
         }
         return cidade.get();
+    }
+
+    private static Cidade getCidade(CidadeCreateRequest request) {
+        Cidade cidade = new Cidade();
+        cidade.setNome(request.getNome());
+        cidade.setEstado(new Estado(request.getEstadoId()));
+        return cidade;
     }
 
     private void findByIdEstado(Cidade cidade) {
