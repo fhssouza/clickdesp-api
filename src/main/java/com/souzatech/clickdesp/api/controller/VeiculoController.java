@@ -1,12 +1,14 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.request.VeiculoRequestDTO;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/veiculos")
+@Consumes("MediaType.APPLICATION_JSON")
+@Produces("MediaType.APPLICATION_JSON")
 @Api(tags = "Veículos")
 public class VeiculoController {
 
@@ -32,42 +36,42 @@ public class VeiculoController {
 
     @GetMapping
     @ApiOperation(value = "Listar Veículos")
-    public ResponseEntity<List<VeiculoResponseDTO>> findAll(){
+    public ResponseEntity<List<VeiculoResponse>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Listar Veículos por Id")
-    public ResponseEntity<VeiculoResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<VeiculoResponse> findById(@PathVariable Long id){
         Veiculo entity = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.map(entity, VeiculoResponseDTO.class));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.map(entity, VeiculoResponse.class));
     }
 
     @PostMapping
     @ApiOperation(value = "Criar Veículos")
-    public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoRequestDTO dto, UriComponentsBuilder uriBuilder){
-        Veiculo veiculo = service.create(dto);
+    public ResponseEntity<VeiculoResponse> create(@RequestBody VeiculoCreateRequest request, UriComponentsBuilder uriBuilder){
+        VeiculoResponse response = service.create(request);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/veiculos/{id}")
-                        .buildAndExpand(veiculo.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(mapper.map(veiculo, VeiculoResponseDTO.class));
+                .body(response);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Veículos")
-    public ResponseEntity<VeiculoResponseDTO> update(@PathVariable Long id,
-                                                     @RequestBody VeiculoRequestDTO dto,
-                                                     UriComponentsBuilder uriBuilder){
-        Veiculo veiculo = service.update(id, dto);
+    public ResponseEntity<VeiculoResponse> update(@PathVariable Long id,
+                                                  @RequestBody VeiculoCreateRequest request,
+                                                  UriComponentsBuilder uriBuilder){
+        VeiculoResponse response = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/veiculos/{id}")
-                        .buildAndExpand(veiculo.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(mapper.map(veiculo, VeiculoResponseDTO.class));
+                .body(response);
 
     }
 

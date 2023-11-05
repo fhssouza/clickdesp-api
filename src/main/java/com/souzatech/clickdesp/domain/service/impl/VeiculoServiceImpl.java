@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.VeiculoRequestDTO;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -39,13 +39,13 @@ public class VeiculoServiceImpl implements VeiculoService {
     private ProprietarioService proprietarioService;
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Override
-    public List<VeiculoResponseDTO> findAll() {
+    public List<VeiculoResponse> findAll() {
         List<Veiculo> entity = repository.findAll();
         return entity.stream()
-                .map(v -> mapper.map(v, VeiculoResponseDTO.class))
+                .map(v -> modelMapper.map(v, VeiculoResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -55,27 +55,33 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
-    public Veiculo create(VeiculoRequestDTO dto) {
+    public VeiculoResponse create(VeiculoCreateRequest request) {
 
-        Veiculo entity = getVeiculo(dto);
+        Veiculo veiculo = getVeiculo(request);
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(veiculo.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, veiculo.getId()));
         }
 
-        findByIdProprietario(entity);
+        findByIdProprietario(veiculo);
 
-        return repository.save(entity);
+        veiculo = repository.save(veiculo);
+
+        return modelMapper.map(veiculo, VeiculoResponse.class);
     }
 
     @Override
-    public Veiculo update(Long id, VeiculoRequestDTO dto) {
-        Veiculo entity = getVeiculoId(id);
-        entity = getVeiculo(dto);
-        entity.setId(id);
-        findByIdProprietario(entity);
-        return repository.save(entity);
+    public VeiculoResponse update(Long id, VeiculoCreateRequest request) {
+        var veiculo = getVeiculoId(id);
+        veiculo = getVeiculo(request);
+        veiculo.setId(id);
+
+        findByIdProprietario(veiculo);
+
+        veiculo = repository.save(veiculo);
+
+        return modelMapper.map(veiculo, VeiculoResponse.class);
     }
 
     @Override
@@ -103,7 +109,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         return veiculo.get();
     }
 
-    private static Veiculo getVeiculo(VeiculoRequestDTO dto) {
+    private static Veiculo getVeiculo(VeiculoCreateRequest dto) {
         Veiculo entity = new Veiculo();
         entity.setPlaca(dto.getPlaca());
         entity.setMarca(dto.getMarca());

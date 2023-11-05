@@ -1,11 +1,13 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.request.EnderecoResquestDTO;
-import com.souzatech.clickdesp.domain.dto.response.EnderecoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoCreateResquest;
+import com.souzatech.clickdesp.domain.dto.response.EnderecoResponse;
 import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.service.EnderecoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/enderecos")
+@Consumes("MediaType.APPLICATION_JSON")
+@Produces("MediaType.APPLICATION_JSON")
 @Api(tags = "Endereços")
 public class EnderecoController {
 
@@ -29,42 +33,42 @@ public class EnderecoController {
 
     @GetMapping
     @ApiOperation(value = "Listar Endereços")
-    public ResponseEntity<List<EnderecoResponseDTO>> findAll(){
+    public ResponseEntity<List<EnderecoResponse>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Listar Endereços por Id")
-    public ResponseEntity<EnderecoResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<EnderecoResponse> findById(@PathVariable Long id){
         Endereco entity = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(modelMapper.map(entity, EnderecoResponseDTO.class));
+                .body(modelMapper.map(entity, EnderecoResponse.class));
     }
 
     @PostMapping
     @ApiOperation(value = "Criar Endereços")
-    public ResponseEntity<EnderecoResponseDTO> create(@Valid @RequestBody EnderecoResquestDTO dto, UriComponentsBuilder uriBuilder) {
-        Endereco entity = service.create(dto);
+    public ResponseEntity<EnderecoResponse> create(@Valid @RequestBody EnderecoCreateResquest resquest, UriComponentsBuilder uriBuilder) {
+        EnderecoResponse response = service.create(resquest);
 
         return ResponseEntity
                 .created(uriBuilder
                     .path("/enderecos/{id}")
-                    .buildAndExpand(entity.getId())
+                    .buildAndExpand(response.getId())
                     .toUri())
-                .body(modelMapper.map(entity, EnderecoResponseDTO.class));
+                .body(response);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Endereços")
-    public ResponseEntity<EnderecoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody EnderecoResquestDTO dto, UriComponentsBuilder uriBuilder) {
-        Endereco entity = service.update(id, dto);
+    public ResponseEntity<EnderecoResponse> update(@PathVariable Long id, @Valid @RequestBody EnderecoCreateResquest request, UriComponentsBuilder uriBuilder) {
+        EnderecoResponse response = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/enderecos/{id}")
-                        .buildAndExpand(entity.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(modelMapper.map(entity, EnderecoResponseDTO.class));
+                .body(response);
     }
 
     @DeleteMapping("/{id}")

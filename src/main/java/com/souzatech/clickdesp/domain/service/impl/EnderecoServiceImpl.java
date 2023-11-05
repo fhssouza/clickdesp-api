@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.request.EnderecoResquestDTO;
-import com.souzatech.clickdesp.domain.dto.response.EnderecoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoCreateResquest;
+import com.souzatech.clickdesp.domain.dto.response.EnderecoResponse;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
@@ -44,10 +44,10 @@ public class EnderecoServiceImpl implements EnderecoService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<EnderecoResponseDTO> findAll() {
+    public List<EnderecoResponse> findAll() {
         List<Endereco> servicos = repository.findAll();
         return servicos.stream()
-                .map(s -> modelMapper.map(s, EnderecoResponseDTO.class))
+                .map(s -> modelMapper.map(s, EnderecoResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -57,30 +57,35 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public Endereco create(EnderecoResquestDTO dto) {
-        Endereco entity = getEndereco(dto);
+    public EnderecoResponse create(EnderecoCreateResquest request) {
+        Endereco endereco = getEndereco(request);
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(endereco.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, endereco.getId()));
         }
 
-        findByIdProprietario(entity);
+        findByIdProprietario(endereco);
 
-        return repository.save(entity);
+        endereco = repository.save(endereco);
+
+        return modelMapper.map(endereco, EnderecoResponse.class);
     }
 
 
 
     @Override
-    public Endereco update(Long id, EnderecoResquestDTO dto) {
-        Endereco entity = getEnderecoId(id);
-        entity = getEndereco(dto);
-        entity.setId(id);
+    public EnderecoResponse update(Long id, EnderecoCreateResquest request) {
+        var endereco = getEnderecoId(id);
 
-        findByIdProprietario(entity);
+        endereco = getEndereco(request);
+        endereco.setId(id);
 
-        return repository.save(entity);
+        findByIdProprietario(endereco);
+
+        endereco = repository.save(endereco);
+
+        return modelMapper.map(endereco, EnderecoResponse.class);
     }
 
     @Override
@@ -99,7 +104,7 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     }
 
-    private static Endereco getEndereco(EnderecoResquestDTO dto) {
+    private static Endereco getEndereco(EnderecoCreateResquest dto) {
         Endereco entity = new Endereco();
         entity.setCep(dto.getCep());
         entity.setLogradouro(dto.getLogradouro());

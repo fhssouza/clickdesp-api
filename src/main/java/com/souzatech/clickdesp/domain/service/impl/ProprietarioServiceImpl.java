@@ -1,11 +1,10 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponseDTO;
-import com.souzatech.clickdesp.domain.dto.request.ProprietarioRequestDTO;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
+import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.ProprietarioMapper;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
 import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
@@ -38,13 +37,13 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     private CidadeService service;
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Override
-    public List<ProprietarioResponseDTO> findAll() {
+    public List<ProprietarioResponse> findAll() {
         List<Proprietario> entities = repository.findAll();
         return entities.stream()
-                .map(p -> mapper.map(p, ProprietarioResponseDTO.class))
+                .map(p -> modelMapper.map(p, ProprietarioResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -54,21 +53,28 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     }
 
     @Override
-    public Proprietario create(ProprietarioRequestDTO dto) {
-        Proprietario entity = getProprietario(dto);
+    public ProprietarioResponse create(ProprietarioCreateRequest request) {
+        Proprietario proprietario = getProprietario(request);
 
-        if(Objects.nonNull(entity.getId())){
+        if(Objects.nonNull(proprietario.getId())){
             throw new BadRequestException(
-                    String.format(MSG_ID_NULO, entity.getId()));
+                    String.format(MSG_ID_NULO, proprietario.getId()));
         }
-        return repository.save(entity);
+
+        proprietario = repository.save(proprietario);
+
+        return modelMapper.map(proprietario, ProprietarioResponse.class);
     }
 
     @Override
-    public Proprietario update(Long id, ProprietarioResponseDTO dto) {
-        getProprietarioId(id);
-        dto.setId(id);
-        return repository.save(ProprietarioMapper.fromDtoEntity(dto));
+    public ProprietarioResponse update(Long id, ProprietarioCreateRequest request) {
+        var proprietario = getProprietarioId(id);
+        proprietario = getProprietario(request);
+        proprietario.setId(id);
+
+        proprietario = repository.save(proprietario);
+
+        return modelMapper.map(proprietario, ProprietarioResponse.class);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
     }
 
-    private static Proprietario getProprietario(ProprietarioRequestDTO dto) {
+    private static Proprietario getProprietario(ProprietarioCreateRequest dto) {
         Proprietario entity = new Proprietario();
         entity.setNome(dto.getNome());
         entity.setCpfOuCnpj(dto.getCpfOuCnpj());

@@ -1,20 +1,20 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.request.VeiculoRequestDTO;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoResponseDTO;
+import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 
 import java.util.List;
 
 public interface VeiculoService {
 
-    List<VeiculoResponseDTO> findAll();
+    List<VeiculoResponse> findAll();
 
     Veiculo findById(Long id);
 
-    Veiculo create(VeiculoRequestDTO dto);
+    VeiculoResponse create(VeiculoCreateRequest request);
 
-    Veiculo update(Long id, VeiculoRequestDTO dto);
+    VeiculoResponse update(Long id, VeiculoCreateRequest request);
 
     void delete(Long id);
 
