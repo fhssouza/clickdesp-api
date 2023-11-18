@@ -1,21 +1,21 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.UsuarioDTO;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
+import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.mapper.UsuarioMapper;
 import com.souzatech.clickdesp.domain.model.Usuario;
 import com.souzatech.clickdesp.domain.repository.UsuarioRepository;
 import com.souzatech.clickdesp.domain.service.UsuarioService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -33,38 +33,40 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private BCryptPasswordEncoder pe;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Usuario> findAll() {
-        return repository.findAll();
+    public List<UsuarioResponse> findAll() {
+        List<Usuario> usuarios = repository.findAll();
+        return usuarios.stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Usuario findById(Long id) {
-        return getUsuario(id);
+    public UsuarioResponse findById(Long id) {
+        Usuario usuario = getUsuarioId(id);
+        return modelMapper.map(usuario, UsuarioResponse.class);
     }
 
     @Override
-    public Usuario create(UsuarioDTO dto) {
-        if(Objects.nonNull(dto.getId())){
-            throw new BadRequestException(
-                    String.format(MSG_ID_NULO, dto.getId()));
-        }
-        Usuario usuario = new Usuario(
-                null,
-                dto.getNome(),
-                dto.getSobrenome(),
-                dto.getEmail(),
-                pe.encode(dto.getSenha())
-        );
+    public UsuarioResponse create(UsuarioCreateRequest request) {
+        Usuario usuario = getUsuario(request);
 
-        return repository.save(usuario);
+        usuario = repository.save(usuario);
+
+        return modelMapper.map(usuario, UsuarioResponse.class);
     }
 
     @Override
-    public Usuario update(Long id, UsuarioDTO dto) {
-        getUsuario(id);
-        dto.setId(id);
-        return repository.save(UsuarioMapper.fromDtoEntity(dto));
+    public UsuarioResponse update(Long id, UsuarioCreateRequest request) {
+        Usuario usuario = getUsuarioId(id);
+        usuario = getUsuario(request);
+        usuario.setId(id);
+        usuario = repository.save(usuario);
+
+        return modelMapper.map(usuario, UsuarioResponse.class);
     }
 
     @Override
@@ -83,7 +85,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     }
 
-    private Usuario getUsuario(Long id){
+    private Usuario getUsuario(UsuarioCreateRequest request) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(request.getNome());
+        usuario.setSobrenome(request.getSobrenome());
+        usuario.setEmail(request.getEmail());
+        usuario.setSenha(pe.encode(request.getSenha()));
+        return usuario;
+    }
+
+    private Usuario getUsuarioId(Long id){
         Optional<Usuario> usuario = repository.findById(id);
         if(usuario.isEmpty()){
             throw new NotFoundException(

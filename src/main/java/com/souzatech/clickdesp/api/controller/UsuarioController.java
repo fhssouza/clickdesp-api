@@ -1,8 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
-import com.souzatech.clickdesp.domain.dto.UsuarioDTO;
-import com.souzatech.clickdesp.domain.mapper.UsuarioMapper;
-import com.souzatech.clickdesp.domain.model.Usuario;
+import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
 import com.souzatech.clickdesp.domain.service.UsuarioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,39 +24,39 @@ public class UsuarioController {
 
     @GetMapping
     @ApiOperation(value = "Listar Usuários")
-    public ResponseEntity<List<Usuario>> findAll(){
+    public ResponseEntity<List<UsuarioResponse>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Listar Usuário por Id")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id){
+    public ResponseEntity<UsuarioResponse> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
     }
 
     @PostMapping
     @ApiOperation(value = "Criar Usuário")
-    public ResponseEntity<UsuarioDTO> created(@Valid @RequestBody UsuarioDTO dto, UriComponentsBuilder uriBuilder){
-        Usuario usuario = service.create(dto);
+    public ResponseEntity<UsuarioResponse> created(@Valid @RequestBody UsuarioCreateRequest request, UriComponentsBuilder uriBuilder){
+        UsuarioResponse response = service.create(request);
         return ResponseEntity
                 .created(uriBuilder
                         .path("/usuarios/{id}")
-                        .buildAndExpand(usuario.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(UsuarioMapper.fromEntityDto(usuario));
+                .body(response);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Usuário")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO dto, UriComponentsBuilder uriBuilder){
-        Usuario usuario = service.update(id, dto);
+    public ResponseEntity<UsuarioResponse> update(@PathVariable Long id, @RequestBody UsuarioCreateRequest request, UriComponentsBuilder uriBuilder){
+        UsuarioResponse response = service.update(id, request);
 
         return ResponseEntity
                 .created(uriBuilder
                         .path("/usuarios/{id}")
-                        .buildAndExpand(usuario.getId())
+                        .buildAndExpand(response.getId())
                         .toUri())
-                .body(UsuarioMapper.fromEntityDto(usuario));
+                .body(response);
         }
 
     @DeleteMapping("/{id}")

@@ -1,19 +1,19 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.UsuarioDTO;
-import com.souzatech.clickdesp.domain.model.Usuario;
+import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
 
 import java.util.List;
 
 public interface UsuarioService {
 
-    List<Usuario> findAll();
+    List<UsuarioResponse> findAll();
 
-    Usuario findById(Long id);
+    UsuarioResponse findById(Long id);
 
-    Usuario create(UsuarioDTO dto);
+    UsuarioResponse create(UsuarioCreateRequest request);
 
-    Usuario update(Long id, UsuarioDTO dto);
+    UsuarioResponse update(Long id, UsuarioCreateRequest request);
 
     void delete(Long id);
 
