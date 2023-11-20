@@ -57,7 +57,7 @@ mvn spring-boot:run
 
 ### Endpoint OpenAPI Swagger
 
-1. [x] [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+1. [x] [http://localhost:8080/clickdesp/swagger-ui/index.html](http://localhost:8080/clickdesp/swagger-ui/index.html)
 
 
 
