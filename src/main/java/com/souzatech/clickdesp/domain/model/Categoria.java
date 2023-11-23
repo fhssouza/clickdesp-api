@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,7 +24,11 @@ public class Categoria implements Serializable {
     @Column(nullable = false)
     private String descricao;
 
+    private Date dataCriacao;
+
     public Categoria(Long categoriaId) {
         id = categoriaId;
     }
+
+
 }

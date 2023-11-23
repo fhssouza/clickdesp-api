@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,5 +20,14 @@ public class CategoriaResponse {
 
     @Schema(description="Descrição da Categoria", example = "Habilitação")
     private String descricao;
+
+    private String dataCriacao;
+
+    public void setDataCriacao(String dataCriacao) {
+        Calendar cal = Calendar.getInstance();
+        this.dataCriacao = new SimpleDateFormat("dd/MM/yyyy HH:mm.ss EEEE").format(cal.getTime()).toUpperCase();
+    }
+
+
 
 }

@@ -53,6 +53,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria categoria = new Categoria();
         categoria.setDescricao(request.getDescricao());
 
+
         if(Objects.nonNull(categoria.getId())){
             throw new BadRequestException(
                     String.format(MSG_ID_NULO, categoria.getId()));
