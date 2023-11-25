@@ -59,7 +59,7 @@ public class ProprietarioController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Proprietários")
-    public ResponseEntity<ProprietarioResponse> update(@PathVariable Long id, @RequestBody ProprietarioCreateRequest request, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ProprietarioResponse> update(@Valid @PathVariable Long id, @RequestBody ProprietarioCreateRequest request, UriComponentsBuilder uriBuilder){
         ProprietarioResponse response = service.update(id, request);
 
         return ResponseEntity
