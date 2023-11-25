@@ -1,6 +1,5 @@
 package com.souzatech.clickdesp.domain.exception.handler;
 
-import com.souzatech.clickdesp.domain.dto.error.ErrorResponseDto;
 import com.souzatech.clickdesp.domain.dto.error.StandardError;
 import com.souzatech.clickdesp.domain.dto.error.ValidationError;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
@@ -58,7 +57,7 @@ public class ResourceHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> methodArgumentNotValidException(MethodArgumentNotValidException v,
+    public ResponseEntity<ValidationError> methodArgumentNotValidException(MethodArgumentNotValidException v,
                                                                            HttpServletRequest request) {
             HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
@@ -67,7 +66,7 @@ public class ResourceHandler {
             err.setHttpStatus(status);
             err.setStatusCode(status.value());
             err.setError("Validation Exception");
-            err.setMessage(v.getMessage());
+            err.setMessage("Campos com erros de Validação");
             err.setPath(request.getRequestURI());
 
             for (FieldError f : v.getBindingResult().getFieldErrors()) {

@@ -1,9 +1,20 @@
 package com.souzatech.clickdesp.domain.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.souzatech.clickdesp.domain.dto.validation.CnpjGroup;
+import com.souzatech.clickdesp.domain.dto.validation.CpfGroup;
+import com.souzatech.clickdesp.domain.dto.validation.ProprietarioCreateRequestGroupSequenceProvider;
+import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,14 +22,24 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@GroupSequenceProvider(ProprietarioCreateRequestGroupSequenceProvider.class)
 public class ProprietarioCreateRequest {
 
     @JsonProperty("Nome")
     @Schema(description="Nome", example = "Fábio Souza")
     private String nome;
 
+    @NotNull(message = "Tipo de pessoa é obrigatório")
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("Tipo Proprietário")
+    @Schema(description="Tipo Pessoa", example = "FISICA")
+    private TipoPessoa tipoPessoa;
+
+    @NotBlank(message = "CPF/CNPJ é obrigatório")
+    @CPF(groups = CpfGroup.class)
+    @CNPJ(groups = CnpjGroup.class)
     @JsonProperty("CPF_CNPJ")
-    @Schema(description="CPF ou CNPJ", example = "51924278006")
+    @Schema(description="CPF ou CNPJ", example = "484.410.340-79")
     private String cpfOuCnpj;
 
     @JsonProperty("Identidade")
@@ -32,10 +53,6 @@ public class ProprietarioCreateRequest {
     @JsonProperty("E-Mail")
     @Schema(description="E-Mail", example = "fabio@email.com")
     private String email;
-
-    @JsonProperty("Tipo")
-    @Schema(description="Tipo", example = "FISICA")
-    private String tipo;
 
     @JsonProperty("Responsável")
     @Schema(description="Responsável", example = "Fábio Souza")

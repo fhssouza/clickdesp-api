@@ -2,7 +2,7 @@ package com.souzatech.clickdesp.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
+import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -16,14 +16,13 @@ import java.util.Set;
 @JsonPropertyOrder({
         "id",
         "nome",
-        "tipo",
+        "tipoPessoa",
         "cpfOuCnpj",
         "identidade",
         "habilitacao",
         "email",
         "telfones",
         "responsavel"
-
 })
 public class ProprietarioResponse {
 
@@ -34,6 +33,10 @@ public class ProprietarioResponse {
     @JsonProperty("Nome")
     @Schema(description="Nome", example = "Fábio Souza")
     private String nome;
+
+    @JsonProperty("Tipo")
+    @Schema(description="Tipo Pessoa", example = "FISICA")
+    private TipoPessoa tipoPessoa;
 
     @JsonProperty("CPF_CNPJ")
     @Schema(description="CPF ou CNPJ", example = "51924278006")
@@ -50,10 +53,6 @@ public class ProprietarioResponse {
     @JsonProperty("E-mail")
     @Schema(description="E-Mail", example = "fabio@email.com")
     private String email;
-
-    @JsonProperty("Tipo")
-    @Schema(description="Tipo", example = "FISICA")
-    private TipoProprietario tipo;
 
     @JsonProperty("Responsável")
     @Schema(description="Responsável", example = "Fábio Souza")

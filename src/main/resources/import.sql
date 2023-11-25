@@ -16,9 +16,9 @@ INSERT INTO estado (nome) VALUES ('Amazonas');
 INSERT INTO cidade (nome, estado_id) VALUES ('Belém', 1);
 INSERT INTO cidade (nome, estado_id) VALUES ('Manaus', 2);
 
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo) VALUES ('16219323033', 'fabio@email.com', '123456', '204050-9', 'Fábio Souza', 'Fábio Souza', 'FISICA');
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo) VALUES ('57343832018', 'Deyvid@email.com', '234569', '20201530-5', 'Deyvid Andrade', 'Deyvid Andrade', 'FISICA');
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo) VALUES ('79511914000177', 'andradelegalicacao@email.com', '234569', '20201530-5', 'Andrade Legalicação', 'Deyvid Andrade', 'JURIDICA');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('16219323033', 'fabio@email.com', '123456', '204050-9', 'Fábio Souza', 'Fábio Souza', 'FISICA');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('57343832018', 'Deyvid@email.com', '234569', '20201530-5', 'Deyvid Andrade', 'Deyvid Andrade', 'FISICA');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('79511914000177', 'andradelegalicacao@email.com', '234569', '20201530-5', 'Andrade Legalicação', 'Deyvid Andrade', 'JURIDICA');
 
 INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98155-9030');
 INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98158-3030');

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class ProprietarioController {
 
     @PostMapping
     @ApiOperation(value = "Criar Proprietários")
-    public ResponseEntity<ProprietarioResponse> create(@RequestBody ProprietarioCreateRequest request, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ProprietarioResponse> create(@Valid @RequestBody ProprietarioCreateRequest request, UriComponentsBuilder uriBuilder){
         ProprietarioResponse response = service.create(request);
 
         return ResponseEntity

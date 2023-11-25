@@ -1,6 +1,6 @@
 package com.souzatech.clickdesp.domain.model;
 
-import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
+import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +23,9 @@ public class Proprietario {
     @Column(nullable = false)
     private String nome;
 
+    @Enumerated(EnumType.STRING)
+    private TipoPessoa tipoPessoa;
+
     @Column(nullable = false)
     private String cpfOuCnpj;
 
@@ -34,9 +37,6 @@ public class Proprietario {
 
     @Column(nullable = false)
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    private TipoProprietario tipo;
 
     @Column(nullable = false)
     private String responsavel;

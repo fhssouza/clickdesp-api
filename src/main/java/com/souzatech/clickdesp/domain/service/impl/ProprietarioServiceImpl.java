@@ -6,7 +6,6 @@ import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Proprietario;
-import com.souzatech.clickdesp.domain.model.enums.TipoProprietario;
 import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
 import com.souzatech.clickdesp.domain.service.CidadeService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
@@ -100,7 +99,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         entity.setIdentidade(dto.getIdentidade());
         entity.setHabilitacao(dto.getHabilitacao());
         entity.setEmail(dto.getEmail());
-        entity.setTipo(TipoProprietario.valueOf(dto.getTipo()));
+        entity.setTipoPessoa(dto.getTipoPessoa());
         entity.setResponsavel(dto.getResponsavel());
         entity.setTelefones(dto.getTelefones());
         return entity;
