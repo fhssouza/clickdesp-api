@@ -62,10 +62,30 @@ public class OrdemServicoController {
                 .body(response);
     }
 
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "Deletar Ordem de Serviço")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+    @PutMapping("/{id}/finalizada")
+    @ApiOperation(value = "Finalizar a Ordem de Serviço")
+    public ResponseEntity<OrdemServicoResponse> finish(@PathVariable Long id, UriComponentsBuilder uriBuilder){
+        OrdemServicoResponse response = service.finish(id);
+
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/ordemservicos/{id}")
+                        .buildAndExpand(response.getId())
+                        .toUri())
+                .body(response);
+    }
+
+    @PutMapping("/{id}/cancelada")
+    @ApiOperation(value = "Cancelar a Ordem de Serviço")
+    public ResponseEntity<OrdemServicoResponse> cancel(@PathVariable Long id, UriComponentsBuilder uriBuilder){
+        OrdemServicoResponse response = service.cancel(id);
+
+        return ResponseEntity
+                .created(uriBuilder
+                        .path("/ordemservicos/{id}")
+                        .buildAndExpand(response.getId())
+                        .toUri())
+                .body(response);
     }
 }

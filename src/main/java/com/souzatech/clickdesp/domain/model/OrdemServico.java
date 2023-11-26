@@ -48,7 +48,7 @@ public class OrdemServico {
     @PrePersist
     public void prePersist(){
         createAt = Instant.now();
-        status = StatusOrdemServico.ABERTO;
+        status = StatusOrdemServico.ABERTA;
     }
 
     @PreUpdate

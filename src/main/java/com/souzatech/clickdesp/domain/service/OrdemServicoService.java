@@ -15,6 +15,8 @@ public interface OrdemServicoService {
 
     OrdemServicoResponse update(Long id, CreateOrdemServicoRequest request);
 
-    void delete(Long id);
+    OrdemServicoResponse finish(Long id);
+
+    OrdemServicoResponse cancel(Long id);
 
 }

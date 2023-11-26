@@ -5,6 +5,7 @@ import com.souzatech.clickdesp.domain.dto.error.ValidationError;
 import com.souzatech.clickdesp.domain.exception.BadRequestException;
 import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.exception.StatusOrdemServicoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -75,5 +76,18 @@ public class ResourceHandler {
 
             return ResponseEntity.status(status).body(err);
 
+    }
+
+    @ExceptionHandler(StatusOrdemServicoException.class)
+    public ResponseEntity<StandardError> statusOrdemServicoException(RuntimeException s,
+                                                       HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(StandardError.builder()
+                .timestamp(Instant.now())
+                .httpStatus(HttpStatus.CONFLICT)
+                .statusCode(HttpStatus.CONFLICT.value())
+                .error("RuntimeException")
+                .message(s.getMessage())
+                .path(request.getRequestURI())
+                .build());
     }
 }

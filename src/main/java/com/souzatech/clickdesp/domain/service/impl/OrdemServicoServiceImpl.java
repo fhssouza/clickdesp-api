@@ -3,11 +3,12 @@ package com.souzatech.clickdesp.domain.service.impl;
 import com.souzatech.clickdesp.domain.dto.request.CreateItemOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.request.CreateOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.response.OrdemServicoResponse;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.exception.StatusOrdemServicoException;
 import com.souzatech.clickdesp.domain.model.ItemOrdemServico;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
 import com.souzatech.clickdesp.domain.model.Veiculo;
+import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import com.souzatech.clickdesp.domain.repository.ItemOrdemServicoRepository;
 import com.souzatech.clickdesp.domain.repository.OrdemServicoRepository;
 import com.souzatech.clickdesp.domain.service.OrdemServicoService;
@@ -16,7 +17,6 @@ import com.souzatech.clickdesp.domain.service.ServicoService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +28,9 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
 
     public static final String MSG_ORDEMSERVICO_NAO_ENCONTRADO = "Não existe um cadastro de Ordem de Servico com código %d";
     public static final String MSG_ORDEMSERVICO_EM_USO = "Ordem de Servico de código %d não pode ser removida, pois está em uso";
+    private static final String MSG_ORDEM_SERVICO_CANCELADA = "Ordem de Servico de código %d não pode ser finalizada, pois já está cancelada";
+
+    private static final String MSG_ORDEM_SERVICO_FINALIZADA = "Ordem de Servico de código %d não pode ser cancelada, pois já está finalizada";
 
     private final OrdemServicoRepository repository;
 
@@ -84,20 +87,39 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         return modelMapper.map(ordemServico, OrdemServicoResponse.class);
     }
 
+
     @Override
-    public void delete(Long id) {
-        try {
-           repository.deleteById(id);
+    public OrdemServicoResponse finish(Long id) {
+        OrdemServico ordemServico = getOrdemServicoId(id);
 
-        }catch (EmptyResultDataAccessException e){
-            throw new NotFoundException(
-                    String.format(MSG_ORDEMSERVICO_NAO_ENCONTRADO, id));
-
-        } catch (org.springframework.dao.DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException(
-                    String.format(MSG_ORDEMSERVICO_EM_USO, id));
+        if(StatusOrdemServico.CANCELADA.equals(ordemServico.getStatus())){
+            throw new StatusOrdemServicoException(
+                    String.format(MSG_ORDEM_SERVICO_CANCELADA, id)
+            );
         }
 
+        ordemServico.setStatus(StatusOrdemServico.FINALIZADA);
+
+        repository.save(ordemServico);
+
+        return modelMapper.map(ordemServico, OrdemServicoResponse.class);
+    }
+
+    @Override
+    public OrdemServicoResponse cancel(Long id) {
+        OrdemServico ordemServico = getOrdemServicoId(id);
+
+        if(StatusOrdemServico.FINALIZADA.equals(ordemServico.getStatus())){
+            throw new StatusOrdemServicoException(
+                    String.format(MSG_ORDEM_SERVICO_FINALIZADA, id)
+            );
+        }
+
+        ordemServico.setStatus(StatusOrdemServico.CANCELADA);
+
+        repository.save(ordemServico);
+
+        return modelMapper.map(ordemServico, OrdemServicoResponse.class);
     }
 
     private OrdemServico getOrdemServicoId(Long id){
