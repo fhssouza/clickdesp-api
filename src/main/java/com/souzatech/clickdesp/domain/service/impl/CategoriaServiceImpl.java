@@ -2,9 +2,9 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.CategoriaCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.CategoriaResponse;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Categoria;
 import com.souzatech.clickdesp.domain.repository.CategoriaRepository;
 import com.souzatech.clickdesp.domain.service.CategoriaService;

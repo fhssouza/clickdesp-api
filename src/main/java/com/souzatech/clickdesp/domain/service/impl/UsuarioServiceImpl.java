@@ -2,8 +2,8 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Usuario;
 import com.souzatech.clickdesp.domain.repository.UsuarioRepository;
 import com.souzatech.clickdesp.domain.service.UsuarioService;

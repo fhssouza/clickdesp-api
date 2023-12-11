@@ -1,5 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
+import com.souzatech.clickdesp.domain.dto.request.EnderecoEntityRequest;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.model.Proprietario;
@@ -56,6 +58,12 @@ public class ProprietarioController {
                         .toUri())
                 .body(response);
     }
+
+    @PostMapping("{proprietarioId}/enderecos/adicionar")
+    public ResponseEntity<ProprietarioEnderecoResponse> adicionarEndereco(@PathVariable Long proprietarioId, @RequestBody @Valid EnderecoEntityRequest enderecos){
+        return ResponseEntity.ok(service.createEndereco(proprietarioId, enderecos));
+    }
+
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Proprietários")

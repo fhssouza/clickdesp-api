@@ -1,9 +1,9 @@
 package com.souzatech.clickdesp.domain.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.souzatech.clickdesp.domain.dto.validation.CnpjGroup;
-import com.souzatech.clickdesp.domain.dto.validation.CpfGroup;
-import com.souzatech.clickdesp.domain.dto.validation.ProprietarioCreateRequestGroupSequenceProvider;
+import com.souzatech.clickdesp.infrastructure.validation.CnpjGroup;
+import com.souzatech.clickdesp.infrastructure.validation.CpfGroup;
+import com.souzatech.clickdesp.infrastructure.validation.ProprietarioCreateRequestGroupSequenceProvider;
 import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

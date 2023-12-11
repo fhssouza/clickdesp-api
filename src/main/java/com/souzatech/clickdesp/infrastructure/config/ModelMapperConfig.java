@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.config;
+package com.souzatech.clickdesp.infrastructure.config;
 
 
 import org.modelmapper.ModelMapper;

@@ -1,14 +1,20 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
-import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
+import com.souzatech.clickdesp.domain.dto.request.ConsultarEndereco;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoEntityRequest;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
+import com.souzatech.clickdesp.domain.model.EnderecoEntity;
 import com.souzatech.clickdesp.domain.model.Proprietario;
+import com.souzatech.clickdesp.domain.repository.EnderecoEntityRepository;
 import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
 import com.souzatech.clickdesp.domain.service.CidadeService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
+import com.souzatech.clickdesp.infrastructure.config.ConsumerAPIViaCepConfiguration;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,6 +43,12 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ConsumerAPIViaCepConfiguration apiViaCepConfiguration;
+
+    @Autowired
+    private EnderecoEntityRepository enderecoEntityRepository;
 
     @Override
     public List<ProprietarioResponse> findAll() {
@@ -92,6 +104,30 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
     }
 
+    @Override
+    public ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoEntityRequest request) {
+
+        var proprietario = getProprietarioId(proprietarioId);
+
+        EnderecoEntity novoEndereco = buscarEndereco(request);
+
+        novoEndereco.setProprietario(proprietario);
+        novoEndereco.setCep(request.getCep());
+        novoEndereco.setComplemento(request.getComplemento());
+        novoEndereco.setLocalidade(request.getLocalidade());
+        novoEndereco.setBairro(request.getBairro());
+        novoEndereco.setUf(request.getUf());
+        novoEndereco.setDdd(request.getDdd());
+        novoEndereco.setNumero(request.getNumero());
+        novoEndereco.setPrincipal(request.getPrincipal());
+
+        proprietario.getEnderecos().add(novoEndereco);
+
+        enderecoEntityRepository.saveAll(proprietario.getEnderecos());
+
+        return modelMapper.map(proprietario, ProprietarioEnderecoResponse.class);
+    }
+
     private static Proprietario getProprietario(ProprietarioCreateRequest dto) {
         Proprietario entity = new Proprietario();
         entity.setNome(dto.getNome());
@@ -106,12 +142,27 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     }
 
     private Proprietario getProprietarioId(Long id){
-        Optional<Proprietario> servico = repository.findById(id);
-        if(servico.isEmpty()){
+        Optional<Proprietario> proprietario = repository.findById(id);
+        if(proprietario.isEmpty()){
             throw new NotFoundException(
                     String.format(MSG_PROPRIETARIO_NAO_ENCONTRADO, id));
         }
-        return servico.get();
+        return proprietario.get();
+    }
+
+    private EnderecoEntity buscarEndereco(EnderecoEntityRequest request) {
+
+        ConsultarEndereco consultarEndereco = apiViaCepConfiguration.consumer(request.getCep());
+
+        request.setCep(consultarEndereco.getCep());
+        request.setLogradouro(consultarEndereco.getLogradouro());
+        request.setLocalidade(consultarEndereco.getLocalidade());
+        request.setBairro(consultarEndereco.getBairro());
+        request.setUf(consultarEndereco.getUf());
+        request.setDdd(consultarEndereco.getDdd());
+
+        return modelMapper.map(request, EnderecoEntity.class);
+
     }
 
 }

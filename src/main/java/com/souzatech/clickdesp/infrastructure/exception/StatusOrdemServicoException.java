@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.exception;
+package com.souzatech.clickdesp.infrastructure.exception;
 
 public class StatusOrdemServicoException extends RuntimeException{
 

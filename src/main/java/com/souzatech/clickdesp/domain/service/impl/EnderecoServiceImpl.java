@@ -2,9 +2,9 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.EnderecoCreateResquest;
 import com.souzatech.clickdesp.domain.dto.response.EnderecoResponse;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Cidade;
 import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.model.Proprietario;

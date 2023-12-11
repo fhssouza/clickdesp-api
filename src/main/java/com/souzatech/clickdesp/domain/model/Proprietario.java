@@ -13,11 +13,14 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity
+@Builder
 public class Proprietario {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -45,8 +48,8 @@ public class Proprietario {
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet<>();
 
-    @OneToMany(mappedBy = "proprietario")
-    private List<Endereco> enderecos = new ArrayList<>();
+    @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
+    private List<EnderecoEntity> enderecos = new ArrayList<>();
 
     public Proprietario(Long proprietario) {
         id = proprietario;

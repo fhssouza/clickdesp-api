@@ -1,11 +1,11 @@
-package com.souzatech.clickdesp.domain.exception.handler;
+package com.souzatech.clickdesp.infrastructure.exception.handler;
 
 import com.souzatech.clickdesp.domain.dto.error.StandardError;
 import com.souzatech.clickdesp.domain.dto.error.ValidationError;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
-import com.souzatech.clickdesp.domain.exception.StatusOrdemServicoException;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.exception.StatusOrdemServicoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

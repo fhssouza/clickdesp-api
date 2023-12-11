@@ -2,9 +2,9 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
-import com.souzatech.clickdesp.domain.exception.BadRequestException;
-import com.souzatech.clickdesp.domain.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.domain.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.Procedencia;

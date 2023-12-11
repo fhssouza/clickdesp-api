@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.dto.validation;
+package com.souzatech.clickdesp.infrastructure.validation;
 
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import org.hibernate.validator.spi.group.DefaultGroupSequenceProvider;

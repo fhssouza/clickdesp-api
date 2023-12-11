@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.domain.model.enums;
 
-import com.souzatech.clickdesp.domain.dto.validation.CnpjGroup;
-import com.souzatech.clickdesp.domain.dto.validation.CpfGroup;
+import com.souzatech.clickdesp.infrastructure.validation.CnpjGroup;
+import com.souzatech.clickdesp.infrastructure.validation.CpfGroup;
 
 public enum TipoPessoa {
 
