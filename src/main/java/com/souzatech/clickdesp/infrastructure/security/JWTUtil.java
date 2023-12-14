@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.security;
+package com.souzatech.clickdesp.infrastructure.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

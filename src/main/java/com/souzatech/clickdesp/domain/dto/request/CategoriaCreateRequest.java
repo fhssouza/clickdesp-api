@@ -19,7 +19,7 @@ public class CategoriaCreateRequest {
     @NotBlank(message = "campo nome não pode ser nulo ou vazio")
     @Size(min = 5, max = 30, message = "campo nome deve ter tamanho entre 5 e 30 caracteres" )
     @Schema(description="Descrição da Categoria", example = "Habilitação")
-    @JsonProperty("Descrição")
+    @JsonProperty("descricao")
     private String descricao;
 
 

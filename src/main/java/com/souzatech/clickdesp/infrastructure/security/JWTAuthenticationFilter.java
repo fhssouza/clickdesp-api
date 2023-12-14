@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.security;
+package com.souzatech.clickdesp.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.souzatech.clickdesp.domain.dto.CredenciaisDTO;

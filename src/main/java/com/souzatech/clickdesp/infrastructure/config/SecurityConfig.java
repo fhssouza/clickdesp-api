@@ -1,8 +1,8 @@
 package com.souzatech.clickdesp.infrastructure.config;
 
-import com.souzatech.clickdesp.domain.security.JWTAuthenticationFilter;
-import com.souzatech.clickdesp.domain.security.JWTAuthorizationFilter;
-import com.souzatech.clickdesp.domain.security.JWTUtil;
+import com.souzatech.clickdesp.infrastructure.security.JWTAuthenticationFilter;
+import com.souzatech.clickdesp.infrastructure.security.JWTAuthorizationFilter;
+import com.souzatech.clickdesp.infrastructure.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,13 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
     private static final String[]PUBLIC_MATCHES = {
-        "/h2-console/**",
-
+        "/h2-console/**"
     };
 
     private static final String[]PUBLIC_MATCHES_GET = {
-            "/servicos/**",
-            "/categorias/**"
+//            "/servicos/**",
+//            "/categorias/**"
     };
 
     private static final String[]PUBLIC_MATCHES_POST = {
@@ -61,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (Arrays.asList(env.getActiveProfiles()).contains("test")){
             http.headers().frameOptions().disable();
         }
-
         http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITE_LIST).permitAll()
