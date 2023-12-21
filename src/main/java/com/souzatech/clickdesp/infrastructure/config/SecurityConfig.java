@@ -37,12 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[]PUBLIC_MATCHES = {
         "/h2-console/**"
     };
-
-    private static final String[]PUBLIC_MATCHES_GET = {
-//            "/servicos/**",
-//            "/categorias/**"
-    };
-
     private static final String[]PUBLIC_MATCHES_POST = {
             "/usuarios/**",
     };
@@ -63,7 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITE_LIST).permitAll()
-                .antMatchers(HttpMethod.GET, PUBLIC_MATCHES_GET).permitAll()
                 .antMatchers(HttpMethod.POST, PUBLIC_MATCHES_POST).permitAll()
                 .antMatchers(PUBLIC_MATCHES).permitAll()
                 .anyRequest().authenticated();
@@ -79,8 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:4200/");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -88,4 +88,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
