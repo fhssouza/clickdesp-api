@@ -2,11 +2,12 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
-import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Usuario;
 import com.souzatech.clickdesp.domain.repository.UsuarioRepository;
 import com.souzatech.clickdesp.domain.service.UsuarioService;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    public static final String MSG_ID_NULO = "Id %d da usuario deve ser nulo";
+    public static final String MSG_EMAIL_EXISTENTE = "Já existe usuario cadastrado com o E-mail: %s";
     public static final String MSG_USUARIO_NAO_ENCONTRADO = "Não existe um cadastro de usuario com código %d";
     public static final String MSG_USUARIO_EM_USO = "Usuario de código %d não pode ser removida, pois está em uso";
 
@@ -52,6 +53,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioResponse create(UsuarioCreateRequest request) {
+
+        if(getEmailExists(request.getEmail())){
+            throw new BadRequestException(
+                    String.format(MSG_EMAIL_EXISTENTE, request.getEmail()));
+        }
+
         Usuario usuario = getUsuario(request);
 
         usuario = repository.save(usuario);
@@ -101,5 +108,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                     String.format(MSG_USUARIO_NAO_ENCONTRADO, id));
         }
         return usuario.get();
+    }
+
+    private boolean getEmailExists(String email){
+       return repository.existsByEmail(email);
     }
 }
