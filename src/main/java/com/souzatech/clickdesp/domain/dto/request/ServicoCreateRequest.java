@@ -19,15 +19,15 @@ public class ServicoCreateRequest {
 
     @NotBlank(message = "campo nome não pode ser nulo ou vazio")
     @Size(min = 5, max = 30, message = "campo nome deve ter tamanho entre 5 e 30 caracteres" )
-    @JsonProperty("Descrição")
+    @JsonProperty("descricao")
     @Schema(description="Descrição", example = "LICENCIAMENTO")
     private String descricao;
 
-    @JsonProperty("Preço")
+    @JsonProperty("preco")
     @Schema(description="Preço", example = "2000.00")
     private Double preco;
 
-    @JsonProperty("Categoria")
+    @JsonProperty("categoria")
     @Schema(description="Categoria", example = "2")
     private Long categoria;
 }
