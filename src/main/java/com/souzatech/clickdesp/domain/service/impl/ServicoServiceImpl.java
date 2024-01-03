@@ -76,6 +76,8 @@ public class ServicoServiceImpl implements ServicoService {
 
         findByIdCategoria(servico);
 
+        repository.save(servico);
+
         return modelMapper.map(servico, ServicoResponse.class);
     }
 
