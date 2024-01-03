@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 public class ServicoCreateRequest {
 
     @NotBlank(message = "campo nome não pode ser nulo ou vazio")
-    @Size(min = 5, max = 30, message = "campo nome deve ter tamanho entre 5 e 30 caracteres" )
+    @Size(min = 5, max = 30, message = "Campo Descrição deve ter tamanho entre 5 e 30 caracteres" )
     @JsonProperty("descricao")
     @Schema(description="Descrição", example = "LICENCIAMENTO")
     private String descricao;
