@@ -25,40 +25,40 @@ import java.util.Set;
 @GroupSequenceProvider(ProprietarioCreateRequestGroupSequenceProvider.class)
 public class ProprietarioCreateRequest {
 
-    @JsonProperty("Nome")
+    @JsonProperty("nome")
     @Schema(description="Nome", example = "Fábio Souza")
     private String nome;
 
     @NotNull(message = "Tipo de pessoa é obrigatório")
     @Enumerated(EnumType.STRING)
-    @JsonProperty("Tipo Proprietário")
+    @JsonProperty("tipoPessoa")
     @Schema(description="Tipo Pessoa", example = "FISICA")
     private TipoPessoa tipoPessoa;
 
     @NotBlank(message = "CPF/CNPJ é obrigatório")
     @CPF(groups = CpfGroup.class)
     @CNPJ(groups = CnpjGroup.class)
-    @JsonProperty("CPF_CNPJ")
+    @JsonProperty("cpfOuCnpj")
     @Schema(description="CPF ou CNPJ", example = "484.410.340-79")
     private String cpfOuCnpj;
 
-    @JsonProperty("Identidade")
+    @JsonProperty("identidade")
     @Schema(description="Identidade", example = "123654")
     private String identidade;
 
-    @JsonProperty("Habilitação")
+    @JsonProperty("habilitacao")
     @Schema(description="Habilitação", example = "17195859514")
     private String habilitacao;
 
-    @JsonProperty("E-Mail")
+    @JsonProperty("email")
     @Schema(description="E-Mail", example = "fabio@email.com")
     private String email;
 
-    @JsonProperty("Responsável")
+    @JsonProperty("responsavel")
     @Schema(description="Responsável", example = "Fábio Souza")
     private String responsavel;
 
-    @JsonProperty("Telefones")
+    @JsonProperty("telefones")
     @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
     private Set<String> telefones = new HashSet<>();
 

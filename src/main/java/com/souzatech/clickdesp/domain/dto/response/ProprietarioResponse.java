@@ -26,39 +26,39 @@ import java.util.Set;
 })
 public class ProprietarioResponse {
 
-    @JsonProperty("Id")
+    @JsonProperty("id")
     @Schema(description="ID", example = "1")
     private Long id;
 
-    @JsonProperty("Nome")
+    @JsonProperty("nome")
     @Schema(description="Nome", example = "Fábio Souza")
     private String nome;
 
-    @JsonProperty("Tipo")
+    @JsonProperty("tipoPessoa")
     @Schema(description="Tipo Pessoa", example = "FISICA")
     private TipoPessoa tipoPessoa;
 
-    @JsonProperty("CPF_CNPJ")
+    @JsonProperty("cpfOuCnpj")
     @Schema(description="CPF ou CNPJ", example = "51924278006")
     private String cpfOuCnpj;
 
-    @JsonProperty("Identidade")
+    @JsonProperty("identidade")
     @Schema(description="Identidade", example = "123654")
     private String identidade;
 
-    @JsonProperty("Habilitação")
+    @JsonProperty("habilitacao")
     @Schema(description="Habilitação", example = "17195859514")
     private String habilitacao;
 
-    @JsonProperty("E-mail")
+    @JsonProperty("email")
     @Schema(description="E-Mail", example = "fabio@email.com")
     private String email;
 
-    @JsonProperty("Responsável")
+    @JsonProperty("responsavel")
     @Schema(description="Responsável", example = "Fábio Souza")
     private String responsavel;
 
-    @JsonProperty("Telefones")
+    @JsonProperty("telefones")
     @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
     private Set<String> telefones = new HashSet<>();
 
