@@ -137,7 +137,8 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         entity.setEmail(dto.getEmail());
         entity.setTipoPessoa(dto.getTipoPessoa());
         entity.setResponsavel(dto.getResponsavel());
-        entity.setTelefones(dto.getTelefones());
+//        entity.setTelefones(dto.getTelefones());
+        entity.setTelefone(dto.getTelefone());
         return entity;
     }
 

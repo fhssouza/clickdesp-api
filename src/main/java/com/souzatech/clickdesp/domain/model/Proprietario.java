@@ -44,9 +44,12 @@ public class Proprietario {
     @Column(nullable = false)
     private String responsavel;
 
-    @ElementCollection
-    @CollectionTable(name = "telefone")
-    private Set<String> telefones = new HashSet<>();
+//    @ElementCollection
+//    @CollectionTable(name = "telefone")
+//    private Set<String> telefones = new HashSet<>();
+
+    @Column(nullable = false)
+    private String telefone;
 
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL)
     private List<EnderecoEntity> enderecos = new ArrayList<>();

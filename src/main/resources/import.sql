@@ -16,16 +16,16 @@ INSERT INTO estado (nome) VALUES ('Amazonas');
 INSERT INTO cidade (nome, estado_id) VALUES ('Belém', 1);
 INSERT INTO cidade (nome, estado_id) VALUES ('Manaus', 2);
 
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('16219323033', 'fabio@email.com', '123456', '204050-9', 'Fábio Souza', 'Fábio Souza', 'FISICA');
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('57343832018', 'Deyvid@email.com', '234569', '20201530-5', 'Deyvid Andrade', 'Deyvid Andrade', 'FISICA');
-INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa) VALUES ('79511914000177', 'andradelegalicacao@email.com', '234569', '20201530-5', 'Andrade Legalicação', 'Deyvid Andrade', 'JURIDICA');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa, telefone) VALUES ('16219323033', 'fabio@email.com', '123456', '204050-9', 'Fábio Souza', 'Fábio Souza', 'FISICA', '91981559030');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa, telefone) VALUES ('57343832018', 'Deyvid@email.com', '234569', '20201530-5', 'Deyvid Andrade', 'Deyvid Andrade', 'FISICA', '91980807530');
+INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa, telefone) VALUES ('79511914000177', 'andradelegalicacao@email.com', '234569', '20201530-5', 'Andrade Legalicação', 'Deyvid Andrade', 'JURIDICA', '91981605033');
 
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98155-9030');
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98158-3030');
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('2','98080-7530');
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('2','98175-2020');
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98177-1030');
-INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98160-5033');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98155-9030');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98158-3030');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('2','98080-7530');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('2','98175-2020');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98177-1030');
+--INSERT INTO telefone (proprietario_id, telefones) VALUES ('3','98160-5033');
 
 INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id, cidade_id) VALUES ('maracangalha', '66110-350', '1ª andar', 'Passagem São Sebastião', '90', 1, 1);
 INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id, cidade_id) VALUES ('Cidade Nova', '66400-290', 'Ap 101, Edificio Colina', 'Travessa We 40', '40', 2, 1);

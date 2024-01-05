@@ -15,6 +15,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,9 +59,14 @@ public class ProprietarioCreateRequest {
     @Schema(description="Responsável", example = "Fábio Souza")
     private String responsavel;
 
-    @JsonProperty("telefones")
-    @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
-    private Set<String> telefones = new HashSet<>();
+//    @JsonProperty("telefones")
+//    @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
+//    private Set<String> telefones = new HashSet<>();
+
+    @JsonProperty("telefone")
+    @Schema(description="Telefone", example = "(99)99999-99999]")
+    @Size(min = 15, max = 15, message = "O campo telefone deve possui o tamanho de 15 caracteres" )
+    private String telefone;
 
 }
 

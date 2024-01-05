@@ -58,8 +58,12 @@ public class ProprietarioResponse {
     @Schema(description="Responsável", example = "Fábio Souza")
     private String responsavel;
 
-    @JsonProperty("telefones")
-    @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
-    private Set<String> telefones = new HashSet<>();
+//    @JsonProperty("telefones")
+//    @Schema(description="Telefones", example = "[9999-9999, 8888-8888]")
+//    private Set<String> telefones = new HashSet<>();
+
+    @JsonProperty("telefone")
+    @Schema(description="Telefone", example = "8888-8888")
+    private String telefone;
 
 }
