@@ -3,9 +3,10 @@ package com.souzatech.clickdesp.domain.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -83,8 +84,8 @@ public class VeiculoResponse {
     private Integer crv;
 
     @JsonProperty("dataCrv")
-    @Schema(description="Data CRV", example = "2011-12-03")
-    private Date dataCrv;
+    @Schema(description="Data CRV", example = "03/12/2023")
+    private String dataCrv;
 
     @JsonProperty("proprietario")
     @Schema(description="Proprietário", example = "1")

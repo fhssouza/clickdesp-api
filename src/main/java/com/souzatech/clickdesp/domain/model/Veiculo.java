@@ -2,10 +2,12 @@ package com.souzatech.clickdesp.domain.model;
 
 import com.souzatech.clickdesp.domain.model.enums.Procedencia;
 import com.souzatech.clickdesp.domain.model.enums.TipoCombustivel;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -57,7 +59,7 @@ public class Veiculo {
     private Integer crv;
 
     @Column(nullable = false)
-    private Date dataCrv;
+    private String dataCrv;
 
     @ManyToOne
     private Proprietario proprietario;
