@@ -67,16 +67,16 @@ public class VeiculoResponse {
     private Integer ano;
 
     @JsonProperty("arrendamento")
-    @Schema(description="Arrendamento", example = "FALSE")
-    private Boolean arrendamento;
+    @Schema(description="Arrendamento", example = "SIM")
+    private String arrendamento;
 
     @JsonProperty("procedencia")
     @Schema(description="Arrendamento", example = "IMPORTADO")
     private String procedencia;
 
     @JsonProperty("alienacaoFinduciaria")
-    @Schema(description="Alienação Finduciaria", example = "FALSE")
-    private Boolean alienacaoFinduciaria;
+    @Schema(description="Alienação Finduciaria", example = "NÃO")
+    private String alienacaoFinduciaria;
 
     @JsonProperty("crv")
     @Schema(description="CRV", example = "81065431584")

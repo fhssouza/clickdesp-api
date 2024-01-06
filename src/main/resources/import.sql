@@ -32,7 +32,7 @@ INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario
 INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id, cidade_id) VALUES ('Centro', '66400-300', 'Sala 204, Edificio Metropolitan', 'Av Presidente Vargas', '60', 3, 1);
 
 
-INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JVC5857', 'Honda', 'Fit DX 1.4 Flex 16V 5p Aut.', '123456', '81065431584', 'Azul', 'GASOLINA', '2011', FALSE, 'NACIONAL', FALSE, '123456', '2011-12-03', '1');
+INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JVC5857', 'Honda', 'Fit DX 1.4 Flex 16V 5p Aut.', '123456', '81065431584', 'Azul', 'GASOLINA', '2011', 'NÃO', 'NACIONAL', 'NÃO', '123456', '2011-12-03', '1');
 
 INSERT INTO ordem_servico (status, observacao, veiculo_id) VALUES ('ABERTA', 'Teste', '1');
 

@@ -12,59 +12,59 @@ import java.util.Date;
 @AllArgsConstructor
 public class VeiculoCreateRequest {
 
-    @JsonProperty("Placa")
+    @JsonProperty("placa")
     @Schema(description="Placa", example = "JUF-0898")
     private String placa;
 
-    @JsonProperty("Marca")
+    @JsonProperty("marca")
     @Schema(description="Marca", example = "Audi")
     private String marca;
 
-    @JsonProperty("Modelo")
+    @JsonProperty("modelo")
     @Schema(description="Modelo", example = "RS6 4.2 Avant  BI-TB Quattro Tiptron. 5p")
     private String modelo;
 
-    @JsonProperty("Chassi")
+    @JsonProperty("chassi")
     @Schema(description="Chassi", example = "9BD111060T5002156")
     private String chassi;
 
-    @JsonProperty("Renavam")
+    @JsonProperty("renavam")
     @Schema(description="Renavam", example = "06127730310")
     private String renavam;
 
-    @JsonProperty("Cor")
+    @JsonProperty("cor")
     @Schema(description="Cor", example = "Laranja")
     private String cor;
 
-    @JsonProperty("Combustível")
+    @JsonProperty("combustivel")
     @Schema(description="Cor", example = "FLEX")
     private String combustivel;
 
-    @JsonProperty("Ano")
+    @JsonProperty("ano")
     @Schema(description="Ano", example = "2003")
     private Integer ano;
 
-    @JsonProperty("Arrendamento")
-    @Schema(description="Arrendamento", example = "FALSE")
-    private Boolean arrendamento;
+    @JsonProperty("arrendamento")
+    @Schema(description="Arrendamento", example = "SIM")
+    private String arrendamento;
 
-    @JsonProperty("Procedencia")
+    @JsonProperty("procedencia")
     @Schema(description="Arrendamento", example = "IMPORTADO")
     private String procedencia;
 
-    @JsonProperty("Alienação Finduciaria")
-    @Schema(description="Alienação Finduciaria", example = "FALSE")
-    private Boolean alienacaoFinduciaria;
+    @JsonProperty("alienacaoFinduciaria")
+    @Schema(description="Alienação Finduciaria", example = "NÃO")
+    private String alienacaoFinduciaria;
 
-    @JsonProperty("CRV")
+    @JsonProperty("crv")
     @Schema(description="CRV", example = "12345")
     private Integer crv;
 
-    @JsonProperty("Data CRV")
+    @JsonProperty("dataCrv")
     @Schema(description="Data CRV", example = "2011-12-03")
     private Date dataCrv;
 
-    @JsonProperty("Proprietário")
+    @JsonProperty("proprietario")
     @Schema(description="Proprietário", example = "1")
     private Long proprietario;
 

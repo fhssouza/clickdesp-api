@@ -44,14 +44,14 @@ public class Veiculo {
     private Integer ano;
 
     @Column(nullable = false)
-    private Boolean arrendamento;
+    private String arrendamento;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Procedencia procedencia;
 
     @Column(nullable = false)
-    private Boolean alienacaoFinduciaria;
+    private String alienacaoFinduciaria;
 
     @Column(nullable = false)
     private Integer crv;
