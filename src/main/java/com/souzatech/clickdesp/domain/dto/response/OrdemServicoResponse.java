@@ -3,7 +3,6 @@ package com.souzatech.clickdesp.domain.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.souzatech.clickdesp.domain.model.ItemOrdemServico;
-import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -21,26 +20,30 @@ import java.util.List;
         "status",
         "instante",
         "observacao",
-        "veiculo",
+        "veiculoPlaca",
+        "proprietarioNome",
         "itens"
 })
 public class OrdemServicoResponse {
 
-    @JsonProperty("Id")
+    @JsonProperty("id")
     @Schema(description="ID", example = "1")
     private Long id;
 
-    @JsonProperty("Status")
+    @JsonProperty("status")
     @Schema(description="Status", example = "ABERTO")
     private StatusOrdemServico status;
 
-    @JsonProperty("Observações")
+    @JsonProperty("observacao")
     @Schema(description="Observações", example = "Primeiro Emplacamento")
     private String observacao;
 
-    @JsonProperty("Veiculo")
-    @Schema(description="Veiculo", example = "1")
-    private Veiculo veiculo;
+    @JsonProperty("veiculoPlaca")
+    @Schema(description="Placa", example = "JVX-3030")
+    private String veiculoPlaca;
+
+    @JsonProperty("proprietarioNome")
+    private String veiculoProprietarioNome;
 
     @JsonProperty("Itens")
     private List<ItemOrdemServico> itens = new ArrayList<>();
@@ -52,16 +55,5 @@ public class OrdemServicoResponse {
         }
         return soma;
     }
-
-//    @JsonProperty("Itens")
-//    private List<ItemOrdemServico> itens = new ArrayList<>();
-//
-//    public double getValorTotal() {
-//        double soma = 0.0;
-//        for(ItemOrdemServico ios : itens){
-//            soma = soma + ios.getSubtotal();
-//        }
-//        return soma;
-//    }
 
 }

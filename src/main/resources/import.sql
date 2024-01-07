@@ -34,7 +34,7 @@ INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario
 
 INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JVC5857', 'Honda', 'Fit DX 1.4 Flex 16V 5p Aut.', '123456', '81065431584', 'Azul', 'GASOLINA', '2011', 'NÃO', 'NACIONAL', 'NÃO', '123456', '03/12/2023', '1');
 
-INSERT INTO ordem_servico (status, observacao, veiculo_id) VALUES ('ABERTA', 'Teste', '1');
+INSERT INTO ordem_servico (status, observacao, veiculo_id) VALUES ('ABERTA', 'Documentos pendentes de serem entregues', '1');
 
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '500.00', '1', '1');
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '600.00', '1', '2');
