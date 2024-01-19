@@ -28,6 +28,8 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
 
+    private String tipoServico;
+
     private String observacao;
 
     private Instant createAt;

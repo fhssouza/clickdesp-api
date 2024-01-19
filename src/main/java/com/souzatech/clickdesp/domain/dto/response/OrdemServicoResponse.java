@@ -18,6 +18,7 @@ import java.util.List;
 @JsonPropertyOrder({
         "id",
         "status",
+        "tipoServico",
         "instante",
         "observacao",
         "veiculoPlaca",
@@ -34,6 +35,10 @@ public class OrdemServicoResponse {
     @Schema(description="Status", example = "ABERTO")
     private StatusOrdemServico status;
 
+    @JsonProperty("tipoServico")
+    @Schema(description="Tipo", example = "Primeiro Emplacamento")
+    private String tipoServico;
+
     @JsonProperty("observacao")
     @Schema(description="Observações", example = "Primeiro Emplacamento")
     private String observacao;
@@ -45,7 +50,7 @@ public class OrdemServicoResponse {
     @JsonProperty("proprietarioNome")
     private String veiculoProprietarioNome;
 
-    @JsonProperty("Itens")
+    @JsonProperty("itens")
     private List<ItemOrdemServico> itens = new ArrayList<>();
 
     public double getValorTotal() {

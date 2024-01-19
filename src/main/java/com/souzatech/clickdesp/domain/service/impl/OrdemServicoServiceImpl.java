@@ -134,6 +134,7 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     private OrdemServico getOrdemServico(CreateOrdemServicoRequest request) {
         OrdemServico ordemServico = new OrdemServico();
 
+        ordemServico.setTipoServico(request.getTipoServico());
         ordemServico.setObservacao(request.getObservacao());
         ordemServico.setVeiculo(new Veiculo(request.getVeiculo()));
         ordemServico.setItens(CreateItemOrdemServicoRequest.converter(request.getItens()));

@@ -16,15 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateOrdemServicoRequest {
 
-    @JsonProperty("Veículo")
+    @JsonProperty("veiculo")
     @Schema(description="Veiculo", example = "1")
     private Long veiculo;
 
-    @JsonProperty("Observações")
-    @Schema(description="Observações", example = "Primeiro Emplacamento")
+    @JsonProperty("tipoServico")
+    @Schema(description="Tipo", example = "Primeiro Emplacamento")
+    private String tipoServico;
+
+    @JsonProperty("observacao")
+    @Schema(description="Observações", example = "Vistoria Pendente")
     private String observacao;
 
-    @JsonProperty("Itens")
+    @JsonProperty("itens")
     private List<CreateItemOrdemServicoRequest> itens = new ArrayList<>();
 
 }
