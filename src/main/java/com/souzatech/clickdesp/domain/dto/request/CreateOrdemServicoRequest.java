@@ -21,8 +21,8 @@ public class CreateOrdemServicoRequest {
     private Long veiculo;
 
     @JsonProperty("tipoServico")
-    @Schema(description="Tipo", example = "Primeiro Emplacamento")
-    private String tipoServico;
+    @Schema(description="tipoServico", example = "1")
+    private Long tipoServico;
 
     @JsonProperty("observacao")
     @Schema(description="Observações", example = "Vistoria Pendente")

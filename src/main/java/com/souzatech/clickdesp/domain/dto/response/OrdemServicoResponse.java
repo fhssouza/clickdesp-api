@@ -37,7 +37,7 @@ public class OrdemServicoResponse {
 
     @JsonProperty("tipoServico")
     @Schema(description="Tipo", example = "Primeiro Emplacamento")
-    private String tipoServico;
+    private String tipoServicoDescricao;
 
     @JsonProperty("observacao")
     @Schema(description="Observações", example = "Primeiro Emplacamento")

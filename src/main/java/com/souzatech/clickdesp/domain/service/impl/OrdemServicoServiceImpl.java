@@ -5,14 +5,12 @@ import com.souzatech.clickdesp.domain.dto.request.CreateOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.response.OrdemServicoResponse;
 import com.souzatech.clickdesp.domain.model.ItemOrdemServico;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
+import com.souzatech.clickdesp.domain.model.TipoServico;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import com.souzatech.clickdesp.domain.repository.ItemOrdemServicoRepository;
 import com.souzatech.clickdesp.domain.repository.OrdemServicoRepository;
-import com.souzatech.clickdesp.domain.service.OrdemServicoService;
-import com.souzatech.clickdesp.domain.service.ProprietarioService;
-import com.souzatech.clickdesp.domain.service.ServicoService;
-import com.souzatech.clickdesp.domain.service.VeiculoService;
+import com.souzatech.clickdesp.domain.service.*;
 import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.infrastructure.exception.StatusOrdemServicoException;
 import org.modelmapper.ModelMapper;
@@ -49,6 +47,9 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
 
     @Autowired
     private VeiculoService veiculoService;
+
+    @Autowired
+    private TipoServicoService tipoServicoService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -132,7 +133,7 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     private OrdemServico getOrdemServico(CreateOrdemServicoRequest request) {
         OrdemServico ordemServico = new OrdemServico();
 
-        ordemServico.setTipoServico(request.getTipoServico());
+        ordemServico.setTipoServico(new TipoServico(request.getTipoServico()));
         ordemServico.setObservacao(request.getObservacao());
         ordemServico.setVeiculo(new Veiculo(request.getVeiculo()));
         ordemServico.setItens(CreateItemOrdemServicoRequest.converter(request.getItens()));
@@ -146,13 +147,17 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
             ios.setOrdemServico(ordemServico);
         }
 
+        findByIdTipoServico(ordemServico);
+
+        findByIdVeiculo(ordemServico);
+
         itemOrdemServicoRepository.saveAll(ordemServico.getItens());
 
         return ordemServico;
     }
 
     private OrdemServico getUpdateOrdemServico(CreateOrdemServicoRequest request, OrdemServico ordemServico) {
-        ordemServico.setTipoServico(request.getTipoServico());
+        ordemServico.setTipoServico(new TipoServico(request.getTipoServico()));
         ordemServico.setObservacao(request.getObservacao());
         ordemServico.setVeiculo(new Veiculo(request.getVeiculo()));
         ordemServico.setItens(CreateItemOrdemServicoRequest.converter(request.getItens()));
@@ -163,6 +168,8 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
             ios.setServico(servicoService.findById(ios.getServico().getId()));
             ios.setOrdemServico(ordemServico);
         }
+
+        findByIdTipoServico(ordemServico);
 
         findByIdVeiculo(ordemServico);
 
@@ -177,5 +184,11 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         Long veiculoId = ordemServico.getVeiculo().getId();
         Veiculo veiculo = veiculoService.findById(veiculoId);
         ordemServico.setVeiculo(veiculo);
+    }
+
+    private void findByIdTipoServico(OrdemServico ordemServico) {
+        Long tipoServicoId = ordemServico.getTipoServico().getId();
+        TipoServico tipo = tipoServicoService.findById(tipoServicoId);
+        ordemServico.setTipoServico(tipo);
     }
 }

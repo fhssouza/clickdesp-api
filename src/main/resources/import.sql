@@ -1,12 +1,16 @@
 INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Fabio', 'Brown', 'fabio@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO usuario (nome, sobrenome, email, senha) VALUES ('Marcelo', 'Green', 'marcelo@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
+INSERT INTO tipo_servico (descricao) VALUES ('PRIMEIRO EMPLACAMENTO');
+INSERT INTO tipo_servico (descricao) VALUES ('LICENCIAMENTO');
+INSERT INTO tipo_servico (descricao) VALUES ('EMISSÃO DE HABILITAÇÃO');
+
 INSERT INTO categoria (descricao) VALUES ('HABILITAÇÃO');
 INSERT INTO categoria (descricao) VALUES ('VEICULOS');
 INSERT INTO categoria (descricao) VALUES ('OUTROS');
 
-INSERT INTO servico (descricao, preco, categoria_id) VALUES ('TRANSFERÊNCIA DE PROPRIEDADE', '500.00', 2);
-INSERT INTO servico (descricao, preco, categoria_id) VALUES ('LICENCIAMENTO', '1000.00', 2);
+INSERT INTO servico (descricao, preco, categoria_id) VALUES ('VISTORIA', '500.00', 2);
+INSERT INTO servico (descricao, preco, categoria_id) VALUES ('ATENDENTE', '1000.00', 2);
 INSERT INTO servico (descricao, preco, categoria_id) VALUES ('MUDANÇA DE CARACTERÍSTICA', '900.00', 2);
 INSERT INTO servico (descricao, preco, categoria_id) VALUES ('1ª HABILITAÇÃO', '800.00', 1);
 
@@ -35,9 +39,9 @@ INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, an
 INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JUG6758', 'Honda', 'CR-V LX 2.0 16V 2WD Mec.', '2023050', '28799793256', 'Prata', 'FLEX', '2012', 'NÃO', 'NACIONAL', 'NÃO', '101020', '03/11/2023', '2');
 INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, ano, arrendamento, procedencia, alienacao_finduciaria, crv, data_crv, proprietario_id) VALUES ('JUP7161', 'Hyundai', 'HB20S C.Style/C.Plus1.6 Flex 16V Aut. 4p', '352030', '55145632404', 'Preto', 'FLEX', '2014', 'NÃO', 'NACIONAL', 'NÃO', '203580', '05/09/2023', '3');
 
-INSERT INTO ordem_servico (status, tipo_servico, observacao, veiculo_id) VALUES ('ABERTA', 'Primeiro Emplacamento', 'Documentos pendentes de serem entregues', '1');
-INSERT INTO ordem_servico (status, tipo_servico, observacao, veiculo_id) VALUES ('ABERTA', 'Vistoria', 'Vistoria Pendente', '2');
-INSERT INTO ordem_servico (status, tipo_servico, observacao, veiculo_id) VALUES ('ABERTA', 'Habilitação', 'Solicitar documentos', '3');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '1', 'Documentos pendentes de serem entregues', '1');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '2', 'Vistoria Pendente', '2');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '3', 'Solicitar documentos', '3');
 
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '500.00', '1', '1');
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '600.00', '1', '2');

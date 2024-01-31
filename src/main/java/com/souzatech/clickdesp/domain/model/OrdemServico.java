@@ -1,5 +1,6 @@
 package com.souzatech.clickdesp.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,10 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
 
-    private String tipoServico;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "tipoServico_id", nullable = false)
+    private TipoServico tipoServico;
 
     private String observacao;
 
