@@ -19,6 +19,6 @@ public class TipoServicoCreateRequest {
     @NotBlank(message = "campo nome não pode ser nulo ou vazio")
     @Size(min = 5, max = 30, message = "campo nome deve ter tamanho entre 5 e 30 caracteres" )
     @Schema(description="Descrição do Tipo de Serviço", example = "Primeiro Emplacamento")
-    @JsonProperty("tipoServico")
+    @JsonProperty("descricao")
     private String descricao;
 }
