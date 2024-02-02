@@ -47,6 +47,13 @@ public class VeiculoController {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.map(entity, VeiculoResponse.class));
     }
 
+    @GetMapping("/placa")
+    @ApiOperation(value = "Listar Veículo por Placa")
+    public ResponseEntity<VeiculoResponse> findByPlaca(String placa){
+        Veiculo entity = service.findByPlacaIgnoreCase(placa);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.map(entity, VeiculoResponse.class));
+    }
+
     @PostMapping
     @ApiOperation(value = "Criar Veículos")
     public ResponseEntity<VeiculoResponse> create(@RequestBody VeiculoCreateRequest request, UriComponentsBuilder uriBuilder){

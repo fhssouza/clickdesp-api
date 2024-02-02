@@ -27,6 +27,8 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     public static final String MSG_ID_NULO = "Id %d do Veiculo deve ser nulo";
     public static final String MSG_VEICULO_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com código %d";
+
+    public static final String MSG_PLACA_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com a placa %s";
     public static final String MSG_VEICULO_EM_USO = "Veiculo de código %d não pode ser removida, pois está em uso";
 
     private final VeiculoRepository repository;
@@ -52,6 +54,11 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public Veiculo findById(Long id) {
         return getVeiculoId(id);
+    }
+
+    @Override
+    public Veiculo findByPlacaIgnoreCase(String placa) {
+        return getVeiculoPlaca(placa);
     }
 
     @Override
@@ -105,6 +112,15 @@ public class VeiculoServiceImpl implements VeiculoService {
         if(veiculo.isEmpty()){
             throw new NotFoundException(
                     String.format(MSG_VEICULO_NAO_ENCONTRADO, id));
+        }
+        return veiculo.get();
+    }
+
+    private Veiculo getVeiculoPlaca(String placa){
+        Optional<Veiculo> veiculo = repository.findByPlacaIgnoreCase(placa);
+        if(veiculo.isEmpty()){
+            throw new NotFoundException(
+                    String.format(MSG_PLACA_NAO_ENCONTRADO, placa));
         }
         return veiculo.get();
     }

@@ -12,6 +12,8 @@ public interface VeiculoService {
 
     Veiculo findById(Long id);
 
+    Veiculo findByPlacaIgnoreCase(String placa);
+
     VeiculoResponse create(VeiculoCreateRequest request);
 
     VeiculoResponse update(Long id, VeiculoCreateRequest request);
