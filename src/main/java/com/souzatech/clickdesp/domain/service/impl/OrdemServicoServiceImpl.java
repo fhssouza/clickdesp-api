@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 public class OrdemServicoServiceImpl implements OrdemServicoService {
 
     public static final String MSG_ORDEMSERVICO_NAO_ENCONTRADO = "Não existe um cadastro de Ordem de Servico com código %d";
-    public static final String MSG_ORDEMSERVICO_EM_USO = "Ordem de Servico de código %d não pode ser removida, pois está em uso";
     private static final String MSG_ORDEM_SERVICO_CANCELADA = "Ordem de Servico de código %d não pode ser finalizada, pois já está cancelada";
 
     private static final String MSG_ORDEM_SERVICO_FINALIZADA = "Ordem de Servico de código %d não pode ser cancelada, pois já está finalizada";
@@ -157,29 +157,44 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     }
 
     private OrdemServico getUpdateOrdemServico(CreateOrdemServicoRequest request, OrdemServico ordemServico) {
-        ordemServico.setTipoServico(new TipoServico(request.getTipoServico()));
-        ordemServico.setObservacao(request.getObservacao());
-        ordemServico.setVeiculo(new Veiculo(request.getVeiculo()));
-        ordemServico.setItens(CreateItemOrdemServicoRequest.converter(request.getItens()));
-
-        for(ItemOrdemServico ios : ordemServico.getItens()){
-            ios.setDesconto(0.0);
-            ios.setPreco(servicoService.findById(ios.getServico().getId()).getPreco());
-            ios.setServico(servicoService.findById(ios.getServico().getId()));
-            ios.setOrdemServico(ordemServico);
-        }
+        updateOrdemServicoProperties(request, ordemServico);
+        updateItens(request, ordemServico);
 
         findByIdTipoServico(ordemServico);
-
         findByIdVeiculo(ordemServico);
 
         itemOrdemServicoRepository.saveAll(ordemServico.getItens());
 
-        ordemServico = repository.save(ordemServico);
-
-        return ordemServico;
+        return repository.save(ordemServico);
     }
 
+    private void updateOrdemServicoProperties(CreateOrdemServicoRequest request, OrdemServico ordemServico) {
+        ordemServico.setTipoServico(new TipoServico(request.getTipoServico()));
+        ordemServico.setObservacao(request.getObservacao());
+        ordemServico.setVeiculo(new Veiculo(request.getVeiculo()));
+    }
+
+    private void updateItens(CreateOrdemServicoRequest request, OrdemServico ordemServico) {
+        List<ItemOrdemServico> itensToUpdate = CreateItemOrdemServicoRequest.converter(request.getItens());
+
+        List<ItemOrdemServico> itensToRemove = ordemServico.getItens().stream()
+                .filter(existingItem -> itensToUpdate.stream()
+                        .noneMatch(item -> Objects.equals(item.getId(), existingItem.getId())))
+                .collect(Collectors.toList());
+
+        for (ItemOrdemServico item : itensToRemove) {
+            itemOrdemServicoRepository.delete(item);
+            ordemServico.getItens().remove(item);
+        }
+
+        for (ItemOrdemServico ios : itensToUpdate) {
+            ios.setDesconto(0.0);
+            ios.setPreco(servicoService.findById(ios.getServico().getId()).getPreco());
+            ios.setServico(servicoService.findById(ios.getServico().getId()));
+            ios.setOrdemServico(ordemServico);
+            ordemServico.getItens().add(ios);
+        }
+    }
     private void findByIdVeiculo(OrdemServico ordemServico) {
         Long veiculoId = ordemServico.getVeiculo().getId();
         Veiculo veiculo = veiculoService.findById(veiculoId);
@@ -191,4 +206,5 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         TipoServico tipo = tipoServicoService.findById(tipoServicoId);
         ordemServico.setTipoServico(tipo);
     }
+
 }
