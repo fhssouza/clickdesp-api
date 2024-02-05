@@ -21,4 +21,6 @@ public interface ProprietarioService {
 
     ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoEntityRequest endereco);
 
+    ProprietarioEnderecoResponse findByIdProprietarioEndereco(Long id);
+
 }

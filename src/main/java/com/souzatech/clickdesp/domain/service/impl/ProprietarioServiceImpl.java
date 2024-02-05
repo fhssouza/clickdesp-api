@@ -129,6 +129,12 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         return modelMapper.map(proprietario, ProprietarioEnderecoResponse.class);
     }
 
+    @Override
+    public ProprietarioEnderecoResponse findByIdProprietarioEndereco(Long id) {
+        var proprietario = getProprietarioId(id);
+        return modelMapper.map(proprietario, ProprietarioEnderecoResponse.class);
+    }
+
     private static Proprietario getProprietario(ProprietarioCreateRequest dto) {
         Proprietario entity = new Proprietario();
         entity.setNome(dto.getNome());
