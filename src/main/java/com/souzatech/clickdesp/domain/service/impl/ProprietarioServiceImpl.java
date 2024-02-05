@@ -59,8 +59,9 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     }
 
     @Override
-    public Proprietario findById(Long id) {
-        return getProprietarioId(id);
+    public ProprietarioResponse findById(Long id) {
+        var proprietario = getProprietarioId(id);
+        return modelMapper.map(proprietario, ProprietarioResponse.class);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class EnderecoServiceImpl implements EnderecoService {
                     String.format(MSG_ID_NULO, endereco.getId()));
         }
 
-        findByIdProprietario(endereco);
+//        findByIdProprietario(endereco);
 
         endereco = repository.save(endereco);
 
@@ -81,7 +81,7 @@ public class EnderecoServiceImpl implements EnderecoService {
         endereco = getEndereco(request);
         endereco.setId(id);
 
-        findByIdProprietario(endereco);
+//        findByIdProprietario(endereco);
 
         endereco = repository.save(endereco);
 
@@ -124,9 +124,9 @@ public class EnderecoServiceImpl implements EnderecoService {
         return servico.get();
     }
 
-    private void findByIdProprietario(Endereco entity) {
-        Long propreitarioId = entity.getProprietario().getId();
-        Proprietario proprietario = proprietarioService.findById(propreitarioId);
-        entity.setProprietario(proprietario);
-    }
+//    private void findByIdProprietario(Endereco entity) {
+//        Long propreitarioId = entity.getProprietario().getId();
+//        Proprietario proprietario = proprietarioService.findById(propreitarioId);
+//        entity.setProprietario(proprietario);
+//    }
 }

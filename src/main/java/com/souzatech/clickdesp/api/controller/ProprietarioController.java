@@ -1,10 +1,9 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.request.EnderecoEntityRequest;
+import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
-import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
-import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,8 +41,8 @@ public class ProprietarioController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Listar Proprietários por Id")
     public ResponseEntity<ProprietarioResponse> findById(@PathVariable Long id){
-        Proprietario entity = service.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.map(entity, ProprietarioResponse.class));
+        ProprietarioResponse entity = service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(entity);
     }
 
     @PostMapping

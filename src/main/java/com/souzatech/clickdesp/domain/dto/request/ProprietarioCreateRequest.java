@@ -1,12 +1,15 @@
 package com.souzatech.clickdesp.domain.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import com.souzatech.clickdesp.infrastructure.validation.CnpjGroup;
 import com.souzatech.clickdesp.infrastructure.validation.CpfGroup;
 import com.souzatech.clickdesp.infrastructure.validation.ProprietarioCreateRequestGroupSequenceProvider;
-import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
@@ -16,8 +19,6 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -64,7 +65,7 @@ public class ProprietarioCreateRequest {
 //    private Set<String> telefones = new HashSet<>();
 
     @JsonProperty("telefone")
-    @Schema(description="Telefone", example = "(99)99999-99999]")
+    @Schema(description="Telefone", example = "(099)99999-9999")
     @Size(min = 15, max = 15, message = "O campo telefone deve possui o tamanho de 15 caracteres" )
     private String telefone;
 

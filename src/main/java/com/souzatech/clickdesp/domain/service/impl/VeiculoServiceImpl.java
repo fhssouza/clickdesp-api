@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
 import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
@@ -146,7 +147,8 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     private void findByIdProprietario(Veiculo entity) {
         Long propreitarioId = entity.getProprietario().getId();
-        Proprietario proprietario = proprietarioService.findById(propreitarioId);
+        ProprietarioResponse response = proprietarioService.findById(propreitarioId);
+        Proprietario proprietario = modelMapper.map(response, Proprietario.class);
         entity.setProprietario(proprietario);
     }
 }
