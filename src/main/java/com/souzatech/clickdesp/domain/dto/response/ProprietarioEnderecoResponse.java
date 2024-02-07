@@ -42,7 +42,7 @@ public class ProprietarioEnderecoResponse {
     @Schema(description="CPF ou CNPJ", example = "39845291040")
     private String cpfOuCnpj;
 
-    @JsonProperty("Endereços")
+    @JsonProperty("enderecos")
     @Schema(description="Endereços", example = "endereços")
     private List<EnderecoEntity> enderecos = new ArrayList<>();
 }

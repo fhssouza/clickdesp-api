@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -24,11 +23,11 @@ public class EnderecoEntityRequest {
     private String logradouro;
 
 //    @PeopleCep
-    @JsonProperty("CEP")
+    @JsonProperty("cep")
     @Schema(description="CEP", example = "66110350")
     private String cep;
 
-    @JsonProperty("Complemento")
+    @JsonProperty("complemento")
     @Schema(description="Complemento", example = "Edificio Souza, APT 500")
     private String complemento;
 
@@ -41,19 +40,11 @@ public class EnderecoEntityRequest {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String uf;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String ddd;
-
     @NotEmpty
     @Size(min = 1, max = 10)
-    @JsonProperty("Número")
+    @JsonProperty("numero")
     @Schema(description="Número", example = "90")
     private String numero;
-
-    @NotNull
-    @JsonProperty("Principal")
-    @Schema(description="Pricipal", example = "true")
-    private Boolean principal;
 
     public EnderecoEntityRequest(EnderecoEntity endereco){
         this(endereco.getLogradouro(),
@@ -62,9 +53,7 @@ public class EnderecoEntityRequest {
                 endereco.getLocalidade(),
                 endereco.getBairro(),
                 endereco.getUf(),
-                endereco.getDdd(),
-                endereco.getNumero(),
-                endereco.getPrincipal());
+                endereco.getNumero());
     }
 
 }

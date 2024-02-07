@@ -9,8 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Getter
@@ -38,14 +36,7 @@ public class EnderecoEntity implements Serializable {
 
     private String uf;
 
-    private String ddd;
-    @NotBlank
-    @Size(min = 1, max = 10)
-
     private String numero;
-    @NotNull
-
-    private Boolean principal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="proprietario_id", nullable = false)
@@ -59,9 +50,7 @@ public class EnderecoEntity implements Serializable {
         this.complemento = enderecoDto.getComplemento();
         this.localidade = enderecoDto.getLocalidade();
         this.numero = enderecoDto.getNumero();
-        this.principal = enderecoDto.getPrincipal();
         this.uf = enderecoDto.getUf();
-        this.ddd = enderecoDto.getDdd();
         this.proprietario = proprietario;
     }
 }

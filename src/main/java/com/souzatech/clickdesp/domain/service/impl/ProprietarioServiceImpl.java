@@ -118,9 +118,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         novoEndereco.setLocalidade(request.getLocalidade());
         novoEndereco.setBairro(request.getBairro());
         novoEndereco.setUf(request.getUf());
-        novoEndereco.setDdd(request.getDdd());
         novoEndereco.setNumero(request.getNumero());
-        novoEndereco.setPrincipal(request.getPrincipal());
 
         proprietario.getEnderecos().add(novoEndereco);
 
@@ -167,7 +165,6 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         request.setLocalidade(consultarEndereco.getLocalidade());
         request.setBairro(consultarEndereco.getBairro());
         request.setUf(consultarEndereco.getUf());
-        request.setDdd(consultarEndereco.getDdd());
 
         return modelMapper.map(request, EnderecoEntity.class);
 

@@ -63,7 +63,7 @@ public class ProprietarioController {
         return ResponseEntity.ok(service.createEndereco(proprietarioId, enderecos));
     }
 
-    @GetMapping("{proprietarioId}/enderecos/listar")
+    @GetMapping("{proprietarioId}/enderecos")
     @ApiOperation(value = "Listar Endereços do Proprietário por Id")
     public ResponseEntity<ProprietarioEnderecoResponse> findByIdProprietarioEndereco(@PathVariable Long proprietarioId){
         ProprietarioEnderecoResponse entity = service.findByIdProprietarioEndereco(proprietarioId);

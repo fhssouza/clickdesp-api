@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.souzatech.clickdesp.domain.model.EnderecoEntity;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,15 +35,7 @@ public class EnderecoDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String uf;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String ddd;
-
-    @NotEmpty
-    @Size(min = 1, max = 10)
     private String numero;
-
-    @NotNull
-    private Boolean principal;
 
     public EnderecoDto(EnderecoEntity endereco){
         this(endereco.getId(),
@@ -57,8 +45,6 @@ public class EnderecoDto {
                 endereco.getLocalidade(),
                 endereco.getBairro(),
                 endereco.getUf(),
-                endereco.getDdd(),
-                endereco.getNumero(),
-                endereco.getPrincipal());
+                endereco.getNumero());
     }
 }
