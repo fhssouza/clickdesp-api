@@ -1,13 +1,13 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.ConsultarEndereco;
-import com.souzatech.clickdesp.domain.dto.request.EnderecoEntityRequest;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoRequest;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
-import com.souzatech.clickdesp.domain.model.EnderecoEntity;
+import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.model.Proprietario;
-import com.souzatech.clickdesp.domain.repository.EnderecoEntityRepository;
+import com.souzatech.clickdesp.domain.repository.EnderecoRepository;
 import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.infrastructure.config.ConsumerAPIViaCepConfiguration;
@@ -44,7 +44,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     private ConsumerAPIViaCepConfiguration apiViaCepConfiguration;
 
     @Autowired
-    private EnderecoEntityRepository enderecoEntityRepository;
+    private EnderecoRepository enderecoRepository;
 
     @Override
     public List<ProprietarioResponse> findAll() {
@@ -102,11 +102,11 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     }
 
     @Override
-    public ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoEntityRequest request) {
+    public ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoRequest request) {
 
         var proprietario = getProprietarioId(proprietarioId);
 
-        EnderecoEntity novoEndereco = buscarEndereco(request);
+        Endereco novoEndereco = buscarEndereco(request);
 
         novoEndereco.setProprietario(proprietario);
         novoEndereco.setCep(request.getCep());
@@ -118,7 +118,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
         proprietario.getEnderecos().add(novoEndereco);
 
-        enderecoEntityRepository.saveAll(proprietario.getEnderecos());
+        enderecoRepository.saveAll(proprietario.getEnderecos());
 
         return modelMapper.map(proprietario, ProprietarioEnderecoResponse.class);
     }
@@ -152,7 +152,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         return proprietario.get();
     }
 
-    private EnderecoEntity buscarEndereco(EnderecoEntityRequest request) {
+    private Endereco buscarEndereco(EnderecoRequest request) {
 
         ConsultarEndereco consultarEndereco = apiViaCepConfiguration.consumer(request.getCep());
 
@@ -162,7 +162,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         request.setBairro(consultarEndereco.getBairro());
         request.setUf(consultarEndereco.getUf());
 
-        return modelMapper.map(request, EnderecoEntity.class);
+        return modelMapper.map(request, Endereco.class);
 
     }
 

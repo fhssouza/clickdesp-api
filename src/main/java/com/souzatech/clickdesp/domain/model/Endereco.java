@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EnderecoEntity implements Serializable {
+public class Endereco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class EnderecoEntity implements Serializable {
     @JsonIgnore
     private Proprietario proprietario;
 
-    public EnderecoEntity(EnderecoDto enderecoDto, Proprietario proprietario) {
+    public Endereco(EnderecoDto enderecoDto, Proprietario proprietario) {
         this.logradouro = enderecoDto.getLogradouro();
         this.bairro = enderecoDto.getBairro();
         this.cep = enderecoDto.getCep();

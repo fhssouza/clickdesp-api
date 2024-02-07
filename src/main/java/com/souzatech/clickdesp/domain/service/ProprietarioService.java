@@ -1,6 +1,6 @@
 package com.souzatech.clickdesp.domain.service;
 
-import com.souzatech.clickdesp.domain.dto.request.EnderecoEntityRequest;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoRequest;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
@@ -19,7 +19,7 @@ public interface ProprietarioService {
 
     void delete(Long id);
 
-    ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoEntityRequest endereco);
+    ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoRequest endereco);
 
     ProprietarioEnderecoResponse findByIdProprietarioEndereco(Long id);
 

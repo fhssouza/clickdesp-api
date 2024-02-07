@@ -18,6 +18,10 @@ INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, res
 INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa, telefone) VALUES ('57343832018', 'Deyvid@email.com', '234569', '20201530-5', 'Deyvid Andrade', 'Deyvid Andrade', 'FISICA', '91980807530');
 INSERT INTO proprietario (cpf_ou_cnpj, email, habilitacao, identidade, nome, responsavel, tipo_pessoa, telefone) VALUES ('79511914000177', 'andradelegalizacao@email.com', '234569', '20201530-5', 'Andrade Legalização', 'Deyvid Andrade', 'JURIDICA', '91981605033');
 
+INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id) VALUES ('maracangalha', '66110-350', '1ª andar', 'Passagem São Sebastião', '90', 1);
+INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id) VALUES ('Cidade Nova', '66400-290', 'Ap 101, Edificio Colina', 'Travessa We 40', '40', 2);
+INSERT INTO endereco (bairro, cep, complemento, logradouro, numero, proprietario_id) VALUES ('Centro', '66400-300', 'Sala 204, Edificio Metropolitan', 'Av Presidente Vargas', '60', 3);
+
 --INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98155-9030');
 --INSERT INTO telefone (proprietario_id, telefones) VALUES ('1','98158-3030');
 --INSERT INTO telefone (proprietario_id, telefones) VALUES ('2','98080-7530');

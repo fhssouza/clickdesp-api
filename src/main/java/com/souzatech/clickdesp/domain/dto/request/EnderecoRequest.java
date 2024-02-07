@@ -2,7 +2,7 @@ package com.souzatech.clickdesp.domain.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.souzatech.clickdesp.domain.model.EnderecoEntity;
+import com.souzatech.clickdesp.domain.model.Endereco;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {"classInfo", "fieldInfos", "unknownKeys","factory","empty"})
-public class EnderecoEntityRequest {
+public class EnderecoRequest {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String logradouro;
@@ -46,7 +46,7 @@ public class EnderecoEntityRequest {
     @Schema(description="Número", example = "90")
     private String numero;
 
-    public EnderecoEntityRequest(EnderecoEntity endereco){
+    public EnderecoRequest(Endereco endereco){
         this(endereco.getLogradouro(),
                 endereco.getCep(),
                 endereco.getComplemento(),

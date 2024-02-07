@@ -2,7 +2,7 @@ package com.souzatech.clickdesp.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.souzatech.clickdesp.domain.model.EnderecoEntity;
+import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -44,5 +44,5 @@ public class ProprietarioEnderecoResponse {
 
     @JsonProperty("enderecos")
     @Schema(description="Endereços", example = "endereços")
-    private List<EnderecoEntity> enderecos = new ArrayList<>();
+    private List<Endereco> enderecos = new ArrayList<>();
 }

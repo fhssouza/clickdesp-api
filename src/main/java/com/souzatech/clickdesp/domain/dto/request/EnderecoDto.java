@@ -3,7 +3,7 @@ package com.souzatech.clickdesp.domain.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.souzatech.clickdesp.domain.model.EnderecoEntity;
+import com.souzatech.clickdesp.domain.model.Endereco;
 import lombok.*;
 
 @Getter
@@ -37,7 +37,7 @@ public class EnderecoDto {
 
     private String numero;
 
-    public EnderecoDto(EnderecoEntity endereco){
+    public EnderecoDto(Endereco endereco){
         this(endereco.getId(),
                 endereco.getLogradouro(),
                 endereco.getCep(),
