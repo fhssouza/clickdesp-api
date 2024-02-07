@@ -9,7 +9,6 @@ import com.souzatech.clickdesp.domain.model.EnderecoEntity;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.repository.EnderecoEntityRepository;
 import com.souzatech.clickdesp.domain.repository.ProprietarioRepository;
-import com.souzatech.clickdesp.domain.service.CidadeService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.infrastructure.config.ConsumerAPIViaCepConfiguration;
 import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
@@ -37,9 +36,6 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     public ProprietarioServiceImpl(ProprietarioRepository repository) {
         this.repository = repository;
     }
-
-    @Autowired
-    private CidadeService service;
 
     @Autowired
     private ModelMapper modelMapper;
