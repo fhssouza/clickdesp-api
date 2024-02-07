@@ -1,4 +1,4 @@
-package com.souzatech.clickdesp.domain.dto;
+package com.souzatech.clickdesp.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

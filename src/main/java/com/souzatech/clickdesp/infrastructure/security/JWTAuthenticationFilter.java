@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.souzatech.clickdesp.domain.dto.CredenciaisDTO;
+import com.souzatech.clickdesp.domain.dto.request.CredenciaisDTO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
 package com.souzatech.clickdesp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.souzatech.clickdesp.domain.dto.EnderecoDto;
+import com.souzatech.clickdesp.domain.dto.request.EnderecoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
