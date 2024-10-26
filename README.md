@@ -16,7 +16,7 @@
 * SpringDataJpa
 * Hibernate
 * H2 database
-* MySql
+* Postgres
 * Flyway
 * Spring Segurity
 * JWT
@@ -27,7 +27,7 @@
 
 #### Ambientes de execução
 
-O projeto pode se executado em ambiente dev que roda o banco de dados MYSQL ou em Teste que o roda o banco de dados H2 em  `resources/application.properties`.
+O projeto pode se executado em ambiente dev que roda o banco de dados Postgres ou em Teste que o roda o banco de dados H2 em  `resources/application.properties`.
 
 *Configurando a execução em modo Test*
 
