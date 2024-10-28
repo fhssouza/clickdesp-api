@@ -56,7 +56,7 @@ public class Veiculo {
     private String alienacaoFinduciaria;
 
     @Column(nullable = false)
-    private Integer crv;
+    private String crv;
 
     @Column(nullable = false)
     private String dataCrv;

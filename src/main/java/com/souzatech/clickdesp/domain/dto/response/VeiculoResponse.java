@@ -81,7 +81,7 @@ public class VeiculoResponse {
 
     @JsonProperty("crv")
     @Schema(description="CRV", example = "81065431584")
-    private Integer crv;
+    private String crv;
 
     @JsonProperty("dataCrv")
     @Schema(description="Data CRV", example = "03/12/2023")

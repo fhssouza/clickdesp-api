@@ -58,8 +58,8 @@ public class VeiculoCreateRequest {
     private String alienacaoFinduciaria;
 
     @JsonProperty("crv")
-    @Schema(description="CRV", example = "12345")
-    private Integer crv;
+    @Schema(description="CRV", example = "12345678911")
+    private String crv;
 
     @JsonProperty("dataCrv")
     @Schema(description="Data CRV", example = "03/12/2023")
