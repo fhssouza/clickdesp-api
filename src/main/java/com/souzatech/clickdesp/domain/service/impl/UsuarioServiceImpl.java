@@ -8,12 +8,15 @@ import com.souzatech.clickdesp.domain.service.UsuarioService;
 import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
 import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
 import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
+import com.souzatech.clickdesp.infrastructure.service.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +40,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public List<UsuarioResponse> findAll() {
         List<Usuario> usuarios = repository.findAll();
@@ -52,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioResponse create(UsuarioCreateRequest request) {
+    public UsuarioResponse create(UsuarioCreateRequest request) throws MessagingException, UnsupportedEncodingException {
 
         if(getEmailExists(request.getEmail())){
             throw new BadRequestException(
@@ -62,6 +68,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = getUsuario(request);
 
         usuario = repository.save(usuario);
+
+        emailService.sendMailWithInline(request);
 
         return modelMapper.map(usuario, UsuarioResponse.class);
     }

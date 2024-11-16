@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,7 @@ public class UsuarioController {
 
     @PostMapping
     @ApiOperation(value = "Criar Usuário")
-    public ResponseEntity<UsuarioResponse> created(@Valid @RequestBody UsuarioCreateRequest request, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<UsuarioResponse> created(@Valid @RequestBody UsuarioCreateRequest request, UriComponentsBuilder uriBuilder) throws MessagingException, UnsupportedEncodingException {
         UsuarioResponse response = service.create(request);
         return ResponseEntity
                 .created(uriBuilder
