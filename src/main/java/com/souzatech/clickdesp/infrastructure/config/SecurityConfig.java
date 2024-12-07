@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
     private static final String[]PUBLIC_MATCHES_POST = {
             "/usuarios/**",
+            "/auth/**"
     };
 
     private static final String[] AUTH_WHITE_LIST = {

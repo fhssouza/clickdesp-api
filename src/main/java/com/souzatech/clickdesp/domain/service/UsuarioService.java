@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
+import com.souzatech.clickdesp.domain.dto.request.UsuarioEmailRequest;
 import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
 
 import javax.mail.MessagingException;
@@ -18,5 +19,7 @@ public interface UsuarioService {
     UsuarioResponse update(Long id, UsuarioCreateRequest request);
 
     void delete(Long id);
+
+    void requestResetPassword(UsuarioEmailRequest usuarioEmailRequest);
 
 }

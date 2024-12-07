@@ -5,6 +5,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,12 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
@@ -67,5 +73,35 @@ public class EmailService {
     }
 
 
+    public void sendPasswordResetEmail(String toEmail, String token) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(toEmail);
+            helper.setSubject("Token para alteração de senha");
+
+            String htmlContent = loadHtmlTemplate("templates/password-reset.html");
+
+            htmlContent = htmlContent.replace("{{reset-token}}", token);
+
+            helper.setText(htmlContent, true);
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            throw new IllegalStateException("Failed to send email", e);
+        }
+    }
+
+
+    private String loadHtmlTemplate(String templatePath) {
+        try {
+            ClassPathResource resource = new ClassPathResource(templatePath);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
+            return reader.lines().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to load email template", e);
+        }
+    }
 
 }

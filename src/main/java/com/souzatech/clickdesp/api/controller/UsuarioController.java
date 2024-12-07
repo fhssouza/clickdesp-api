@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.request.UsuarioCreateRequest;
+import com.souzatech.clickdesp.domain.dto.request.UsuarioEmailRequest;
 import com.souzatech.clickdesp.domain.dto.response.UsuarioResponse;
 import com.souzatech.clickdesp.domain.service.UsuarioService;
 import io.swagger.annotations.Api;
@@ -47,6 +48,14 @@ public class UsuarioController {
                         .toUri())
                 .body(response);
     }
+
+    @PostMapping("/request-reset-password")
+    @ApiOperation(value = "Reset de Senha")
+    public ResponseEntity<Void> requestResetPassword(@RequestBody UsuarioEmailRequest email){
+        service.requestResetPassword(email);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Usuário")
