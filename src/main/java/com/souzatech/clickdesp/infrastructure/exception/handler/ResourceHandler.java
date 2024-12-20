@@ -2,10 +2,7 @@ package com.souzatech.clickdesp.infrastructure.exception.handler;
 
 import com.souzatech.clickdesp.domain.dto.error.StandardError;
 import com.souzatech.clickdesp.domain.dto.error.ValidationError;
-import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
-import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
-import com.souzatech.clickdesp.infrastructure.exception.StatusOrdemServicoException;
+import com.souzatech.clickdesp.infrastructure.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -87,6 +84,18 @@ public class ResourceHandler {
                 .statusCode(HttpStatus.CONFLICT.value())
                 .error("RuntimeException")
                 .message(s.getMessage())
+                .path(request.getRequestURI())
+                .build());
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<StandardError> tokenExpiredException(TokenExpiredException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(StandardError.builder()
+                .timestamp(Instant.now())
+                .httpStatus(HttpStatus.UNAUTHORIZED)
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .error("Unauthorized")
+                .message(e.getMessage())
                 .path(request.getRequestURI())
                 .build());
     }
