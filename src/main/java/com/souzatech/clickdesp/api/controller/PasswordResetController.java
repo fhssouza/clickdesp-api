@@ -17,8 +17,8 @@ public class PasswordResetController {
     private PasswordResetService passwordResetService;
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest request) {
+    public ResponseEntity<Void> resetPassword(@RequestBody PasswordResetRequest request) {
         passwordResetService.updatePassword(request);
-        return ResponseEntity.ok("Senha alterada com sucesso.");
+        return ResponseEntity.ok().build();
     }
 }
