@@ -20,4 +20,6 @@ public interface VeiculoService {
 
     void delete(Long id);
 
+    Long countVeiculo();
+
 }

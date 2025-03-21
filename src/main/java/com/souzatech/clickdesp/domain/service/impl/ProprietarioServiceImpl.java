@@ -4,6 +4,7 @@ import com.souzatech.clickdesp.domain.dto.request.ConsultarEndereco;
 import com.souzatech.clickdesp.domain.dto.request.EnderecoRequest;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 import com.souzatech.clickdesp.domain.model.Endereco;
 import com.souzatech.clickdesp.domain.model.Proprietario;
@@ -127,6 +128,16 @@ public class ProprietarioServiceImpl implements ProprietarioService {
     public ProprietarioEnderecoResponse findByIdProprietarioEndereco(Long id) {
         var proprietario = getProprietarioId(id);
         return modelMapper.map(proprietario, ProprietarioEnderecoResponse.class);
+    }
+
+    @Override
+    public Long countProprietario() {
+        return repository.count();
+    }
+
+    @Override
+    public List<ProprietarioPorMesResponse> countProprietariosPorMes() {
+        return repository.countProprietariosPorMes();
     }
 
     private static Proprietario getProprietario(ProprietarioCreateRequest dto) {

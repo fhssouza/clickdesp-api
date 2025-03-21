@@ -3,6 +3,7 @@ package com.souzatech.clickdesp.domain.service;
 import com.souzatech.clickdesp.domain.dto.request.EnderecoRequest;
 import com.souzatech.clickdesp.domain.dto.request.ProprietarioCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioEnderecoResponse;
+import com.souzatech.clickdesp.domain.dto.response.ProprietarioPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 
 import java.util.List;
@@ -22,5 +23,9 @@ public interface ProprietarioService {
     ProprietarioEnderecoResponse createEndereco(Long proprietarioId, EnderecoRequest endereco);
 
     ProprietarioEnderecoResponse findByIdProprietarioEndereco(Long id);
+
+    Long countProprietario();
+
+    List<ProprietarioPorMesResponse> countProprietariosPorMes();
 
 }

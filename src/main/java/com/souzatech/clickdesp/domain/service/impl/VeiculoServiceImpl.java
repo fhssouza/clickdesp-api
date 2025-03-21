@@ -108,6 +108,11 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     }
 
+    @Override
+    public Long countVeiculo() {
+        return repository.count();
+    }
+
     private Veiculo getVeiculoId(Long id){
         Optional<Veiculo> veiculo = repository.findById(id);
         if(veiculo.isEmpty()){

@@ -121,6 +121,11 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
         return modelMapper.map(ordemServico, OrdemServicoResponse.class);
     }
 
+    @Override
+    public Long countOrdemServico() {
+        return repository.count();
+    }
+
     private OrdemServico getOrdemServicoId(Long id){
         Optional<OrdemServico> ordemServico = repository.findById(id);
         if(ordemServico.isEmpty()){

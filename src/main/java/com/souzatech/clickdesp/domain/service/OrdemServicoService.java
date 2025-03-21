@@ -19,4 +19,6 @@ public interface OrdemServicoService {
 
     OrdemServicoResponse cancel(Long id);
 
+    Long countOrdemServico();
+
 }

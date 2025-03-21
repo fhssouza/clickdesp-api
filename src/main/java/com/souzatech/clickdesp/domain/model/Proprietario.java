@@ -1,9 +1,11 @@
 package com.souzatech.clickdesp.domain.model;
 
+import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,10 @@ public class Proprietario {
     @Column(nullable = false)
     private String responsavel;
 
+    private Instant createAt;
+
+    private Instant updateAt;
+
 //    @ElementCollection
 //    @CollectionTable(name = "telefone")
 //    private Set<String> telefones = new HashSet<>();
@@ -54,5 +60,15 @@ public class Proprietario {
 
     public Proprietario(Long proprietario) {
         id = proprietario;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updateAt = Instant.now();
     }
 }
