@@ -1,6 +1,5 @@
 package com.souzatech.clickdesp.domain.model;
 
-import com.souzatech.clickdesp.domain.model.enums.StatusOrdemServico;
 import com.souzatech.clickdesp.domain.model.enums.TipoPessoa;
 import lombok.*;
 
