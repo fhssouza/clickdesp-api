@@ -63,12 +63,15 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
     @Override
     public ProprietarioResponse create(ProprietarioCreateRequest request) {
-        Proprietario proprietario = getProprietario(request);
+
+        Proprietario proprietario = new Proprietario();
 
         if(Objects.nonNull(proprietario.getId())){
             throw new BadRequestException(
                     String.format(MSG_ID_NULO, proprietario.getId()));
         }
+
+        updateProprietarioFromRequest(proprietario, request);
 
         proprietario = repository.save(proprietario);
 
@@ -77,9 +80,9 @@ public class ProprietarioServiceImpl implements ProprietarioService {
 
     @Override
     public ProprietarioResponse update(Long id, ProprietarioCreateRequest request) {
-        var proprietario = getProprietarioId(id);
-        proprietario = getProprietario(request);
-        proprietario.setId(id);
+        Proprietario proprietario = getProprietarioId(id);
+
+        updateProprietarioFromRequest(proprietario, request);
 
         proprietario = repository.save(proprietario);
 
@@ -140,8 +143,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         return repository.countProprietariosPorMes();
     }
 
-    private static Proprietario getProprietario(ProprietarioCreateRequest dto) {
-        Proprietario entity = new Proprietario();
+    private void updateProprietarioFromRequest(Proprietario entity, ProprietarioCreateRequest dto) {
         entity.setNome(dto.getNome());
         entity.setCpfOuCnpj(dto.getCpfOuCnpj());
         entity.setIdentidade(dto.getIdentidade());
@@ -149,9 +151,7 @@ public class ProprietarioServiceImpl implements ProprietarioService {
         entity.setEmail(dto.getEmail());
         entity.setTipoPessoa(dto.getTipoPessoa());
         entity.setResponsavel(dto.getResponsavel());
-//        entity.setTelefones(dto.getTelefones());
         entity.setTelefone(dto.getTelefone());
-        return entity;
     }
 
     private Proprietario getProprietarioId(Long id){
