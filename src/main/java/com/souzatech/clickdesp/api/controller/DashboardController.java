@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioPorMesResponse;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.service.OrdemServicoService;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
@@ -39,5 +40,10 @@ public class DashboardController {
     @GetMapping("/proprietarios-por-mes")
     public ResponseEntity<List<ProprietarioPorMesResponse>> getProprietarioPorMes() {
         return ResponseEntity.ok(proprietarioService.countProprietariosPorMes());
+    }
+
+    @GetMapping("/veiculos-por-mes")
+    public ResponseEntity<List<VeiculoPorMesResponse>> getVeiucloPorMes() {
+        return ResponseEntity.ok(veiculoService.countVeiculosPorMes());
     }
 }

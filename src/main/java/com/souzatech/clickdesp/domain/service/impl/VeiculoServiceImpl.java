@@ -2,6 +2,7 @@ package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
@@ -112,6 +113,11 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public Long countVeiculo() {
         return repository.count();
+    }
+
+    @Override
+    public List<VeiculoPorMesResponse> countVeiculosPorMes() {
+        return repository.countVeiculosPorMes();
     }
 
     private Veiculo getVeiculoId(Long id){

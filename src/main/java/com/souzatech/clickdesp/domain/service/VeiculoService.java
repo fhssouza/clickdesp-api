@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 
@@ -21,5 +22,7 @@ public interface VeiculoService {
     void delete(Long id);
 
     Long countVeiculo();
+
+    List<VeiculoPorMesResponse> countVeiculosPorMes();
 
 }

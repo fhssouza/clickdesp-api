@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -61,10 +62,24 @@ public class Veiculo {
     @Column(nullable = false)
     private String dataCrv;
 
+    private Instant createAt;
+
+    private Instant updateAt;
+
     @ManyToOne
     private Proprietario proprietario;
 
     public Veiculo(Long veiculo) {
         id = veiculo;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updateAt = Instant.now();
     }
 }
