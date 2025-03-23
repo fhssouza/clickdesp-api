@@ -3,9 +3,6 @@ package com.souzatech.clickdesp.domain.service.impl;
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
-import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
-import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
-import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.Procedencia;
@@ -13,6 +10,9 @@ import com.souzatech.clickdesp.domain.model.enums.TipoCombustivel;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.ProprietarioService;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
+import com.souzatech.clickdesp.infrastructure.exception.BadRequestException;
+import com.souzatech.clickdesp.infrastructure.exception.DataIntegrityViolationException;
+import com.souzatech.clickdesp.infrastructure.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,7 +28,6 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     public static final String MSG_ID_NULO = "Id %d do Veiculo deve ser nulo";
     public static final String MSG_VEICULO_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com código %d";
-
     public static final String MSG_PLACA_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com a placa %s";
     public static final String MSG_VEICULO_EM_USO = "Veiculo de código %d não pode ser removida, pois está em uso";
 
@@ -65,12 +64,14 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public VeiculoResponse create(VeiculoCreateRequest request) {
 
-        Veiculo veiculo = getVeiculo(request);
+        Veiculo veiculo = new Veiculo();
 
         if(Objects.nonNull(veiculo.getId())){
             throw new BadRequestException(
                     String.format(MSG_ID_NULO, veiculo.getId()));
         }
+
+        updateVeiculoFromRequest(veiculo, request);
 
         findByIdProprietario(veiculo);
 
@@ -81,9 +82,9 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     @Override
     public VeiculoResponse update(Long id, VeiculoCreateRequest request) {
-        var veiculo = getVeiculoId(id);
-        veiculo = getVeiculo(request);
-        veiculo.setId(id);
+        Veiculo veiculo = getVeiculoId(id);
+
+        updateVeiculoFromRequest(veiculo, request);
 
         findByIdProprietario(veiculo);
 
@@ -131,23 +132,21 @@ public class VeiculoServiceImpl implements VeiculoService {
         return veiculo.get();
     }
 
-    private static Veiculo getVeiculo(VeiculoCreateRequest dto) {
-        Veiculo entity = new Veiculo();
-        entity.setPlaca(dto.getPlaca());
-        entity.setMarca(dto.getMarca());
-        entity.setModelo(dto.getModelo());
-        entity.setChassi(dto.getChassi());
-        entity.setRenavam(dto.getRenavam());
-        entity.setCor(dto.getCor());
-        entity.setCombustivel(TipoCombustivel.valueOf(dto.getCombustivel()));
-        entity.setAno(dto.getAno());
-        entity.setArrendamento(dto.getArrendamento());
-        entity.setProcedencia(Procedencia.valueOf(dto.getProcedencia()));
-        entity.setAlienacaoFinduciaria(dto.getAlienacaoFinduciaria());
-        entity.setCrv(dto.getCrv());
-        entity.setDataCrv(dto.getDataCrv());
-        entity.setProprietario(new Proprietario(dto.getProprietario()));
-        return entity;
+    private static void updateVeiculoFromRequest(Veiculo entity, VeiculoCreateRequest request) {
+        entity.setPlaca(request.getPlaca());
+        entity.setMarca(request.getMarca());
+        entity.setModelo(request.getModelo());
+        entity.setChassi(request.getChassi());
+        entity.setRenavam(request.getRenavam());
+        entity.setCor(request.getCor());
+        entity.setCombustivel(TipoCombustivel.valueOf(request.getCombustivel()));
+        entity.setAno(request.getAno());
+        entity.setArrendamento(request.getArrendamento());
+        entity.setProcedencia(Procedencia.valueOf(request.getProcedencia()));
+        entity.setAlienacaoFinduciaria(request.getAlienacaoFinduciaria());
+        entity.setCrv(request.getCrv());
+        entity.setDataCrv(request.getDataCrv());
+        entity.setProprietario(new Proprietario(request.getProprietario()));
     }
 
     private void findByIdProprietario(Veiculo entity) {
