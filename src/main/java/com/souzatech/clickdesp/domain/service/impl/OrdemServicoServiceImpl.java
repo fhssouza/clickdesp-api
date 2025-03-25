@@ -3,6 +3,7 @@ package com.souzatech.clickdesp.domain.service.impl;
 import com.souzatech.clickdesp.domain.dto.request.CreateItemOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.request.CreateOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.response.OrdemServicoResponse;
+import com.souzatech.clickdesp.domain.dto.response.OrdemServicoStatusTotalResponse;
 import com.souzatech.clickdesp.domain.model.ItemOrdemServico;
 import com.souzatech.clickdesp.domain.model.OrdemServico;
 import com.souzatech.clickdesp.domain.model.TipoServico;
@@ -124,6 +125,11 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     @Override
     public Long countOrdemServico() {
         return repository.count();
+    }
+
+    @Override
+    public List<OrdemServicoStatusTotalResponse> getTotalOrdemServicoByStatus() {
+        return repository.countOrdensByStatus();
     }
 
     private OrdemServico getOrdemServicoId(Long id){

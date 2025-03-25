@@ -61,8 +61,18 @@ INSERT INTO veiculo (placa, marca, modelo, chassi, renavam, cor, combustivel, an
 INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '1', 'Documentos pendentes de serem entregues', '1');
 INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '2', 'Vistoria Pendente', '2');
 INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id) VALUES ('ABERTA', '3', 'Solicitar documentos', '3');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id, create_at) VALUES ('CANCELADA', '1', 'Cliente desistiu do serviço', '4', '2024-11-20 00:00:00');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id, create_at) VALUES ('CANCELADA', '2', 'Problema com documentação do veículo', '5', '2024-12-15 00:00:00');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id, create_at) VALUES ('FINALIZADA', '3', 'Serviço concluído com sucesso', '6', '2025-01-10 00:00:00');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id, create_at) VALUES ('FINALIZADA', '3', 'Documentação regularizada', '7', '2025-01-25 00:00:00');
+INSERT INTO ordem_servico (status, tipo_servico_id, observacao, veiculo_id, create_at) VALUES ('FINALIZADA', '1', 'Vistoria aprovada', '8', '2025-02-15 00:00:00');
 
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '500.00', '1', '1');
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '600.00', '1', '2');
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '900.00', '2', '3');
 INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '800.00', '3', '4');
+INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '500.00', '4', '1');
+INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '1000.00', '5','2');
+INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '900.00', '6', '3');
+INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '800.00', '7', '4');
+INSERT INTO item_ordem_servico (desconto, quantidade, preco, ordemservico_id, servico_id) VALUES ('0.0', '1', '500.00', '8', '1');

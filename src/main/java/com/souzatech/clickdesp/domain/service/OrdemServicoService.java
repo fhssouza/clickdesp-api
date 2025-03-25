@@ -2,6 +2,7 @@ package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.dto.request.CreateOrdemServicoRequest;
 import com.souzatech.clickdesp.domain.dto.response.OrdemServicoResponse;
+import com.souzatech.clickdesp.domain.dto.response.OrdemServicoStatusTotalResponse;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface OrdemServicoService {
 
     Long countOrdemServico();
 
+    List<OrdemServicoStatusTotalResponse> getTotalOrdemServicoByStatus();
 }
