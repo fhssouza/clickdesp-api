@@ -4,6 +4,7 @@ import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.Procedencia;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,6 +33,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     public static final String MSG_VEICULO_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com código %d";
     public static final String MSG_PLACA_NAO_ENCONTRADO = "Não existe um cadastro de Veiculo com a placa %s";
     public static final String MSG_VEICULO_EM_USO = "Veiculo de código %d não pode ser removida, pois está em uso";
+    public static final String MSG_VEICULOS_NAO_ENCONTRADOS_NO_PERIODO = "Nenhum veículo encontrado para o período informado.";
 
     private final VeiculoRepository repository;
 
@@ -118,6 +121,16 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public List<VeiculoPorMesResponse> countVeiculosPorMes() {
         return repository.countVeiculosPorMes();
+    }
+
+    @Override
+    public List<VeiculoVencimentoResponse> listarVeiculosParaLicenciamento(LocalDate dataInicio, LocalDate dataFim) {
+        List<VeiculoVencimentoResponse> veiculos = repository.listarVeiculosParaLicenciamento(dataInicio, dataFim);
+        if(veiculos == null || veiculos.isEmpty()){
+            throw new NotFoundException(
+                    String.format(MSG_VEICULOS_NAO_ENCONTRADOS_NO_PERIODO, dataInicio, dataFim));
+        }
+        return veiculos;
     }
 
     private Veiculo getVeiculoId(Long id){

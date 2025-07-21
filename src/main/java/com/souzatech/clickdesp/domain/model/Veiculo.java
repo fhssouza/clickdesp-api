@@ -62,6 +62,10 @@ public class Veiculo {
     @Column(nullable = false)
     private String dataCrv;
 
+    @ManyToOne
+    @JoinColumn(name = "licenciamento_id")
+    private Licenciamento licenciamento;
+
     private Instant createAt;
 
     private Instant updateAt;

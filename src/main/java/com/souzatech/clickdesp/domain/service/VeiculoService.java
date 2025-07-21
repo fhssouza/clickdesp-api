@@ -3,8 +3,10 @@ package com.souzatech.clickdesp.domain.service;
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VeiculoService {
@@ -24,5 +26,7 @@ public interface VeiculoService {
     Long countVeiculo();
 
     List<VeiculoPorMesResponse> countVeiculosPorMes();
+
+    List<VeiculoVencimentoResponse> listarVeiculosParaLicenciamento(LocalDate dataInicio, LocalDate dataFim);
 
 }

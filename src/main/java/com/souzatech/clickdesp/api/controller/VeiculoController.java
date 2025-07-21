@@ -2,6 +2,7 @@ package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.repository.VeiculoRepository;
 import com.souzatech.clickdesp.domain.service.VeiculoService;
@@ -11,11 +12,13 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -87,5 +90,13 @@ public class VeiculoController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @GetMapping("/vencimentos")
+    public ResponseEntity<List<VeiculoVencimentoResponse>> listarVeiculosParaLicenciamento(
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataInicio,
+            @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataFim) {
+        List<VeiculoVencimentoResponse> veiculosComVencimento = service.listarVeiculosParaLicenciamento(dataInicio, dataFim);
+        return ResponseEntity.ok(veiculosComVencimento);
     }
 }
