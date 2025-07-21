@@ -128,7 +128,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         List<VeiculoVencimentoResponse> veiculos = repository.listarVeiculosParaLicenciamento(dataInicio, dataFim);
         if(veiculos == null || veiculos.isEmpty()){
             throw new NotFoundException(
-                    String.format(MSG_VEICULOS_NAO_ENCONTRADOS_NO_PERIODO, dataInicio, dataFim));
+                    String.format(MSG_VEICULOS_NAO_ENCONTRADOS_NO_PERIODO));
         }
         return veiculos;
     }
