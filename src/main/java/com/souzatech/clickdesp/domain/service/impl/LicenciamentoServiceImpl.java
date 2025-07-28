@@ -44,6 +44,12 @@ public class LicenciamentoServiceImpl implements LicenciamentoService {
     }
 
     @Override
+    public LicenciamentoResponse findById(Long id) {
+        Licenciamento licenciamento = getLicenciamento(id);
+        return modelMapper.map(licenciamento, LicenciamentoResponse.class);
+    }
+
+    @Override
     public List<LicenciamentoResponse> findByanoReferencia(Integer anoReferencia) {
         List<LicenciamentoResponse> licenciamentos = repository.findByanoReferencia(anoReferencia);
 

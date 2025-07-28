@@ -3,6 +3,7 @@ package com.souzatech.clickdesp.api.controller;
 import com.souzatech.clickdesp.domain.dto.request.LicenciamentoCreateRequest;
 import com.souzatech.clickdesp.domain.dto.response.LicenciamentoResponse;
 import com.souzatech.clickdesp.domain.service.LicenciamentoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,13 @@ public class LicenciamentoController {
     public ResponseEntity<List<LicenciamentoResponse>> findAll() {
         List<LicenciamentoResponse> licenciamentos = licenciamentoService.findAll();
         return ResponseEntity.ok(licenciamentos);
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Listar Licenciamento por Id")
+    public ResponseEntity<LicenciamentoResponse> findById(@PathVariable Long id) {
+        LicenciamentoResponse response = licenciamentoService.findById(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/ano/{anoReferencia}")

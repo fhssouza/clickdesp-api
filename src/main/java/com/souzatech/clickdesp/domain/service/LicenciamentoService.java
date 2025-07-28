@@ -9,6 +9,8 @@ public interface LicenciamentoService {
 
     List<LicenciamentoResponse> findAll();
 
+    LicenciamentoResponse findById(Long id);
+
     List<LicenciamentoResponse> findByanoReferencia(Integer anoReferencia);
 
     LicenciamentoResponse create(LicenciamentoCreateRequest request);
