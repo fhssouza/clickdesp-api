@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.domain.service;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoParaLicenciamentoResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
@@ -28,5 +29,7 @@ public interface VeiculoService {
     List<VeiculoPorMesResponse> countVeiculosPorMes();
 
     List<VeiculoVencimentoResponse> listarVeiculosParaLicenciamento(LocalDate dataInicio, LocalDate dataFim);
+
+    List<VeiculoParaLicenciamentoResponse> findByFinalPlacaAndProprietario(String finalPlaca, Long proprietarioId);
 
 }

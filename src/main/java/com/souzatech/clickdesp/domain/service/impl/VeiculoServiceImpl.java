@@ -1,10 +1,7 @@
 package com.souzatech.clickdesp.domain.service.impl;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
-import com.souzatech.clickdesp.domain.dto.response.ProprietarioResponse;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoPorMesResponse;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
-import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
+import com.souzatech.clickdesp.domain.dto.response.*;
 import com.souzatech.clickdesp.domain.model.Proprietario;
 import com.souzatech.clickdesp.domain.model.Veiculo;
 import com.souzatech.clickdesp.domain.model.enums.Procedencia;
@@ -131,6 +128,13 @@ public class VeiculoServiceImpl implements VeiculoService {
                     String.format(MSG_VEICULOS_NAO_ENCONTRADOS_NO_PERIODO));
         }
         return veiculos;
+    }
+
+    @Override
+    public List<VeiculoParaLicenciamentoResponse> findByFinalPlacaAndProprietario(String finalPlaca, Long proprietarioId) {
+        proprietarioService.findById(proprietarioId);
+
+        return repository.findByFinalPlacaAndProprietario(finalPlaca, proprietarioId);
     }
 
     private Veiculo getVeiculoId(Long id){

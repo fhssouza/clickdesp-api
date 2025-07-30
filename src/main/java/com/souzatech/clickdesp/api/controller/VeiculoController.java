@@ -1,6 +1,7 @@
 package com.souzatech.clickdesp.api.controller;
 
 import com.souzatech.clickdesp.domain.dto.request.VeiculoCreateRequest;
+import com.souzatech.clickdesp.domain.dto.response.VeiculoParaLicenciamentoResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoResponse;
 import com.souzatech.clickdesp.domain.dto.response.VeiculoVencimentoResponse;
 import com.souzatech.clickdesp.domain.model.Veiculo;
@@ -98,5 +99,14 @@ public class VeiculoController {
             @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataFim) {
         List<VeiculoVencimentoResponse> veiculosComVencimento = service.listarVeiculosParaLicenciamento(dataInicio, dataFim);
         return ResponseEntity.ok(veiculosComVencimento);
+    }
+
+    @GetMapping("/licenciamento/final-placa/{finalPlaca}")
+    @ApiOperation(value = "Listar veículos para licenciamento por final da placa e por proprietário")
+    public ResponseEntity<List<VeiculoParaLicenciamentoResponse>> findByFinalPlacaAndProprietario(
+            @PathVariable String finalPlaca,
+            @RequestParam Long proprietarioId) {
+        List<VeiculoParaLicenciamentoResponse> veiculos = service.findByFinalPlacaAndProprietario(finalPlaca, proprietarioId);
+        return ResponseEntity.ok(veiculos);
     }
 }
