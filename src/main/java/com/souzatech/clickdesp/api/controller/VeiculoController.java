@@ -109,4 +109,12 @@ public class VeiculoController {
         List<VeiculoParaLicenciamentoResponse> veiculos = service.findByFinalPlacaAndProprietario(finalPlaca, proprietarioId);
         return ResponseEntity.ok(veiculos);
     }
+
+    @GetMapping("/licenciamento/geral/final-placa/{finalPlaca}")
+    @ApiOperation(value = "Listar todos os veículos para licenciamento por final da placa")
+    public ResponseEntity<List<VeiculoParaLicenciamentoResponse>> findByFinalPlaca(@PathVariable String finalPlaca) {
+        List<VeiculoParaLicenciamentoResponse> veiculos = service.findByFinalPlaca(finalPlaca);
+        return ResponseEntity.ok(veiculos);
+    }
+
 }

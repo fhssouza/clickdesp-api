@@ -137,6 +137,11 @@ public class VeiculoServiceImpl implements VeiculoService {
         return repository.findByFinalPlacaAndProprietario(finalPlaca, proprietarioId);
     }
 
+    @Override
+    public List<VeiculoParaLicenciamentoResponse> findByFinalPlaca(String finalPlaca) {
+        return repository.findByFinalPlaca(finalPlaca);
+    }
+
     private Veiculo getVeiculoId(Long id){
         Optional<Veiculo> veiculo = repository.findById(id);
         if(veiculo.isEmpty()){

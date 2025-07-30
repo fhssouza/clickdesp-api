@@ -38,4 +38,11 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
             @Param("finalPlaca") String finalPlaca,
             @Param("proprietarioId") Long proprietarioId);
 
+    @Query("SELECT new com.souzatech.clickdesp.domain.dto.response.VeiculoParaLicenciamentoResponse(v.placa, v.modelo, v.marca, p.nome, l.dataVencimento) " +
+            "FROM Veiculo v " +
+            "JOIN v.proprietario p " +
+            "JOIN Licenciamento l ON SUBSTRING(v.placa, LENGTH(v.placa) - 1, 2) = l.finaPlaca " +
+            "WHERE l.finaPlaca = :finalPlaca")
+    List<VeiculoParaLicenciamentoResponse> findByFinalPlaca(@Param("finalPlaca") String finalPlaca);
+
 }

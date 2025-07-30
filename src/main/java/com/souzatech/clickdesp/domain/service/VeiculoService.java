@@ -32,4 +32,6 @@ public interface VeiculoService {
 
     List<VeiculoParaLicenciamentoResponse> findByFinalPlacaAndProprietario(String finalPlaca, Long proprietarioId);
 
+    List<VeiculoParaLicenciamentoResponse> findByFinalPlaca(String finalPlaca);
+
 }
